@@ -12,13 +12,22 @@ class CommentsManager
 	{
 		$this->_db = $db;
 	}
+// OPERATION EN BDD
+	// ajouter un com 
+	// valider un com
+	// supprimer un com
+	// systeme de pagination : 
+	//	- la fonction totalcomPages ();=$pagestotales;
+	//  - la fonction actualcomPage ();=$pagecourante;
+	//  - la fonction getcomPerPage (); =$comReq;
+	//	-
 
 	public function add_com(Comments $comment)
 	{
 		$q = $this->_db->prepare('INSERT INTO comments(id_post,author,content, create_date) VALUES(:id_post,:author,:content, CURDATE())');
-		$q->bindValue(':id_post', $comment->getId_post());
-		$q->bindValue(':author', $comment->getAuthor());
-		$q->bindValue(':content', $comment->getContent());
+		$q->bindValue('id_post', $comment->getId_post());
+		$q->bindValue('author', $comment->getAuthor());
+		$q->bindValue('content', $comment->getContent());
 		$q->execute();
 		// ici : Hydratation ou pas ?
 	}
@@ -28,7 +37,7 @@ class CommentsManager
 		if (ctype_digit($info))
 		{
 			$q = $this->_db->prepare('UPDATE comments SET is_valid=1 WHERE id=:id');
-			$q->bindValue(':id', $info);
+			$q->bindValue('id', $info);
 			$q->execute();
 		}
 	}
@@ -38,7 +47,7 @@ class CommentsManager
 		if (ctype_digit($info))
 		{
 			$q = $this->_db->prepare('DELETE FROM comments WHERE id=:id');
-			$q->bindValue(':id', $info);
+			$q->bindValue('id', $info);
 			$q->execute();
 		}
 	}

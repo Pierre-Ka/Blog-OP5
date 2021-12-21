@@ -15,6 +15,7 @@ class PostsManager
 // OPERATION EN BDD
 	// ajouter un post
 	// modif un post
+	// get post -> devient objet post
 	// supprimer un post
 	// systeme de pagination : 
 	//	- la fonction totalPostPages ();=$pagestotales;
@@ -22,7 +23,90 @@ class PostsManager
 	//  - la fonction getPostPerPage (); =$comReq;
 	//	-
 
-	public function add(Posts $post)
+	public function add_post(Posts $post)
+	{
+		$q = $this->_db->prepare('INSERT INTO posts(title, id_user, type, content, picture, create_date) VALUES(:title,:id_user,:type,:content, :picture, CURDATE())');
+		$q->bindValue('title', $post->getTitle());
+		$q->bindValue('id_user', $post->getId_user());
+		$q->bindValue('type', $post->getType());
+		$q->bindValue('content', $post->getContent());
+		$q->bindValue('picture', $post->getPicture());
+		$q->execute();
+		// ici : Hydratation ou pas ?
+	}
+
+	public function edit_post(Posts $post)
+	{
+		$q = $this->_db->prepare('UPDATE posts SET title = :title, type = :type, content = :content, picture = :picture, last_update = CURDATE() WHERE id = :id');
+		$q->bindValue('id', $user->getId());
+		$q->bindValue('title', $user->getTitle());
+		$q->bindValue('type', $user->getType());
+		$q->bindValue('content', $post->getContent());
+		$q->bindValue('picture', $user->getPicture());
+		$q->execute();
+		// ici : REhydratation
+	}
+
+	public function get_post($info)
+	{ // Ici get s'obtient avec un $_GET id
+		if (ctype_digit($info))
+		{
+			$q = $this->_db->query('SELECT * FROM posts WHERE id=' .$info);
+			$data=$q->fetch()/*(PDO::FETCH_ASSOC)???*/;
+			return new Posts($data);
+		}
+	}
+
+	public function delete_post($info)
+	{
+		if (ctype_digit($info))
+		{
+			$q = $this->_db->exec('DELETE FROM posts WHERE id=' .$info);
+		}
+	} // SI L'OBJET USER A ETE CREE IL FAUT ALORS L'UNSET?
+
+	// UNE REFLEXION S'IMPOSE AU SYSTEME DE PAGINATION
+
+	public function total_post_pages ($info)
+	{ // $info est categorie(type) ???
+		$info = intval($info) ;
+		$post_per_page = 4 ;
+		$q = $this->_db->query('SELECT id FROM posts WHERE type= ' .$info) ;
+		$post_total = $q->rowCount(); 
+		$total_pages = ceil($post_total/$post_per_page);return $total_pages;
+	}
+
+// l'actual page n'a pas sa place dans le manager
+// mais dans le controller
+
+	public function actual_post_page ($info, $number_page) // $number_page est actual_page : ($_GET['page']
+	{
+		$total_pages = total_post_pages($info);
+		if (isset($number_page) AND !empty($number_page) AND ($number_page)>0 AND ($number_page)<=$total_pages)
+		{
+			$number_page=intval($number_page);
+			$actual_page = $number_page;
+		}
+		else 
+		{
+			$actual_page = 1 ;
+		}
+		return $actual_page;
+	}
+
+// AMELIORATION : sortir les posts comme des objets
+// avec une boucle while ($post = new Posts)
+	public function get_post_per_page ($info, $number_page)
+	{	// $info est $_GET['id_post']
+		$info = intval($info) ;
+		$post_per_page = 4 ;
+		$actual_page = actual_post_page($info, $number_page);
+		$start = ( $actual_page-1)*$post_per_page; //$start est le depart du LIMIT, sa premiere valeur
+		$q = $this->_db->query('SELECT id, title, id_user, type, content, picture, DATE_FORMAT(create_date, \'%d/%m/%y à %Hh%imin%ss\') AS create_date_format,  DATE_FORMAT(last_update, \'%d/%m/%y à %Hh%imin%ss\') AS last_update_format  FROM posts WHERE type= ' . $info . ' ORDER BY id DESC LIMIT ' . $start . ',' . $post_per_page);
+		return $q;
+	}
+// Absence de balise PHP de fermeture
+/* FONCTIONS NON UTILISER
 
 	public function count()
 
@@ -35,5 +119,5 @@ class PostsManager
 	public function getList ($nom)
 
 	public function update(Posts $post)
-
+*/
 }

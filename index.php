@@ -17,14 +17,19 @@ $user_manager= new UsersManager($db) ;
 
 session_start();
 
+// ICI COOKIE
+
 if (isset($_SESSION['user'])) // Si la session de l'utilisateur existe, on restaure l'objet.
 {
   $perso = $_SESSION['user'];
 }
 
-if (isset($_GET['Deconnexion']))
+if (isset($_GET['deconnexion']))
 {
 	session_destroy();
+	// DESTRUCTION DU COOKIE ?
+	// 	setcookie('pseudo', '');
+	//  setcookie('pass', '');
 	unset($user);
 	header('Location: .');
 	exit();
