@@ -1,11 +1,37 @@
 <?php
-/* ROUTEUR
-APPEL DE LA SESSION, DU COOKIE ET DU MODEL
+// ROUTEUR
 
-1 - start session
-2 - start cookie
-*/
-require('model/model.php');
+require_once('Comments.php');
+require_once('CommentsManager.php');
+require_once('Posts.php');
+require_once('PostsManager.php');
+require_once('Users.php');
+require_once('UsersManager.php');
+// AMELIORATION POSSIBLE : autoload
+
+$db = new PDO('mysql:host=localhost;dbname=projet5_blog_php;charset=utf8', 'root', 'root');
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+$comment_manager= new CommentsManager($db) ;
+$post_manager= new PostsManager($db) ;
+$user_manager= new UsersManager($db) ;
+
+session_start();
+
+if (isset($_SESSION['user'])) // Si la session de l'utilisateur existe, on restaure l'objet.
+{
+  $perso = $_SESSION['user'];
+}
+
+if (isset($_GET['Deconnexion']))
+{
+	session_destroy();
+	unset($user);
+	header('Location: .');
+	exit();
+}
+
+
+
 
 /* ICI COMMENCE L'ORIENTATION
 PREMIEREMENT POUR LES NON CONNECTES
