@@ -4,6 +4,7 @@ class Users
 	private $_id,
 			$_email,
 			$_password,
+			$_name,
 			$_picture,
 			$_description,
 			$_inscription_date,
@@ -44,6 +45,10 @@ class Users
 	{
 		return $this->_password;
 	}
+	public function getName()
+	{
+		return $this->_name;
+	}
 	public function getPicture()
 	{
 		return $this->_picture;
@@ -75,7 +80,7 @@ class Users
 	{
 		if (is_string($email))
 		{
-			$this->_$email= $email;
+			$this->_email= $email;
 		}
 	}
 
@@ -83,7 +88,15 @@ class Users
 	{
 		if (is_string($password))
 		{
-			$this->_$password= $password;
+			$this->_password= $password;
+		}
+	}
+
+	public function setName($name)
+	{
+		if (is_string($name))
+		{
+			$this->_name= $name;
 		}
 	}
 
@@ -91,7 +104,7 @@ class Users
 	{
 		if (is_string($picture))
 		{
-			$this->_$picture= $picture;
+			$this->_picture= $picture;
 		}
 	}
 
@@ -99,13 +112,13 @@ class Users
 	{
 		if (is_string($description))
 		{
-			$this->_$description= $description;
+			$this->_description= $description;
 		}
 	}
 
 	public function setInscription_date($inscription_date)
 	{
-		$inscription_date=strtotime(($inscription_date))
+		$inscription_date=strtotime(($inscription_date));
 		if ($inscription_date = (int)$inscription_date)
 		{
 			$this->_inscription_date = $inscription_date;

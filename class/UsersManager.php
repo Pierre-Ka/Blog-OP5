@@ -22,9 +22,10 @@ class UsersManager
 
 	public function add_user(Users $user)
 	{ // Cryptage du mot de passe ici ?
-		$q = $this->_db->prepare('INSERT INTO users(email, password, picture, description, inscription_date) VALUES (:email, :password, :picture, :description, CURDATE())');
+		$q = $this->_db->prepare('INSERT INTO users(email, password, name, picture, description, inscription_date) VALUES (:email, :password, :name,  :picture, :description, CURDATE())');
 		$q->bindValue('email', $user->getEmail());
 		$q->bindValue('password', $user->getPassword());
+		$q->bindValue('name', $user->getName());
 		$q->bindValue('picture', $user->getPicture());
 		$q->bindValue('description', $user->getDescription());
 		$q->execute();
@@ -51,16 +52,18 @@ class UsersManager
 
 	public function edit_user(Users $user)
 	{
-		$q = $this->_db->prepare('UPDATE users SET password = :password, picture = :picture, description = :description WHERE id = :id');
+		$q = $this->_db->prepare('UPDATE users SET password = :password, name = :name, picture = :picture, description = :description WHERE id = :id');
 		$q->execute(array(
 			'id'=>$user->getId(),
 			'password'=>$user->getPassword(),
+			'name' =>$user->getName(),
 			'picture'=>$user->getPicture(),
 			'description'=>$user->getDescription()
 			));
 		//Pourquoi pas bindValue ?
 		/* 	$q->bindValue('id', $user->getId());
 		$q->bindValue('password', $user->getPassword());
+		$q->bindValue('name', $user->getName());
 		$q->bindValue('picture', $user->getPicture());
 		$q->bindValue('description', $user->getDescription()); 
 		$q->execute();*/
@@ -90,7 +93,7 @@ class UsersManager
 
 	public function get_users_list()
 	{
-		$q = $this->_db->query('SELECT id,email,password, picture, description, is_valid, DATE_FORMAT(inscription_date, \'%d/%m/%y à %Hh%imin%ss\') AS inscription_date_format FROM users ORDER BY inscription_date DESC');
+		$q = $this->_db->query('SELECT id,email,password, name, picture, description, is_valid, DATE_FORMAT(inscription_date, \'%d/%m/%y à %Hh%imin%ss\') AS inscription_date_format FROM users ORDER BY inscription_date DESC');
 		return $q;
 		// AMELIORATION : sortir les users comme des objets
 		// avec une boucle while ($user = new User)

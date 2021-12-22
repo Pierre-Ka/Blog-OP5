@@ -5,6 +5,7 @@ class Posts
 			$_title,
 			$_id_user,
 			$_type,
+			$_chapo,
 			$_content,
 			$_picture,
 			$_last_update,
@@ -49,6 +50,10 @@ class Posts
 	{
 		return $this->_type;
 	}
+	public function getChapo()
+	{
+		return $this->_chapo;
+	}
 	public function getContent()
 	{
 		return $this->_content;
@@ -80,7 +85,7 @@ class Posts
 	{
 		if (is_string($title))
 		{
-			$this->_$title= $title;
+			$this->_title= $title;
 		}
 	}
 
@@ -97,7 +102,15 @@ class Posts
 	{
 		if (is_string($type))
 		{
-			$this->_$type= $type;
+			$this->_type= $type;
+		}
+	}
+
+	public function setChapo($chapo)
+	{
+		if (is_string($chapo))
+		{
+			$this->_chapo= $chapo;
 		}
 	}
 
@@ -105,7 +118,7 @@ class Posts
 	{
 		if (is_string($content))
 		{
-			$this->_$content= $content;
+			$this->_content= $content;
 		}
 	}
 
@@ -113,13 +126,13 @@ class Posts
 	{
 		if (is_string($picture))
 		{
-			$this->_$picture= $picture;
+			$this->_picture= $picture;
 		}
 	}
 
 	public function setLast_update($last_update)
 	{
-		$last_update=strtotime(($last_update))
+		$last_update=strtotime(($last_update));
 		if ($last_update = (int)$last_update)
 		{
 			$this->_last_update = $last_update;
@@ -127,7 +140,7 @@ class Posts
 	}
 	public function setCreate_date($create_date)
 	{
-		$create_date=strtotime(($create_date))
+		$create_date=strtotime(($create_date));
 		if ($create_date = (int)$create_date)
 		{
 			$this->_create_date = $create_date;

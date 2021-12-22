@@ -1,20 +1,7 @@
 <?php
 // ROUTEUR
 
-require_once('Comments.php');
-require_once('CommentsManager.php');
-require_once('Posts.php');
-require_once('PostsManager.php');
-require_once('Users.php');
-require_once('UsersManager.php');
-// AMELIORATION POSSIBLE : autoload
-
-$db = new PDO('mysql:host=localhost;dbname=projet5_blog_php;charset=utf8', 'root', 'root');
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-$comment_manager= new CommentsManager($db) ;
-$post_manager= new PostsManager($db) ;
-$user_manager= new UsersManager($db) ;
-
+require_once('init.php');
 session_start();
 
 // ICI COOKIE
@@ -53,7 +40,7 @@ SI !ISSET($_SESSION) ---> IL N'Y A PAS DE CONNECTEE
 		REQUIRE CONNEXION VIEW
 
 	ELSE 
-		REQUIRE MENU VIEW*/require('view/view_menu.php');/*
+		REQUIRE MENU VIEW*/require('view/home.php');/*
 
 DEUXIEMEMENT POUR LES CONNECTES
 SI ISSET($_SESSION) ---> IL Y A UN CONNECTEE

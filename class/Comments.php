@@ -79,7 +79,7 @@ class Comments
 	{
 		if (is_string($author))
 		{
-			$this->_$author= $author;
+			$this->_author= $author;
 		}
 	}
 
@@ -87,7 +87,7 @@ class Comments
 	{
 		if (is_string($content))
 		{
-			$this->_$content= $content;
+			$this->_content= $content;
 		}
 	}
 
@@ -102,7 +102,7 @@ class Comments
 
 	public function setCreate_date($create_date)
 	{
-		$create_date=strtotime(($create_date))
+		$create_date=strtotime(($create_date));
 		if ($create_date = (int)$create_date)
 		{
 			$this->_create_date = $create_date;

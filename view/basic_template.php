@@ -8,21 +8,21 @@
 		<title> <?= $title ?> </title>
 		<link rel="stylesheet" href="css/bootstrap.min.css" />
 		<link rel="stylesheet" href="css/style.css" />
-		<link rel="stylesheet" media="screen and (min-width: 992px)" href="css/newstyle.css" />
+<?php	//	<link rel="stylesheet" media="screen and (min-width: 992px)" href="css/style.css" /> ?>
 		<script src="js/jquery.js"></script>
     	<script src="js/bootstrap.min.js"></script>
     </head>
 <body>
 
-<header class=" border container-primary">	<p>Voici le header</p>
-</header>
+<div class="l-100 h-50 light bg-dark">	
+	<p>Voici le header</p>
+</div>
 	<div> <?= $content ?>
 	</div>
 
-<footer>	<p>Voici le footer</p>
-	<br/>
-	<a class="light" href="connexion.php">Connexion</a>
-</footer>
+<div class="l-100 h-50 light bg-dark">	
+	<p>Voici le footer</p>
+</div>
 
 </body>
 </html>

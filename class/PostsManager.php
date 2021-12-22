@@ -25,10 +25,11 @@ class PostsManager
 
 	public function add_post(Posts $post)
 	{
-		$q = $this->_db->prepare('INSERT INTO posts(title, id_user, type, content, picture, create_date) VALUES(:title,:id_user,:type,:content, :picture, CURDATE())');
+		$q = $this->_db->prepare('INSERT INTO posts(title, id_user, type, chapo, content, picture, create_date) VALUES(:title,:id_user,:type, :chapo, :content, :picture, CURDATE())');
 		$q->bindValue('title', $post->getTitle());
 		$q->bindValue('id_user', $post->getId_user());
 		$q->bindValue('type', $post->getType());
+		$q->bindValue('chapo', $post->getChapo());
 		$q->bindValue('content', $post->getContent());
 		$q->bindValue('picture', $post->getPicture());
 		$q->execute();
@@ -37,10 +38,11 @@ class PostsManager
 
 	public function edit_post(Posts $post)
 	{
-		$q = $this->_db->prepare('UPDATE posts SET title = :title, type = :type, content = :content, picture = :picture, last_update = CURDATE() WHERE id = :id');
+		$q = $this->_db->prepare('UPDATE posts SET title = :title, type = :type, chapo = :chapo, content = :content, picture = :picture, last_update = CURDATE() WHERE id = :id');
 		$q->bindValue('id', $user->getId());
 		$q->bindValue('title', $user->getTitle());
 		$q->bindValue('type', $user->getType());
+		$q->bindValue('chapo', $post->getChapo());
 		$q->bindValue('content', $post->getContent());
 		$q->bindValue('picture', $user->getPicture());
 		$q->execute();
@@ -102,7 +104,7 @@ class PostsManager
 		$post_per_page = 4 ;
 		$actual_page = actual_post_page($info, $number_page);
 		$start = ( $actual_page-1)*$post_per_page; //$start est le depart du LIMIT, sa premiere valeur
-		$q = $this->_db->query('SELECT id, title, id_user, type, content, picture, DATE_FORMAT(create_date, \'%d/%m/%y à %Hh%imin%ss\') AS create_date_format,  DATE_FORMAT(last_update, \'%d/%m/%y à %Hh%imin%ss\') AS last_update_format  FROM posts WHERE type= ' . $info . ' ORDER BY id DESC LIMIT ' . $start . ',' . $post_per_page);
+		$q = $this->_db->query('SELECT id, title, id_user, type, chapo, content, picture, DATE_FORMAT(create_date, \'%d/%m/%y à %Hh%imin%ss\') AS create_date_format,  DATE_FORMAT(last_update, \'%d/%m/%y à %Hh%imin%ss\') AS last_update_format  FROM posts WHERE type= ' . $info . ' ORDER BY id DESC LIMIT ' . $start . ',' . $post_per_page);
 		return $q;
 	}
 // Absence de balise PHP de fermeture
