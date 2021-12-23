@@ -11,7 +11,7 @@ if (isset($_SESSION['user'])) // Si la session de l'utilisateur existe, on resta
   $perso = $_SESSION['user'];
 }
 
-if (isset($_GET['deconnexion']))
+if (isset($_GET['sign_out']))
 {
 	session_destroy();
 	// DESTRUCTION DU COOKIE ?
@@ -27,10 +27,67 @@ if (isset($_GET['deconnexion']))
 
 /* ICI COMMENCE L'ORIENTATION
 PREMIEREMENT POUR LES NON CONNECTES
-SI !ISSET($_SESSION) ---> IL N'Y A PAS DE CONNECTEE
-	SI $_GET('list')
-		LISTPOST ()
-		REQUIRE LIST POST VIEW
+SI !ISSET($_SESSION) ---> IL N'Y A PAS DE CONNECTEE*/
+	if (isset($_GET['list_all']))
+	{
+		$q_total=$post_manager->total_all_post_pages();
+
+		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$q_total)
+		{
+			$actual_page =intval($_GET['page']);
+		}
+		else 
+		{
+			$actual_page = 1 ;
+		}
+		$q_post=$post_manager->get_all_post($actual_page);
+		require('view/list_post.php');
+	}
+	elseif (isset($_GET['list']))
+	{
+		$info=$_GET['list'];
+		$q_total=$post_manager->total_type_post_pages($info);
+
+		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$q_total)
+		{
+			$actual_page =intval($_GET['page']);
+		}
+		else 
+		{
+			$actual_page = 1 ;
+		}
+		$q_post=$post_manager->get_type_post($info,$actual_page);
+		require('view/list_post.php');
+	}
+
+		/*
+		switch ($_GET['list'])
+		{
+			case $_GET['list']==NULL:
+			$number_page=$post_manager->total_post_pages('*');
+			LISTPOST ()
+			REQUIRE LIST POST VIEW
+			break ;
+
+			case $_GET['list'])==type1:
+			$number_page=$post_manager->total_post_pages('type1');
+			LISTPOST ()
+			REQUIRE LIST POST VIEW
+			break ;
+
+			case $_GET['list'])==type2:
+			$number_page=$post_manager->total_post_pages('type2');
+			LISTPOST ()
+			REQUIRE LIST POST VIEW
+			break ;
+
+			case $_GET['list'])==type3:
+			$number_page=$post_manager->total_post_pages('type3');
+			LISTPOST ()
+			REQUIRE LIST POST VIEW
+			break ;
+
+		}
 
 	SI $_GET('un_post')
 		GETONEPOST ()
@@ -39,8 +96,15 @@ SI !ISSET($_SESSION) ---> IL N'Y A PAS DE CONNECTEE
 	SI $_GET('CONNEXION')
 		REQUIRE CONNEXION VIEW
 
-	ELSE 
-		REQUIRE MENU VIEW*/require('view/home.php');/*
+	*/
+
+	else 
+	{
+	 	require('view/home.php');
+	} 
+
+	/*
+		
 
 DEUXIEMEMENT POUR LES CONNECTES
 SI ISSET($_SESSION) ---> IL Y A UN CONNECTEE

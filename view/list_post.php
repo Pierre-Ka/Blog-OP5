@@ -20,9 +20,10 @@ while ($post = $q_post->fetch())
 	<a href="index.php?<?= $post['id'];?>/post/page=1/">Lien vers l'article' </a> </div> <br/> <?php
 } ?>
 <div>
-//Ici le systeme de lien !
+
+<br/><br/><br/><br/>
 <?php 
-	for ($i=1; $i<=$total_pages; $i++)
+	for ($i=1; $i<=$q_total; $i++)
 	{
 		if($i==$actual_page)
 		{
@@ -30,8 +31,15 @@ while ($post = $q_post->fetch())
 		}
 		else
 		{
-		// ICI IL FAUT RECUPERER LA VRAIE ADRESSE donc il faut faire un switch (type1, type2, type3 et default : liste de tous les posts)
-			echo '<a href="index.php?page=' .$i. '"> Page '.$i.'</a>';
+			if(isset($_GET['list_all']))
+			{
+				echo '<a href="index.php?list_all&page=' .$i. '"> Page '.$i.'</a>';
+			}
+			else
+			{
+				echo '<a href="index.php?list=' . $_GET['list'] . '&page=' .$i. '"> Page '.$i.'</a>';
+			}
+		
 		}
 	}
 ?>

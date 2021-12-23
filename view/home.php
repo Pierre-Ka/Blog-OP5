@@ -9,12 +9,12 @@ un formulaire de contact (à la soumission de ce formulaire, un e-mail avec tout
 nom/prénom, e-mail de contact, message, un lien vers votre CV au format PDF ;
 et l’ensemble des liens vers les réseaux sociaux où l’on peut vous suivre (GitHub, LinkedIn, Twitter…).</p>
 
-<a href='index.php?list/posts'>Liste des posts</a><br/>
+<a href='index.php?list_all'>Liste des posts</a><br/>
 
 <?php //REQUETE PUIS BOUCLE ?? ?>
-<a href='index.php?list/type1'>Liste des posts du type1</a><br/>
-<a href='index.php?list/type2'>Liste des posts du type2</a><br/>
-<a href='index.php?list/type3'>Liste des posts du type3</a><br/>
+<a href='index.php?list=type1'>Liste des posts du type1</a><br/>
+<a href='index.php?list=type2'>Liste des posts du type2</a><br/>
+<a href='index.php?list=type3'>Liste des posts du type3</a><br/>
 
 <a href='index.php?sign_in'>Connexion à  la partie administration</a><br/>
 

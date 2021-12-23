@@ -69,18 +69,35 @@ class PostsManager
 
 	// UNE REFLEXION S'IMPOSE AU SYSTEME DE PAGINATION
 
-	public function total_post_pages ($info)
-	{ // $info est categorie(type) ???
-		$info = intval($info) ;
+	public function total_all_post_pages ()
+	{
 		$post_per_page = 4 ;
-		$q = $this->_db->query('SELECT id FROM posts WHERE type= ' .$info) ;
+		$q = $this->_db->query('SELECT id FROM posts') ;
 		$post_total = $q->rowCount(); 
-		$total_pages = ceil($post_total/$post_per_page);return $total_pages;
+		$total_all_pages = ceil($post_total/$post_per_page);return $total_all_pages;
+	}
+
+	public function total_type_post_pages ($info)
+	{ 
+		$type= array("type1", "type2", "type3");
+		if (in_array($info, $type))
+		{
+
+			$post_per_page = 4 ;
+			$q = $this->_db->query('SELECT id FROM posts WHERE type= "' .$info. '"') ;
+			$post_total = $q->rowCount(); 
+			$total_type_pages = ceil($post_total/$post_per_page);
+			return $total_type_pages;
+		}
+		else
+		{
+			throw new Exception("Error Processing Request", 1);
+		}
 	}
 
 // l'actual page n'a pas sa place dans le manager
 // mais dans le controller
-
+/*
 	public function actual_post_page ($info, $number_page) // $number_page est actual_page : ($_GET['page']
 	{
 		$total_pages = total_post_pages($info);
@@ -95,31 +112,26 @@ class PostsManager
 		}
 		return $actual_page;
 	}
-
+*/
 // AMELIORATION : sortir les posts comme des objets
 // avec une boucle while ($post = new Posts)
-	public function get_post_per_page ($info, $number_page)
-	{	// $info est $_GET['id_post']
-		$info = intval($info) ;
+
+	public function get_all_post($actual_page) 
+	{
 		$post_per_page = 4 ;
-		$actual_page = actual_post_page($info, $number_page);
-		$start = ( $actual_page-1)*$post_per_page; //$start est le depart du LIMIT, sa premiere valeur
-		$q = $this->_db->query('SELECT id, title, id_user, type, chapo, content, picture, DATE_FORMAT(create_date, \'%d/%m/%y à %Hh%imin%ss\') AS create_date_format,  DATE_FORMAT(last_update, \'%d/%m/%y à %Hh%imin%ss\') AS last_update_format  FROM posts WHERE type= ' . $info . ' ORDER BY id DESC LIMIT ' . $start . ',' . $post_per_page);
+		$start = ( $actual_page-1)*$post_per_page; 
+		//$start est le depart du LIMIT, sa premiere valeur
+		$q = $this->_db->query('SELECT id, title, id_user, type, chapo, content, picture, DATE_FORMAT(create_date, \'%d/%m/%y à %Hh%imin%ss\') AS create_date_format,  DATE_FORMAT(last_update, \'%d/%m/%y à %Hh%imin%ss\') AS last_update_format  FROM posts ORDER BY id DESC LIMIT ' . $start . ',' . $post_per_page);
 		return $q;
 	}
+	public function get_type_post ($info, $actual_page)
+	{
+		$post_per_page = 4 ;
+		$start = ( $actual_page-1)*$post_per_page; //$start est le depart du LIMIT, sa premiere valeur
+		$q = $this->_db->query('SELECT id, title, id_user, type, chapo, content, picture, DATE_FORMAT(create_date, \'%d/%m/%y à %Hh%imin%ss\') AS create_date_format,  DATE_FORMAT(last_update, \'%d/%m/%y à %Hh%imin%ss\') AS last_update_format  FROM posts WHERE type= "' .$info. '" ORDER BY id DESC LIMIT ' . $start . ',' . $post_per_page);
+		return $q;
+	}
+
+
 // Absence de balise PHP de fermeture
-/* FONCTIONS NON UTILISER
-
-	public function count()
-
-	public function delete(Posts $post)
-
-	public function exists($info)
-
-	public function get($info)
-
-	public function getList ($nom)
-
-	public function update(Posts $post)
-*/
 }

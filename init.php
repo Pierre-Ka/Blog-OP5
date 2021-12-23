@@ -15,6 +15,6 @@ $db = new PDO('mysql:host=localhost;dbname=project5_blog_php;charset=utf8', 'roo
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 
 //Instanciation de nos classes manager ?
-$comment_manager= new CommentsManager($db) ;
-$post_manager= new PostsManager($db) ;
-$user_manager= new UsersManager($db) ;
+$comment_manager= new CommentsManager($db);
+$post_manager= new PostsManager($db);
+$user_manager= new UsersManager($db);
