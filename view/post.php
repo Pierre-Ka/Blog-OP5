@@ -1,20 +1,32 @@
 <?php
 
-$title = 'Post numero ';
+$title = 'Post numero' . $_GET['post'] ;
 
 ob_start(); ?>
 <p> la page affichant un post du blog avec tous ces commentaires (du plus récent au plus ancien) ;</p>
 
-<p>Lien de retour aux differentes listes à créer </p>
+<a href='index.php?list_all'>Liste des posts</a><br/>
+<?php //REQUETE PUIS BOUCLE ?? ?>
+<a href='index.php?list=type1'>Liste des posts du type1</a><br/>
+<a href='index.php?list=type2'>Liste des posts du type2</a><br/>
+<a href='index.php?list=type3'>Liste des posts du type3</a><br/>
 
 <?php 
 // ICI LE $post est sorti sous forme d'objet : A ADAPTER !!!!
-	$the_post = $post->fetch();
+/*$the_post = $post->fetch();
 
 ?> <div> <h3> <?= $the_post['type']; ?></h3><h2> <?= $the_post['title']; ?>
 écrit par <?= $the_post['author']; ?> le <?= $the_post['create_date_format']; ?> et modifié le <?= $the_post['last_update_format']; ?> </h2> <br/>
 <p> <?= $the_post['content']; ?>
 	<?= $the_post['picture']; ?>
+</p><br/></div>
+
+*/
+
+?> <div> <h3> <?= $post->getType(); ?></h3><h2> <?= $post->getTitle(); ?>
+écrit par <?= $user_manager->get_author_name($post->getId()); ?> le <?= $post->getCreate_date(); ?> et modifié le <?= $post->getLast_update(); ?> </h2> <br/>
+<p> <?= $post->getContent(); ?>
+	<?= $post->getPicture(); ?>
 </p><br/></div>
 
 <br/><br/>
@@ -24,17 +36,22 @@ ob_start(); ?>
 // RECUPERATION DE LA VARIABLE $coms
 // if IS_VALID = 1 !!!
 // $coms est sous forme de tableau : attention on peut également les sortir sous forme d'objets il faudra adapter en consequence
-	while ($comm = $q_comm->fetch())
+	while ($com = $q_comment->fetch())
 {
-	echo '<div>
-			<div>' .$comm['author']. 'a écrit à' .$comm['create_date_format'].'
+	?>
+	<div><div>
+		<?= $com['author'] ?> a écrit à
+		<?= $com['create_date_format'] ?>
 			</div><br/>
-			<p>' .$comm['content'].'<br/>
-			</div>';
+			<p><?= $com['content'] ?></p>
+			<br/>
+		</div>
+	<?php ;
 }
+
 //Ici le systeme de lien !
 echo 'PAGE : ';
-for ( $i=1; $i<=$total_pages; $i++)
+for ( $i=1; $i<=$q_total; $i++)
 {
 	if($i==$actual_page)
 	{
@@ -42,24 +59,22 @@ for ( $i=1; $i<=$total_pages; $i++)
 	}
 	else
 	{
-		echo ' - <a href=""index.php?<?= $post['id'];?>/post/page='.$i.'">'.$i.'</a>';
+		echo ' - <a href="index.php?post=' .$post->getId(). '&page=' .$i. '">'.$i.'</a>';
 	}
 }
 ?>
 
 <h3>Ecrire un commentaire</h3>
 
-<?php //ADAPTER L'URL !!! ?>
 
-<form method="post" action="index.php">
+<form method="post" action="index.php?post=<?= htmlspecialchars($_GET['post']);?>">
 
-<p><label for="author_comm">Votre pseudo : </label> <input type="text" name="author_comm" id="author_comm"/></p>
+<p><label for="author_com">Votre pseudo : </label> <input type="text" name="author_com" id="author_com"/></p>
 
-<p><textarea name="comm" value="votre commentaire ici" rows="5" cols="50"></textarea></p>
+<p><textarea name="com" value="votre commentaire ici" rows="5" cols="50"></textarea></p>
 
 <input type="submit" value="Envoyer"/>
 </form>
-
 
 <?php $content=ob_get_clean();
 

@@ -49,6 +49,13 @@ class UsersManager
 			return new Users($data);
 		}
 	}
+	public function get_author_name($info)
+	{
+		$info=ctype_digit($info);
+		$q = $this->_db->query('SELECT name FROM users WHERE id=' .$info);
+		$data=$q->fetch(PDO::FETCH_ASSOC);
+		return $data['name'];
+	}
 
 	public function edit_user(Users $user)
 	{

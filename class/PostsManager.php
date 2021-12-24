@@ -67,7 +67,10 @@ class PostsManager
 		}
 	} // SI L'OBJET USER A ETE CREE IL FAUT ALORS L'UNSET?
 
-	// UNE REFLEXION S'IMPOSE AU SYSTEME DE PAGINATION
+
+/* 2 cas de figure : 
+	on demande tous les posts
+	on demande les posts d'une certaine categorie */
 
 	public function total_all_post_pages ()
 	{
@@ -95,24 +98,6 @@ class PostsManager
 		}
 	}
 
-// l'actual page n'a pas sa place dans le manager
-// mais dans le controller
-/*
-	public function actual_post_page ($info, $number_page) // $number_page est actual_page : ($_GET['page']
-	{
-		$total_pages = total_post_pages($info);
-		if (isset($number_page) AND !empty($number_page) AND ($number_page)>0 AND ($number_page)<=$total_pages)
-		{
-			$number_page=intval($number_page);
-			$actual_page = $number_page;
-		}
-		else 
-		{
-			$actual_page = 1 ;
-		}
-		return $actual_page;
-	}
-*/
 // AMELIORATION : sortir les posts comme des objets
 // avec une boucle while ($post = new Posts)
 

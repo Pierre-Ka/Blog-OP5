@@ -7,20 +7,18 @@ class CommentsManager
 	{
 		$this->setDb($db);
 	}
-// NO GETTER, ONLY SETTER
+
 	public function setDb(PDO $db)
 	{
 		$this->_db = $db;
 	}
+
 // OPERATION EN BDD
-	// ajouter un com 
-	// valider un com
-	// supprimer un com
-	// systeme de pagination : 
-	//	- la fonction totalcomPages ();=$pagestotales;
-	//  - la fonction actualcomPage ();=$pagecourante;
-	//  - la fonction getcomPerPage (); =$comReq;
-	//	-
+	// function add_com
+	// function valid_com
+	// function delete_com
+	// function total_com_pages 
+	// function get_com
 
 	public function add_com(Comments $comment)
 	{
@@ -52,58 +50,26 @@ class CommentsManager
 		}
 	}
 
-
-// UNE REFLEXION S'IMPOSE AU SYSTEME DE PAGINATION
-
 	public function total_com_pages ($info)
 	{ // $info est $_GET['id_post']
 		$info = intval($info) ;
 		$com_per_page = 4 ;
 		$q = $this->_db->query('SELECT id FROM comments WHERE id_post= ' .$info) ;
 		$com_total = $q->rowCount(); 
-		$total_pages = ceil($com_total/$com_per_page); 
-		return $total_pages;
+		$total_com_pages = ceil($com_total/$com_per_page); 
+		return $total_com_pages;
 	}
 
-// l'actual page n'a pas sa place dans le manager
-// mais dans le controller
+// AMELIORATION : sortir les coms comme des objets avec une boucle while ($com = new Comment)
 
-	public function actual_com_page ($info, $number_page) // $number_page est actual_page : ($_GET['page']
-	{
-		$total_pages = total_com_pages($info);
-		if (isset($number_page) AND !empty($number_page) AND ($number_page)>0 AND ($number_page)<=$total_pages)
-		{
-			$number_page=intval($number_page);
-			$actual_page = $number_page;
-		}
-		else 
-		{
-			$actual_page = 1 ;
-		}
-		return $actual_page;
-	}
-
-// AMELIORATION : sortir les coms comme des objets
-// avec une boucle while ($com = new Comment)
-	public function get_com_per_page ($info, $number_page)
-	{	// $info est $_GET['id_post']
-		$info = intval($info) ;
+	public function get_com ($info, $actual_page)
+	{	
 		$com_per_page = 4 ;
-		$actual_page = actual_com_page($info, $number_page);
-		$start = ( $actual_page-1)*$com_per_page; //$start est le depart du LIMIT, sa premiere valeur
-		$q = $this->_db->query('SELECT id,id_post, author, content, is_valid, DATE_FORMAT(create_date, \'%d/%m/%y à %Hh%imin%ss\') AS create_date_format FROM comments WHERE id_post= ' . $info . ' ORDER BY id DESC LIMIT ' . $start . ',' . $com_per_page);
+		$start = ( $actual_page-1)*$com_per_page; 
+		//$start est le depart du LIMIT, sa premiere valeur
+		$q = $this->_db->query('SELECT id,id_post, author, content, is_valid, DATE_FORMAT(create_date, \'%d/%m/%y à %Hh%imin%ss\') AS create_date_format FROM comments WHERE id_post= "' .$info. '" ORDER BY id DESC LIMIT ' . $start . ',' . $com_per_page);
 		return $q;
 	}
+	
 // Absence de balise PHP de fermeture
-/* FONCTIONS NON UTILISER
-	public function count()
-
-	public function exists($info)
-
-	public function get($info)
-
-	public function getList ($nom)
-
-	public function update(Comments $comment)
-*/
 }

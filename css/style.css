@@ -1,5 +1,10 @@
 
 *
 {
-	color:red;
+	color:blue;
+}
+#header
+{
+	color:yellow;
+	border:1px solid black;
 }

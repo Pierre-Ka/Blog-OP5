@@ -14,10 +14,11 @@ while ($post = $q_post->fetch())
 {
 	?>
 	<div><h2>
-	<?= $post['title']; ?> écrit le <?= $post['create_date_format']; ?> et modifié le <?= $post['last_update_format']; ?> last_update_formatpar <?= $post['author']; ?> </h2>
+	<?= $post['title']; ?> écrit le <?= $post['create_date_format']; ?> et modifié le <?= $post['last_update_format']; ?> last_update_formatpar 
+	<?= $user_manager->get_author_name($post['id']); ?> </h2>
 	<p> <?= $post['chapo']; ?> </p>
 	<p> <?= $post['picture']; ?> </p> <br/>
-	<a href="index.php?<?= $post['id'];?>/post/page=1/">Lien vers l'article' </a> </div> <br/> <?php
+	<a href="index.php?post=<?= $post['id'];?>">Lien vers l'article' </a> </div> <br/> <?php
 } ?>
 <div>
 
