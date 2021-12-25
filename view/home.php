@@ -9,6 +9,15 @@ un formulaire de contact (à la soumission de ce formulaire, un e-mail avec tout
 nom/prénom, e-mail de contact, message, un lien vers votre CV au format PDF ;
 et l’ensemble des liens vers les réseaux sociaux où l’on peut vous suivre (GitHub, LinkedIn, Twitter…).</p>
 
+<p> GENERATE FAKE DATA IS A ADMIN PRIVILEGE </p>
+<p> FIRST delete all the data exept the admin entry ( users table ) then click only one time on each link to generate fake data </p>
+<br/><br/>
+<a href='index.php?faker_user'>Generate fake users</a>
+<a href='index.php?faker_post'>Generate fake posts</a>
+<a href='index.php?faker_com'>Generate fake coms</a>
+
+<br/><br/>
+
 <a href='index.php?list_all'>Liste des posts</a><br/>
 
 <?php //REQUETE PUIS BOUCLE ?? ?>

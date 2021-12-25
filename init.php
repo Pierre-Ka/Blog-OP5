@@ -18,3 +18,4 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 $comment_manager= new CommentsManager($db);
 $post_manager= new PostsManager($db);
 $user_manager= new UsersManager($db);
+

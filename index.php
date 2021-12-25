@@ -5,6 +5,18 @@ require_once('init.php');
 session_start();
 
 // ICI COOKIE
+if(isset($_GET['faker_user']))
+{
+	require('faker/faker_user.php');
+}
+if(isset($_GET['faker_post']))
+{
+	require('faker/faker_post.php');
+}
+if(isset($_GET['faker_com']))
+{
+	require('faker/faker_com.php');
+}
 
 if (isset($_SESSION['user'])) // Si la session de l'utilisateur existe, on restaure l'objet.
 {

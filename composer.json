@@ -1,0 +1,20 @@
+{
+    "name": "project5/php_blog",
+    "description": "project 5 openclassroom",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Project5\\PhpBlog\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Pierre Ka",
+            "email": "ikanhiu@outlook.fr"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "fakerphp/faker": "^1.17"
+    }
+}
