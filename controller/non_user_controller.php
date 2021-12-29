@@ -81,6 +81,10 @@ elseif (isset($_GET['sign_in']))
 	{
 		require('view/sign_in.php');
 	}
+elseif (isset($_GET['sign_up'])) 
+	{
+		require('view/sign_up.php');
+	}
 
 else 
 	{

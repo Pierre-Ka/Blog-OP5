@@ -11,7 +11,7 @@ require_once('model/manager/UsersManager.php');
 
 
 //Connexion
-$db = new PDO('mysql:host=localhost;dbname=project5_blog_php;charset=utf8', 'root', 'root');
+$db = new PDO('mysql:host=localhost;dbname=project5_faker;charset=utf8', 'root', 'root');
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 
 //Instanciation de nos classes manager ?

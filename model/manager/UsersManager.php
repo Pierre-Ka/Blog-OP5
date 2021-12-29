@@ -49,9 +49,10 @@ class UsersManager
 			return new User($data);
 		}
 	}
-	public function getAuthorName($info)
+
+
+	public function getAuthorName(int $info)
 	{
-		$info=ctype_digit($info);
 		$q = $this->_db->query('SELECT name FROM users WHERE id=' .$info);
 		$data=$q->fetch(PDO::FETCH_ASSOC);
 		return $data['name'];

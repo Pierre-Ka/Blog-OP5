@@ -51,10 +51,11 @@ class CommentsManager
 	}
 
 	public function totalComPages ($info)
-	{ // $info est $_GET['id_post']
+	{ 
+		// $info est $_GET['id_post']
 		$info = intval($info) ;
 		$com_per_page = 4 ;
-		$q = $this->_db->query('SELECT id FROM comments WHERE id_post= ' .$info) ;
+		$q = $this->_db->query('SELECT id FROM comments WHERE is_valid=1 AND id_post= ' .$info) ;
 		$com_total = $q->rowCount(); 
 		$total_com_pages = ceil($com_total/$com_per_page); 
 		return $total_com_pages;
@@ -67,7 +68,7 @@ class CommentsManager
 		$com_per_page = 4 ;
 		$start = ( $actual_page-1)*$com_per_page; 
 		//$start est le depart du LIMIT, sa premiere valeur
-		$q = $this->_db->query('SELECT id,id_post, author, content, is_valid, DATE_FORMAT(create_date, \'%d/%m/%y à %Hh%imin%ss\') AS create_date_format FROM comments WHERE id_post= "' .$info. '" ORDER BY id DESC LIMIT ' . $start . ',' . $com_per_page);
+		$q = $this->_db->query('SELECT id,id_post, author, content, DATE_FORMAT(create_date, \'%d/%m/%y à %Hh%imin%ss\') AS create_date_format FROM comments WHERE is_valid=1 AND id_post= "' .$info. '" ORDER BY id DESC LIMIT ' . $start . ',' . $com_per_page);
 		return $q;
 	}
 	
