@@ -20,7 +20,7 @@ class UsersManager
 	// supprimer un user
 	// getList all trier par plus recent
 
-	public function add_user(Users $user)
+	public function addUser(User $user)
 	{ // Cryptage du mot de passe ici ?
 		$q = $this->_db->prepare('INSERT INTO users(email, password, name, picture, description, inscription_date) VALUES (:email, :password, :name,  :picture, :description, CURDATE())');
 		$q->bindValue('email', $user->getEmail());
@@ -32,13 +32,13 @@ class UsersManager
 		// ici : Hydratation ou pas ?
 	}
 
-	public function get_user($info)
+	public function getUser($info)
 	{ // Ici get s'obtient avec un $_POST email et $_POST password : a adapter !
 		if (ctype_digit($info))
 		{
 			$q = $this->_db->query('SELECT * FROM users WHERE id=' .$info);
 			$data=$q->fetch();
-			return new Users($data);
+			return new User($data);
 		}
 		else
 		{
@@ -46,10 +46,10 @@ class UsersManager
 			$q->bindValue(':email', $info);
 			$q->execute();
 			$data = $q->fetch(PDO::FETCH_ASSOC);
-			return new Users($data);
+			return new User($data);
 		}
 	}
-	public function get_author_name($info)
+	public function getAuthorName($info)
 	{
 		$info=ctype_digit($info);
 		$q = $this->_db->query('SELECT name FROM users WHERE id=' .$info);
@@ -57,7 +57,7 @@ class UsersManager
 		return $data['name'];
 	}
 
-	public function edit_user(Users $user)
+	public function editUser(User $user)
 	{
 		$q = $this->_db->prepare('UPDATE users SET password = :password, name = :name, picture = :picture, description = :description WHERE id = :id');
 		$q->execute(array(
@@ -78,7 +78,7 @@ class UsersManager
 		// ici : REhydratation
 	}
 
-	public function valid_user($info)
+	public function validUser($info)
 	{
 		if (ctype_digit($info))
 		{
@@ -88,7 +88,7 @@ class UsersManager
 		}
 	}
 
-	public function delete_user($info)
+	public function deleteUser($info)
 	{
 		if (ctype_digit($info))
 		{
@@ -98,7 +98,7 @@ class UsersManager
 		}
 	} // SI L'OBJET USER A ETE CREE IL FAUT ALORS L'UNSET?
 
-	public function get_users_list()
+	public function getUsersList()
 	{
 		$q = $this->_db->query('SELECT id,email,password, name, picture, description, is_valid, DATE_FORMAT(inscription_date, \'%d/%m/%y à %Hh%imin%ss\') AS inscription_date_format FROM users ORDER BY inscription_date DESC');
 		return $q;

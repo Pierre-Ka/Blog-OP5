@@ -23,7 +23,7 @@ class PostsManager
 	//  - la fonction getPostPerPage (); =$comReq;
 	//	-
 
-	public function add_post(Posts $post)
+	public function addPost(Post $post)
 	{
 		$q = $this->_db->prepare('INSERT INTO posts(title, id_user, type, chapo, content, picture, create_date) VALUES(:title,:id_user,:type, :chapo, :content, :picture, CURDATE())');
 		$q->bindValue('title', $post->getTitle());
@@ -36,7 +36,7 @@ class PostsManager
 		// ici : Hydratation ou pas ?
 	}
 
-	public function edit_post(Posts $post)
+	public function editPost(Post $post)
 	{
 		$q = $this->_db->prepare('UPDATE posts SET title = :title, type = :type, chapo = :chapo, content = :content, picture = :picture, last_update = CURDATE() WHERE id = :id');
 		$q->bindValue('id', $user->getId());
@@ -49,17 +49,17 @@ class PostsManager
 		// ici : REhydratation
 	}
 
-	public function get_post($info)
+	public function getPost($info)
 	{ // Ici get s'obtient avec un $_GET id
 		if (ctype_digit($info))
 		{
 			$q = $this->_db->query('SELECT * FROM posts WHERE id=' .$info);
 			$data=$q->fetch()/*(PDO::FETCH_ASSOC)???*/;
-			return new Posts($data);
+			return new Post($data);
 		}
 	}
 
-	public function delete_post($info)
+	public function deletePost($info)
 	{
 		if (ctype_digit($info))
 		{
@@ -72,7 +72,7 @@ class PostsManager
 	on demande tous les posts
 	on demande les posts d'une certaine categorie */
 
-	public function total_all_post_pages ()
+	public function totalAllPostPages ()
 	{
 		$post_per_page = 4 ;
 		$q = $this->_db->query('SELECT id FROM posts') ;
@@ -80,7 +80,7 @@ class PostsManager
 		$total_all_pages = ceil($post_total/$post_per_page);return $total_all_pages;
 	}
 
-	public function total_type_post_pages ($info)
+	public function totalTypePostPages ($info)
 	{ 
 		$type= array("type1", "type2", "type3");
 		if (in_array($info, $type))
@@ -101,7 +101,7 @@ class PostsManager
 // AMELIORATION : sortir les posts comme des objets
 // avec une boucle while ($post = new Posts)
 
-	public function get_all_post($actual_page) 
+	public function getAllPost($actual_page) 
 	{
 		$post_per_page = 4 ;
 		$start = ( $actual_page-1)*$post_per_page; 
@@ -109,7 +109,7 @@ class PostsManager
 		$q = $this->_db->query('SELECT id, title, id_user, type, chapo, content, picture, DATE_FORMAT(create_date, \'%d/%m/%y à %Hh%imin%ss\') AS create_date_format,  DATE_FORMAT(last_update, \'%d/%m/%y à %Hh%imin%ss\') AS last_update_format  FROM posts ORDER BY id DESC LIMIT ' . $start . ',' . $post_per_page);
 		return $q;
 	}
-	public function get_type_post ($info, $actual_page)
+	public function getTypePost ($info, $actual_page)
 	{
 		$post_per_page = 4 ;
 		$start = ( $actual_page-1)*$post_per_page; //$start est le depart du LIMIT, sa premiere valeur

@@ -1,5 +1,5 @@
 <?php
-class Posts
+class Post
 {
 	private $_id,
 			$_title,
@@ -10,6 +10,21 @@ class Posts
 			$_picture,
 			$_last_update,
 			$_create_date;
+
+/* AMELIORATION future: TYPEHINT
+
+	private int $id;
+	private string $title;
+	private int $idUser;
+	private string $type;
+	private string $chapo;
+	private string $content;
+	private string $picture;
+	private datetime $lastUpdate;
+	private datetime $createDate;
+
+*/
+
 
 	// Declaration des constances const
 	// Hydratation de la classe

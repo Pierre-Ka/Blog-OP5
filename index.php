@@ -9,15 +9,15 @@ session_start();
 
 if(isset($_GET['faker_user']))
 {
-	require('faker/faker_user.php');
+	require('model/faker/faker_user.php');
 }
 if(isset($_GET['faker_post']))
 {
-	require('faker/faker_post.php');
+	require('model/faker/faker_post.php');
 }
 if(isset($_GET['faker_com']))
 {
-	require('faker/faker_com.php');
+	require('model/faker/faker_com.php');
 }
 
 

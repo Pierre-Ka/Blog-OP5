@@ -1,5 +1,5 @@
 <?php
-class Comments
+class Comment
 {
 	private $_id,
 			$_id_post,
@@ -7,6 +7,18 @@ class Comments
 			$_content,
 			$_is_valid,
 			$_create_date;
+
+/* AMELIORATION future: TYPEHINT
+
+	private int $id;
+	private int $idPost;
+	private string $author;
+	private string $content;
+	private bool $isValid;
+	private datetime $createDate;
+
+*/
+
 
 	// Declaration des constances const
 	// Hydratation de la classe

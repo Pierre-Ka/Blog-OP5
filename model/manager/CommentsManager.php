@@ -20,7 +20,7 @@ class CommentsManager
 	// function total_com_pages 
 	// function get_com
 
-	public function add_com(Comments $comment)
+	public function addCom(Comment $comment)
 	{
 		$q = $this->_db->prepare('INSERT INTO comments(id_post,author,content, create_date) VALUES(:id_post,:author,:content, CURDATE())');
 		$q->bindValue('id_post', $comment->getId_post());
@@ -30,7 +30,7 @@ class CommentsManager
 		// ici : Hydratation ou pas ?
 	}
 
-	public function valid_com($info)
+	public function validCom($info)
 	{
 		if (ctype_digit($info))
 		{
@@ -40,7 +40,7 @@ class CommentsManager
 		}
 	}
 
-	public function delete_com($info)
+	public function deleteCom($info)
 	{
 		if (ctype_digit($info))
 		{
@@ -50,7 +50,7 @@ class CommentsManager
 		}
 	}
 
-	public function total_com_pages ($info)
+	public function totalComPages ($info)
 	{ // $info est $_GET['id_post']
 		$info = intval($info) ;
 		$com_per_page = 4 ;
@@ -62,7 +62,7 @@ class CommentsManager
 
 // AMELIORATION : sortir les coms comme des objets avec une boucle while ($com = new Comment)
 
-	public function get_com ($info, $actual_page)
+	public function getCom ($info, $actual_page)
 	{	
 		$com_per_page = 4 ;
 		$start = ( $actual_page-1)*$com_per_page; 

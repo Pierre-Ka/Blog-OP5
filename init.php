@@ -1,12 +1,12 @@
 <?php 
 
 
-require_once('class/Comments.php');
-require_once('class/CommentsManager.php');
-require_once('class/Posts.php');
-require_once('class/PostsManager.php');
-require_once('class/Users.php');
-require_once('class/UsersManager.php');
+require_once('model/entity/Comment.php');
+require_once('model/manager/CommentsManager.php');
+require_once('model/entity/Post.php');
+require_once('model/manager/PostsManager.php');
+require_once('model/entity/User.php');
+require_once('model/manager/UsersManager.php');
 // AMELIORATION POSSIBLE : autoload
 
 

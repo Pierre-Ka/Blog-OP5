@@ -1,5 +1,5 @@
 <?php
-class Users
+class User
 {
 	private $_id,
 			$_email,
@@ -9,6 +9,18 @@ class Users
 			$_description,
 			$_inscription_date,
 			$_is_valid;
+
+/* AMELIORATION future: TYPEHINT
+
+	private int $id;
+	private string $email;
+	private string $name;
+	private string $picture;
+	private string $description;
+	private datetime $inscriptionDate;
+	private bool isValid ;
+
+*/
 
 	// Declaration des constances const
 	// Hydratation de la classe

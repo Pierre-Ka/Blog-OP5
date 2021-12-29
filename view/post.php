@@ -24,7 +24,7 @@ ob_start(); ?>
 */
 
 ?> <div> <h3> <?= $post->getType(); ?></h3><h2> <?= $post->getTitle(); ?>
-écrit par <?= $user_manager->get_author_name($post->getId()); ?> le <?= $post->getCreate_date(); ?> et modifié le <?= $post->getLast_update(); ?> </h2> <br/>
+écrit par <?= $user_manager->getAuthorName($post->getId()); ?> le <?= $post->getCreate_date(); ?> et modifié le <?= $post->getLast_update(); ?> </h2> <br/>
 <p> <?= $post->getContent(); ?>
 	<?= $post->getPicture(); ?>
 </p><br/></div>
