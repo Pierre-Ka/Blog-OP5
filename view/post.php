@@ -5,41 +5,39 @@ $title = 'Post numero' . $_GET['post'] ;
 ob_start(); ?>
 <p> la page affichant un post du blog avec tous ces commentaires (du plus récent au plus ancien) ;</p>
 
-<?php 
+<div> 
+	<h3> <?= $post->getType(); ?></h3><h2> <?= $post->getTitle(); ?></h2>  <h4>
+     écrit par <?= $user_manager->getAuthorName($post->getId_user()); ?> le <?= $post->getCreate_date(); ?> et modifié le <?= $post->getLast_update(); ?> </h4>><br/>
 
-?> <div> <h3> <?= $post->getType(); ?></h3><h2> <?= $post->getTitle(); ?></h2>  <h4>
-écrit par <?= $user_manager->getAuthorName($post->getId_user()); ?> le <?= $post->getCreate_date(); ?> et modifié le <?= $post->getLast_update(); ?> </h4>><br/>
-<p> 
-	<?php 
-	$pathPicture = 'assets/media/photo/' . $post->getPicture() . '.jpg' ;
-	var_dump($post->getPicture())
-	?>
+	  <p> 
+		<?php 
+		$pathPicture = 'assets/media/photo/' . $post->getPicture() . '.jpg' ;
+		var_dump($post->getPicture())
+		?>
 
-	<p> <img src="<?= $pathPicture; ?>" alt=""> </p> <br/>
-	<?= $post->getContent(); ?>
-
-</p><br/></div>
+		<p> <img src="<?= $pathPicture; ?>" alt=""> </p> <br/>
+		<?= $post->getContent(); ?>
+	  </p> <br/>
+</div>
 
 <br/><br/>
 
 <h2>Commentaires :</h2><br/>
 
 <?php
-// RECUPERATION DE LA VARIABLE $coms
-// $coms est sous forme de tableau : attention on peut également les sortir sous forme d'objets il faudra adapter en consequence
-
-	while ($com = $q_comment->fetch())
-{
-	?>
-	<div><div>
-		<?= $com['author'] ?> a écrit à
-		<?= $com['create_date_format'] ?>
-			</div><br/>
-			<p><?= $com['content'] ?></p>
-			<br/>
-		</div>
-	<?php ;
-}
+// Commentaire en POO
+	foreach ($comments as $comment) 
+	{
+		?>
+			<div><div>
+				<?= $comment->getAuthor(); ?> a écrit à
+				<?= $comment->getCreate_date(); ?>
+					</div><br/>
+					<p><?= $comment->getContent(); ?></p>
+					<br/>
+			</div>
+		<?php ;
+	}
 
 //Ici le systeme de lien !
 echo 'PAGE : ';

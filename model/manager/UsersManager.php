@@ -1,39 +1,25 @@
 <?php
-class UsersManager
+class UsersManager extends Manager
 {
-	private $_db; // Instance de PDO
+	// OPERATION EN BDD : add - getOne - getAuthorName - edit - valid - delete - getList 
 
-	public function __construct($db)
-	{
-		$this->setDb($db);
-	}
-// NO GETTER, ONLY SETTER
-	public function setDb(PDO $db)
-	{
-		$this->_db = $db;
-	}
-// OPERATION EN BDD
-	// ajouter un user
-	// get lors de la connexion à stocker dans session
-	// modifier un user
-	// valider un user
-	// supprimer un user
-	// getList all trier par plus recent
+	// !!!!!!!!!!!  IL MANQUE UN ATTRIBUT LAST_CONNEXION A MON USER !!!!!!!!!!!!   //
 
-	public function addUser(User $user)
-	{ // Cryptage du mot de passe ici ?
-		$q = $this->_db->prepare('INSERT INTO users(email, password, name, picture, description, inscription_date) VALUES (:email, :password, :name,  :picture, :description, CURDATE())');
+	public function add(User $user)
+	{ 
+		// Cryptage du mot de passe ici ?
+		$q = $this->_db->prepare('INSERT INTO users(email, password, name, picture, description, inscription_date) VALUES (:email, :password, :name,  :picture, :description, NOW())');
 		$q->bindValue('email', $user->getEmail());
 		$q->bindValue('password', $user->getPassword());
 		$q->bindValue('name', $user->getName());
 		$q->bindValue('picture', $user->getPicture());
 		$q->bindValue('description', $user->getDescription());
 		$q->execute();
-		// ici : Hydratation ou pas ?
 	}
 
-	public function getUser($info)
-	{ // Ici get s'obtient avec un $_POST email et $_POST password : a adapter !
+	public function getOne($info)
+	{ 
+		// Ici get s'obtient avec un $_POST email et $_POST password : a adapter !
 		if (ctype_digit($info))
 		{
 			$q = $this->_db->query('SELECT * FROM users WHERE id=' .$info);
@@ -51,14 +37,14 @@ class UsersManager
 	}
 
 
-	public function getAuthorName(int $info)
+	public function getAuthorName(int $id_user)
 	{
-		$q = $this->_db->query('SELECT name FROM users WHERE id=' .$info);
+		$q = $this->_db->query('SELECT name FROM users WHERE id=' .$id_user);
 		$data=$q->fetch(PDO::FETCH_ASSOC);
 		return $data['name'];
 	}
 
-	public function editUser(User $user)
+	public function edit(User $user)
 	{
 		$q = $this->_db->prepare('UPDATE users SET password = :password, name = :name, picture = :picture, description = :description WHERE id = :id');
 		$q->execute(array(
@@ -76,10 +62,9 @@ class UsersManager
 		$q->bindValue('description', $user->getDescription()); 
 		$q->execute();*/
 
-		// ici : REhydratation
 	}
 
-	public function validUser($info)
+	public function valid($info)
 	{
 		if (ctype_digit($info))
 		{
@@ -89,46 +74,28 @@ class UsersManager
 		}
 	}
 
-	public function deleteUser($info)
+	public function delete($info)
 	{
 		if (ctype_digit($info))
 		{
-			$q = $this->_db->prepare('DELETE FROM users WHERE id=:id');
-			$q->bindValue('id', $info);
-			$q->execute();
+			if ($info>1)
+			{
+				$q = $this->_db->prepare('DELETE FROM users WHERE id=:id');
+				$q->bindValue('id', $info);
+				$q->execute();
+			}
 		}
 	} // SI L'OBJET USER A ETE CREE IL FAUT ALORS L'UNSET?
 
-	public function getUsersList()
+	public function getList()
 	{
-		$q = $this->_db->query('SELECT id,email,password, name, picture, description, is_valid, DATE_FORMAT(inscription_date, \'%d/%m/%y à %Hh%imin%ss\') AS inscription_date_format FROM users ORDER BY inscription_date DESC');
-		return $q;
-		// AMELIORATION : sortir les users comme des objets
-		// avec une boucle while ($user = new User)
-
-		/*
-		exemple : le nouveau getlist
-			public function getList($nom)
+		$users=[];
+		$q = $this->_db->query('SELECT id,email,password, name, picture, description, is_valid, DATE_FORMAT(inscription_date, \'%d/%m/%Y à %Hh%imin%ss\') AS inscription_date FROM users ORDER BY DATE_FORMAT(inscription_date, \'%Y%m%d%Hh%imin%ss\') DESC');
+		
+		while($data=$q->fetch(PDO::FETCH_ASSOC))
 		{
-			$persos=[]; 
-			$q = $this->_db->prepare('SELECT * FROM ameliorationperso WHERE name <> :name ORDER BY name');
-			$q->bindValue(':name', $nom);
-			$q->execute(); // $q->execute(['name'=>$nom];)
-			while($data=$q->fetch(PDO::FETCH_ASSOC))
-			{
-				$persos[]= new Perso ($data) ;
-			}
-			return $persos ;
+			$users[]= new User ($data) ;
 		}
-		*/
-
+		return $users;
 	}
-// Absence de balise PHP de fermeture
-/* FONCTIONS NON UTILISER
-
-	public function exists($info)
-
-	public function get($info)
-
-*/
 }

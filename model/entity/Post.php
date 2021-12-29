@@ -1,15 +1,15 @@
 <?php
-class Post
+class Post extends Entity
 {
-	private $_id,
-			$_title,
-			$_id_user,
-			$_type,
-			$_chapo,
-			$_content,
-			$_picture,
-			$_last_update,
-			$_create_date;
+	private $id,
+			$title,
+			$id_user,
+			$type,
+			$chapo,
+			$content,
+			$picture,
+			$last_update,
+			$create_date;
 
 /* AMELIORATION future: TYPEHINT
 
@@ -25,65 +25,43 @@ class Post
 
 */
 
-
-	// Declaration des constances const
-	// Hydratation de la classe
-
-	public function __construct(array $donnees)
-	{
-		$this->hydrate($donnees);
-	}
-
-	public function hydrate(array $donnees)
-	{
-		foreach ($donnees as $key => $value)
-		{
-			$method = 'set'.ucfirst($key);
-
-			if (method_exists($this, $method))
-			{
-				$this->$method($value);
-			}
-		}
-	}
-
 	//GETTERS//
 
 	public function getId()
 	{
-		return $this->_id;
+		return $this->id;
 	}
 	public function getTitle()
 	{
-		return $this->_title;
+		return $this->title;
 	}
 	public function getId_user()
 	{
-		return $this->_id_user;
+		return $this->id_user;
 	}
 	public function getType()
 	{
-		return $this->_type;
+		return $this->type;
 	}
 	public function getChapo()
 	{
-		return $this->_chapo;
+		return $this->chapo;
 	}
 	public function getContent()
 	{
-		return $this->_content;
+		return $this->content;
 	}
 	public function getPicture()
 	{
-		return $this->_picture;	
+		return $this->picture;	
 	}
 	public function getLast_update()
 	{
-		return $this->_last_update;
+		return $this->last_update;
 	}
 	public function getCreate_date()
 	{
-		return $this->_create_date;
+		return $this->create_date;
 	}
 
 	//SETTERS//
@@ -92,7 +70,7 @@ class Post
 	{
 		if(ctype_digit($id))
 		{
-			$this->_id = $id;
+			$this->id = $id;
 		}
 	}
 
@@ -100,7 +78,7 @@ class Post
 	{
 		if (is_string($title))
 		{
-			$this->_title= $title;
+			$this->title= $title;
 		}
 	}
 
@@ -109,7 +87,7 @@ class Post
 		$id_user= (int) $id_user;
 		if ($id_user>0)
 		{
-			$this->_id_user = $id_user;
+			$this->id_user = $id_user;
 		}
 	}
 
@@ -117,7 +95,7 @@ class Post
 	{
 		if (is_string($type))
 		{
-			$this->_type= $type;
+			$this->type= $type;
 		}
 	}
 
@@ -125,7 +103,7 @@ class Post
 	{
 		if (is_string($chapo))
 		{
-			$this->_chapo= $chapo;
+			$this->chapo= $chapo;
 		}
 	}
 
@@ -133,7 +111,7 @@ class Post
 	{
 		if (is_string($content))
 		{
-			$this->_content= $content;
+			$this->content= $content;
 		}
 	}
 
@@ -141,24 +119,24 @@ class Post
 	{
 		if (is_string($picture))
 		{
-			$this->_picture= $picture;
+			$this->picture= $picture;
 		}
 	}
 
 	public function setLast_update($last_update)
 	{
-		$last_update=strtotime(($last_update));
-		if ($last_update = (int)$last_update)
+		/*$last_update=strtotime(($last_update));
+		if ($last_update = (int)$last_update)*/
 		{
-			$this->_last_update = $last_update;
+			$this->last_update = $last_update;
 		}
 	}
 	public function setCreate_date($create_date)
 	{
-		$create_date=strtotime(($create_date));
-		if ($create_date = (int)$create_date)
+		/*$create_date=strtotime(($create_date));
+		if ($create_date = (int)$create_date)*/
 		{
-			$this->_create_date = $create_date;
+			$this->create_date = $create_date;
 		}
 	}
 

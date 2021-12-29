@@ -1,36 +1,18 @@
 <?php
-class CommentsManager
+class CommentsManager extends Manager
 {
-	private $_db; // Instance de PDO
+	// OPERATION EN BDD : add - valid - delete - total_pages - get
 
-	public function __construct($db)
+	public function add(Comment $comment)
 	{
-		$this->setDb($db);
-	}
-
-	public function setDb(PDO $db)
-	{
-		$this->_db = $db;
-	}
-
-// OPERATION EN BDD
-	// function add_com
-	// function valid_com
-	// function delete_com
-	// function total_com_pages 
-	// function get_com
-
-	public function addCom(Comment $comment)
-	{
-		$q = $this->_db->prepare('INSERT INTO comments(id_post,author,content, create_date) VALUES(:id_post,:author,:content, CURDATE())');
+		$q = $this->_db->prepare('INSERT INTO comments(id_post,author,content, create_date) VALUES(:id_post,:author,:content, NOW())');
 		$q->bindValue('id_post', $comment->getId_post());
 		$q->bindValue('author', $comment->getAuthor());
 		$q->bindValue('content', $comment->getContent());
 		$q->execute();
-		// ici : Hydratation ou pas ?
 	}
 
-	public function validCom($info)
+	public function valid($info)
 	{
 		if (ctype_digit($info))
 		{
@@ -40,7 +22,7 @@ class CommentsManager
 		}
 	}
 
-	public function deleteCom($info)
+	public function delete($info)
 	{
 		if (ctype_digit($info))
 		{
@@ -50,27 +32,27 @@ class CommentsManager
 		}
 	}
 
-	public function totalComPages ($info)
+	public function totalPages (int $id_post)
 	{ 
-		// $info est $_GET['id_post']
-		$info = intval($info) ;
 		$com_per_page = 4 ;
-		$q = $this->_db->query('SELECT id FROM comments WHERE is_valid=1 AND id_post= ' .$info) ;
+		$q = $this->_db->query('SELECT id FROM comments WHERE is_valid=1 AND id_post= ' .$id_post) ;
 		$com_total = $q->rowCount(); 
 		$total_com_pages = ceil($com_total/$com_per_page); 
 		return $total_com_pages;
 	}
 
-// AMELIORATION : sortir les coms comme des objets avec une boucle while ($com = new Comment)
-
-	public function getCom ($info, $actual_page)
+	public function get (int $id_post, int $actual_page)
 	{	
+		$comments=[];
 		$com_per_page = 4 ;
 		$start = ( $actual_page-1)*$com_per_page; 
 		//$start est le depart du LIMIT, sa premiere valeur
-		$q = $this->_db->query('SELECT id,id_post, author, content, DATE_FORMAT(create_date, \'%d/%m/%y à %Hh%imin%ss\') AS create_date_format FROM comments WHERE is_valid=1 AND id_post= "' .$info. '" ORDER BY id DESC LIMIT ' . $start . ',' . $com_per_page);
-		return $q;
+
+		$q = $this->_db->query('SELECT id,id_post, author, content, DATE_FORMAT(create_date, \'%d/%m/%Y à %Hh%i\') AS create_date FROM comments WHERE is_valid=1 AND id_post= "' .$id_post. '" ORDER BY DATE_FORMAT(create_date, \'%Y%m%d%Hh%i\') DESC LIMIT ' . $start . ',' . $com_per_page);
+		while ($data=$q->fetch(PDO::FETCH_ASSOC)) 
+		{
+			$comments[]= new Comment ($data) ; 
+		}
+		return $comments;
 	}
-	
-// Absence de balise PHP de fermeture
 }

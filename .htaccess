@@ -1,0 +1,5 @@
+RewriteEngine On
+
+RewriteRule ^post/([0-9]+)/([0-9]*)$ index.php?post=$1&page=$2
+RewriteRule ^list/([1-3])$ index.php?list=type$1
+RewriteRule ^list/0$ index.php?list_all

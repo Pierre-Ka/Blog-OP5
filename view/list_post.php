@@ -11,20 +11,28 @@ le titre ; la date de dernière modification ; le châpo ; et un lien vers le bl
 // RECUPERATION DE LA VARIABLE $posts
 // $posts est sous forme de tableau : attention on peut également les sortir sous forme d'objets il faudra adapter en consequence
 
-while ($post = $q_post->fetch())
+foreach ($posts as $post)
 {
 	?>
+		<div>
+			<?php 
+				$pathPicture = 'assets/media/photo/' . $post->getPicture() . '.jpg' ;
+				$id_user=$post->getId_user();
+			?>
+
+			<h2> <?= $post->getTitle(); ?> </h2> 
+			écrit le <?= $post->getCreate_date(); ?> par 
+			<?= $user_manager->getAuthorName($id_user) ; ?>  et modifié le <?= $post->getLast_update(); ?> 
+			<p> <?= $post->getChapo(); ?> </p>
+			
+			<p> <img src="<?= $pathPicture; ?>" alt=""> </p> <br/>
+			<a href="index.php?post=<?= $post->getId(); ?>">Lien vers l'article' </a> 
+		</div> <br/><br/>
+	<?php
+} 
+
+?>
 	<div>
-	<h2> <?= $post['title']; ?> </h2> écrit le <?= $post['create_date_format']; ?> et modifié le <?= $post['last_update_format']; ?>  par 
-	<?= $user_manager->getAuthorName($post['id_user']); ?> 
-	<p> <?= $post['chapo']; ?> </p>
-	<?php 
-	$pathPicture = 'assets/media/photo/' . $post['picture'] . '.jpg' ;
-	?>
-	<p> <img src="<?= $pathPicture; ?>" alt=""> </p> <br/>
-	<a href="index.php?post=<?= $post['id'];?>">Lien vers l'article' </a> </div> <br/> <?php
-} ?>
-<div>
 
 <br/><br/><br/><br/>
 <?php 

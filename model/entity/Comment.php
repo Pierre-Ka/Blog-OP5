@@ -1,12 +1,12 @@
 <?php
-class Comment
+class Comment extends Entity
 {
-	private $_id,
-			$_id_post,
-			$_author,
-			$_content,
-			$_is_valid,
-			$_create_date;
+	private $id,
+			$id_post,
+			$author,
+			$content,
+			$is_valid,
+			$create_date;
 
 /* AMELIORATION future: TYPEHINT
 
@@ -18,54 +18,31 @@ class Comment
 	private datetime $createDate;
 
 */
-
-
-	// Declaration des constances const
-	// Hydratation de la classe
-
-	public function __construct(array $donnees)
-	{
-		$this->hydrate($donnees);
-	}
-
-	public function hydrate(array $donnees)
-	{
-		foreach ($donnees as $key => $value)
-		{
-			$method = 'set'.ucfirst($key);
-
-			if (method_exists($this, $method))
-			{
-				$this->$method($value);
-			}
-		}
-	}
-
 	//GETTERS//
 
 	public function getId()
 	{
-		return $this->_id;
+		return $this->id;
 	}
 	public function getId_post()
 	{
-		return $this->_id_post;
+		return $this->id_post;
 	}
 	public function getAuthor()
 	{
-		return $this->_author;
+		return $this->author;
 	}
 	public function getContent()
 	{
-		return $this->_content;
+		return $this->content;
 	}
 	public function getIs_valid()
 	{
-		return $this->_is_valid;	
+		return $this->is_valid;	
 	}
 	public function getCreate_date()
 	{
-		return $this->_create_date;
+		return $this->create_date;
 	}
 
 	//SETTERS//
@@ -74,7 +51,7 @@ class Comment
 	{
 		if(ctype_digit($id))
 		{
-			$this->_id = $id;
+			$this->id = $id;
 		}
 	}
 
@@ -83,7 +60,7 @@ class Comment
 		$id_post= (int) $id_post;
 		if ($id_post>0)
 		{
-			$this->_id_post = $id_post;
+			$this->id_post = $id_post;
 		}
 	}
 
@@ -91,7 +68,7 @@ class Comment
 	{
 		if (is_string($author))
 		{
-			$this->_author= $author;
+			$this->author= $author;
 		}
 	}
 
@@ -99,7 +76,7 @@ class Comment
 	{
 		if (is_string($content))
 		{
-			$this->_content= $content;
+			$this->content= $content;
 		}
 	}
 
@@ -108,18 +85,16 @@ class Comment
 		$is_valid= (int) $is_valid;
 		if ($id_post>=0 AND $id_post<2)
 		{
-			$this->_is_valid = $is_valid;
+			$this->is_valid = $is_valid;
 		}
 	}
 
 	public function setCreate_date($create_date)
 	{
-		$create_date=strtotime(($create_date));
-		if ($create_date = (int)$create_date)
+		/*$create_date=strtotime(($create_date));
+		if ($create_date = (int)$create_date)*/
 		{
-			$this->_create_date = $create_date;
+			$this->create_date = $create_date;
 		}
 	}
-
-	// FIN DES SETTERS //
 }

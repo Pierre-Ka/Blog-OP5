@@ -1,6 +1,8 @@
 <?php 
 
 
+require_once('model/entity/Entity.php');
+require_once('model/manager/Manager.php');
 require_once('model/entity/Comment.php');
 require_once('model/manager/CommentsManager.php');
 require_once('model/entity/Post.php');

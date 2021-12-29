@@ -1,14 +1,18 @@
 <?php
-class User
+class User extends Entity
 {
-	private $_id,
-			$_email,
-			$_password,
-			$_name,
-			$_picture,
-			$_description,
-			$_inscription_date,
-			$_is_valid;
+
+
+
+	// !!!!!!!!!!!  IL MANQUE UN ATTRIBUT LAST_CONNEXION A MON USER !!!!!!!!!!!!   //
+	private $id,
+			$email,
+			$password,
+			$name,
+			$picture,
+			$description,
+			$inscription_date,
+			$is_valid;
 
 /* AMELIORATION future: TYPEHINT
 
@@ -21,61 +25,39 @@ class User
 	private bool isValid ;
 
 */
-
-	// Declaration des constances const
-	// Hydratation de la classe
-
-	public function __construct(array $donnees)
-	{
-		$this->hydrate($donnees);
-	}
-
-	public function hydrate(array $donnees)
-	{
-		foreach ($donnees as $key => $value)
-		{
-			$method = 'set'.ucfirst($key);
-
-			if (method_exists($this, $method))
-			{
-				$this->$method($value);
-			}
-		}
-	}
-
 		//GETTERS//
 
 	public function getId()
 	{
-		return $this->_id;
+		return $this->id;
 	}
 	public function getEmail()
 	{
-		return $this->_email;
+		return $this->email;
 	}
 	public function getPassword()
 	{
-		return $this->_password;
+		return $this->password;
 	}
 	public function getName()
 	{
-		return $this->_name;
+		return $this->name;
 	}
 	public function getPicture()
 	{
-		return $this->_picture;
+		return $this->picture;
 	}
 	public function getDescription()
 	{
-		return $this->_description;
+		return $this->description;
 	}
 	public function getInscription_date()
 	{
-		return $this->_inscription_date;
+		return $this->inscription_date;
 	}
 	public function getIs_valid()
 	{
-		return $this->_is_valid;	
+		return $this->is_valid;	
 	}
 
 	//SETTERS//
@@ -84,7 +66,7 @@ class User
 	{
 		if(ctype_digit($id))
 		{
-			$this->_id = $id;
+			$this->id = $id;
 		}
 	}
 
@@ -92,7 +74,7 @@ class User
 	{
 		if (is_string($email))
 		{
-			$this->_email= $email;
+			$this->email= $email;
 		}
 	}
 
@@ -100,7 +82,7 @@ class User
 	{
 		if (is_string($password))
 		{
-			$this->_password= $password;
+			$this->password= $password;
 		}
 	}
 
@@ -108,7 +90,7 @@ class User
 	{
 		if (is_string($name))
 		{
-			$this->_name= $name;
+			$this->name= $name;
 		}
 	}
 
@@ -116,7 +98,7 @@ class User
 	{
 		if (is_string($picture))
 		{
-			$this->_picture= $picture;
+			$this->picture= $picture;
 		}
 	}
 
@@ -124,7 +106,7 @@ class User
 	{
 		if (is_string($description))
 		{
-			$this->_description= $description;
+			$this->description= $description;
 		}
 	}
 
@@ -133,7 +115,7 @@ class User
 		$inscription_date=strtotime(($inscription_date));
 		if ($inscription_date = (int)$inscription_date)
 		{
-			$this->_inscription_date = $inscription_date;
+			$this->inscription_date = $inscription_date;
 		}
 	}
 
@@ -142,7 +124,7 @@ class User
 		$is_valid= (int) $is_valid;
 		if ($id_post>=0 AND $id_post<2)
 		{
-			$this->_is_valid = $is_valid;
+			$this->is_valid = $is_valid;
 		}
 	}
 
