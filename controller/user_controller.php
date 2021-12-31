@@ -1,4 +1,7 @@
 <?php
+use Project5\Comment;
+use Project5\Post;
+use Project5\User;
 /*
 
 DEUXIEMEMENT ORIENTATION POUR LES CONNECTES

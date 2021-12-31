@@ -1,4 +1,6 @@
 <?php
+namespace Project5 ;
+
 class Comment extends Entity
 {
 	private $id,

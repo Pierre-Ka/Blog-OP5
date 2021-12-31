@@ -1,4 +1,6 @@
 <?php
+namespace Project5;
+
 class PostsManager extends Manager
 {
 	// OPERATION EN BDD :  add  edit   getOne   delete   totalAllPage   totalTypePage  GetAll GetType
@@ -78,7 +80,7 @@ class PostsManager extends Manager
 		//$start est le depart du LIMIT, sa premiere valeur
 
 		$q = $this->_db->query('SELECT id, title, id_user, type, chapo, content, picture, DATE_FORMAT(create_date, \'%d/%m/%Y\') AS create_date,  DATE_FORMAT(last_update, \'%d/%m/%Y\') AS last_update  FROM posts ORDER BY DATE_FORMAT(create_date, \'%Y%m%d\') DESC LIMIT ' . $start . ',' . $post_per_page);
-		while($data=$q->fetch(PDO::FETCH_ASSOC))
+		while($data=$q->fetch(\PDO::FETCH_ASSOC))
 		{
 			$posts[]= new Post ($data) ;
 		}
@@ -93,7 +95,7 @@ class PostsManager extends Manager
 		$start = ( $actual_page-1)*$post_per_page; 
 		
 		$q = $this->_db->query('SELECT id, title, id_user, type, chapo, content, picture, DATE_FORMAT(create_date, \'%d/%m/%y\') AS create_date,  DATE_FORMAT(last_update, \'%d/%m/%y\') AS last_update FROM posts WHERE type= "' .$infoType. '" ORDER BY DATE_FORMAT(create_date, \'%Y%m%d\') DESC LIMIT ' . $start . ',' . $post_per_page);
-		while($data=$q->fetch(PDO::FETCH_ASSOC))
+		while($data=$q->fetch(\PDO::FETCH_ASSOC))
 		{
 			$posts[]= new Post ($data) ;
 		}

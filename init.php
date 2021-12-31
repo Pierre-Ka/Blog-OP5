@@ -1,20 +1,16 @@
-<?php 
+<?php
+use Project5\CommentsManager;
+use Project5\PostsManager;
+use Project5\UsersManager;
 
-
-require_once('model/entity/Entity.php');
-require_once('model/manager/Manager.php');
-require_once('model/entity/Comment.php');
-require_once('model/manager/CommentsManager.php');
-require_once('model/entity/Post.php');
-require_once('model/manager/PostsManager.php');
-require_once('model/entity/User.php');
-require_once('model/manager/UsersManager.php');
-// AMELIORATION POSSIBLE : autoload
+require('model/Autoloader.php');
+Autoloader::register();
 
 
 //Connexion
-$db = new PDO('mysql:host=localhost;dbname=project5_faker;charset=utf8', 'root', 'root');
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+$db = new \PDO('mysql:host=localhost;dbname=project5_faker;charset=utf8', 'root', 'root');
+$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
+
 
 //Instanciation de nos classes manager ?
 $comment_manager= new CommentsManager($db);

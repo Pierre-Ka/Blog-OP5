@@ -1,4 +1,6 @@
 <?php 
+namespace Project5;
+
 abstract class Entity
 {
 

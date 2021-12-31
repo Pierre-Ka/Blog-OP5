@@ -1,4 +1,6 @@
 <?php
+namespace Project5;
+
 class User extends Entity
 {
 

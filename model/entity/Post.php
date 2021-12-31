@@ -1,4 +1,6 @@
 <?php
+namespace Project5;
+
 class Post extends Entity
 {
 	private $id,

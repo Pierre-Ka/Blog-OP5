@@ -1,4 +1,7 @@
 <?php
+use Project5\Comment;
+use Project5\Post;
+use Project5\User;
 
 /* ICI COMMENCE L'ORIENTATION
 SI !ISSET($_SESSION) ---> IL N'Y A PAS DE CONNECTEE*/

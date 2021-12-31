@@ -1,4 +1,6 @@
 <?php
+namespace Project5;
+
 abstract class Manager
 {
 	protected $_db; // Instance de PDO
@@ -8,7 +10,7 @@ abstract class Manager
 		$this->setDb($db);
 	}
 
-	public function setDb(PDO $db)
+	public function setDb(\PDO $db)
 	{
 		$this->_db = $db;
 	}

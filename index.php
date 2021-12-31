@@ -1,7 +1,9 @@
 <?php
+
 // ROUTEUR
 
 require_once('init.php');
+
 session_start();
 
 // ICI COOKIE

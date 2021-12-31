@@ -1,4 +1,6 @@
 <?php
+namespace Project5;
+
 class UsersManager extends Manager
 {
 	// OPERATION EN BDD : add - getOne - getAuthorName - edit - valid - delete - getList 
@@ -31,7 +33,7 @@ class UsersManager extends Manager
 			$q = $this->_db->prepare('SELECT * FROM users WHERE email=:email');
 			$q->bindValue(':email', $info);
 			$q->execute();
-			$data = $q->fetch(PDO::FETCH_ASSOC);
+			$data = $q->fetch(\PDO::FETCH_ASSOC);
 			return new User($data);
 		}
 	}
@@ -40,7 +42,7 @@ class UsersManager extends Manager
 	public function getAuthorName(int $id_user)
 	{
 		$q = $this->_db->query('SELECT name FROM users WHERE id=' .$id_user);
-		$data=$q->fetch(PDO::FETCH_ASSOC);
+		$data=$q->fetch(\PDO::FETCH_ASSOC);
 		return $data['name'];
 	}
 
@@ -92,7 +94,7 @@ class UsersManager extends Manager
 		$users=[];
 		$q = $this->_db->query('SELECT id,email,password, name, picture, description, is_valid, DATE_FORMAT(inscription_date, \'%d/%m/%Y à %Hh%imin%ss\') AS inscription_date FROM users ORDER BY DATE_FORMAT(inscription_date, \'%Y%m%d%Hh%imin%ss\') DESC');
 		
-		while($data=$q->fetch(PDO::FETCH_ASSOC))
+		while($data=$q->fetch(\PDO::FETCH_ASSOC))
 		{
 			$users[]= new User ($data) ;
 		}

@@ -1,4 +1,6 @@
 <?php
+namespace Project5;
+
 class CommentsManager extends Manager
 {
 	// OPERATION EN BDD : add - valid - delete - total_pages - get
@@ -49,7 +51,7 @@ class CommentsManager extends Manager
 		//$start est le depart du LIMIT, sa premiere valeur
 
 		$q = $this->_db->query('SELECT id,id_post, author, content, DATE_FORMAT(create_date, \'%d/%m/%Y à %Hh%i\') AS create_date FROM comments WHERE is_valid=1 AND id_post= "' .$id_post. '" ORDER BY DATE_FORMAT(create_date, \'%Y%m%d%Hh%i\') DESC LIMIT ' . $start . ',' . $com_per_page);
-		while ($data=$q->fetch(PDO::FETCH_ASSOC)) 
+		while ($data=$q->fetch(\PDO::FETCH_ASSOC)) 
 		{
 			$comments[]= new Comment ($data) ; 
 		}
