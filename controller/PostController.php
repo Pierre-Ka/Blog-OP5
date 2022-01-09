@@ -4,13 +4,14 @@ use Project5\Post;
 use Project5\User;
 use Project5\Category;
 
-
-if($page==='home')
+class PostController extends ControllerParent
 {
-	require('view/home/home.php');
-}
+	public function home()
+	{
+		require('view/home/home.php');
+	}
 
-elseif($page==='post')
+	public function post()
 	{
 		$q_total=$post_manager->totalPages();
 
@@ -26,7 +27,7 @@ elseif($page==='post')
 		require('view/home/post.php');
 	}
 
-elseif($page==='category')
+	public function category()
 	{
 		$category_id=htmlspecialchars($_GET['id']);
 		$q_total=$post_manager->totalPagesByCategory($category_id);
@@ -42,9 +43,8 @@ elseif($page==='category')
 		$posts=$post_manager->getWithCategory($category_id,$actual_page);
 		require('view/home/category.php');
 	}
-	
 
-elseif($page==='single')
+	public function single()
 	{
 		$post_id= $_GET['id'];
 		if (isset($_POST['author_com']) AND isset($_POST['com']) AND !empty($_POST['author_com']) AND !empty($_POST['com']))
@@ -72,7 +72,7 @@ elseif($page==='single')
 		require('view/home/single.php');
 	}
 
-elseif($page==='sign_in')
+	public function sign_in()
 	{
 		$incorrect=false;
 		if (!empty($_POST['email']) AND !empty($_POST['password']))
@@ -91,45 +91,7 @@ elseif($page==='sign_in')
 		else 
 		{
 			require('view/home/sign_in.php');
-		}
+		}	
 	}
-
-elseif($page==='user.home')
-{
-	if($user_manager->logged())
-	{
-
-		$connect_id = $user_manager->getUserId();
-		$posts = $post_manager->getWithUserId($connect_id);
-		require('view/user/home.php');
-	}
-	else
-	{
-		$incorrect=true;
-		require('view/home/sign_in.php');
-	}
-}
-elseif($page==='user.edit')
-{
-
-}
-elseif($page==='user.post.edit')
-{
-	$post = $post_manager->getOne($_GET['id']);
-
-
-}
-elseif($page==='user.post.add')
-{
-	$categories = $category_manager->getAll();
-	require('view/user/post/add.php');
-
-}
-elseif($page==='user.com.edit')
-{
-
-}
-elseif($page==='admin.home')
-{
 
 }

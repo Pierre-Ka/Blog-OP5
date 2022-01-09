@@ -1,18 +1,52 @@
 <?php
 namespace Project5;
 
-class UsersManager extends Manager
+class UserManager extends Manager
 {
-	// OPERATION EN BDD : add - getOne - getAuthorName - edit - valid - delete - getList 
+	// OPERATION EN BDD : login - logged - getUserId - add - getOne - getAuthorName - edit - valid - delete - getList 
+	
+	public function login($email_submit, $password_submit)
+	{
+		$email_submit = htmlspecialchars($email_submit);
+		$password_submit = htmlspecialchars($password_submit);
 
-	// !!!!!!!!!!!  IL MANQUE UN ATTRIBUT LAST_CONNEXION A MON USER !!!!!!!!!!!!   //
+		$q = $this->_db->prepare('SELECT * FROM users WHERE email=:email');
+		$q->bindValue('email', $email_submit);
+		$q->execute();
+
+		$result= $q->fetch();
+		if($result)
+		{
+			if (($result['password'])=== sha1($password_submit))
+			{
+				$_SESSION['auth'] = $result['id'];
+		 		return true ;
+			}
+		}
+		return $connection = false ;
+	}
+
+	public function logged()
+	{
+		if($_SESSION['auth'])
+		{
+			return true;
+		}
+	}
+
+	public function getUserId()
+	{
+		if($this->logged())
+		{
+			return ($_SESSION['auth']);
+		}
+	}
 
 	public function add(User $user)
 	{ 
-		// Cryptage du mot de passe ici ?
 		$q = $this->_db->prepare('INSERT INTO users(email, password, name, picture, description, inscription_date) VALUES (:email, :password, :name,  :picture, :description, NOW())');
 		$q->bindValue('email', $user->getEmail());
-		$q->bindValue('password', $user->getPassword());
+		$q->bindValue('password', sha1($user->getPassword()));
 		$q->bindValue('name', $user->getName());
 		$q->bindValue('picture', $user->getPicture());
 		$q->bindValue('description', $user->getDescription());
@@ -39,12 +73,14 @@ class UsersManager extends Manager
 	}
 
 
-	public function getAuthorName(int $id_user)
+	public function getAuthorName(int $user_id)
 	{
-		$q = $this->_db->query('SELECT name FROM users WHERE id=' .$id_user);
+		$q = $this->_db->query('SELECT * FROM users WHERE id=' .$user_id);
 		$data=$q->fetch(\PDO::FETCH_ASSOC);
 		return $data['name'];
 	}
+
+
 
 	public function edit(User $user)
 	{
@@ -56,14 +92,7 @@ class UsersManager extends Manager
 			'picture'=>$user->getPicture(),
 			'description'=>$user->getDescription()
 			));
-		//Pourquoi pas bindValue ?
-		/* 	$q->bindValue('id', $user->getId());
-		$q->bindValue('password', $user->getPassword());
-		$q->bindValue('name', $user->getName());
-		$q->bindValue('picture', $user->getPicture());
-		$q->bindValue('description', $user->getDescription()); 
-		$q->execute();*/
-
+		return $q ;
 	}
 
 	public function valid($info)
@@ -87,7 +116,8 @@ class UsersManager extends Manager
 				$q->execute();
 			}
 		}
-	} // SI L'OBJET USER A ETE CREE IL FAUT ALORS L'UNSET?
+	}
+
 
 	public function getList()
 	{
@@ -100,4 +130,5 @@ class UsersManager extends Manager
 		}
 		return $users;
 	}
+
 }

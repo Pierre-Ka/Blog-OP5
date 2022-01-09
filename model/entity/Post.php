@@ -5,8 +5,8 @@ class Post extends Entity
 {
 	private $id,
 			$title,
-			$id_user,
-			$type,
+			$user_id,
+			$category_id,
 			$chapo,
 			$content,
 			$picture,
@@ -37,13 +37,13 @@ class Post extends Entity
 	{
 		return $this->title;
 	}
-	public function getId_user()
+	public function getUser_id()
 	{
-		return $this->id_user;
+		return $this->user_id;
 	}
-	public function getType()
+	public function getCategory_id()
 	{
-		return $this->type;
+		return $this->category_id;
 	}
 	public function getChapo()
 	{
@@ -84,20 +84,21 @@ class Post extends Entity
 		}
 	}
 
-	public function setId_user($id_user)
+	public function setUser_id($user_id)
 	{
-		$id_user= (int) $id_user;
-		if ($id_user>0)
+		$user_id= (int) $user_id;
+		if ($user_id>0)
 		{
-			$this->id_user = $id_user;
+			$this->user_id = $user_id;
 		}
 	}
 
-	public function setType($type)
+	public function setCategory_id($category_id)
 	{
-		if (is_string($type))
+		$category_id= (int) $category_id;
+		if ($category_id>0)
 		{
-			$this->type= $type;
+			$this->category_id= $category_id;
 		}
 	}
 

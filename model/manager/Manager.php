@@ -3,7 +3,7 @@ namespace Project5;
 
 abstract class Manager
 {
-	protected $_db; // Instance de PDO
+	protected $_db;
 
 	public function __construct($db)
 	{

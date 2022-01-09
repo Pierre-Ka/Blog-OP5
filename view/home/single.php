@@ -1,13 +1,13 @@
 <?php
 
-$title = 'Post numero' . $_GET['post'] ;
+$title = 'Post numero' . $_GET['id'] ;
 
 ob_start(); ?>
 <p> la page affichant un post du blog avec tous ces commentaires (du plus récent au plus ancien) ;</p>
 
 <div> 
-	<h3> <?= $post->getType(); ?></h3><h2> <?= $post->getTitle(); ?></h2>  <h4>
-     écrit par <?= $user_manager->getAuthorName($post->getId_user()); ?> le <?= $post->getCreate_date(); ?> et modifié le <?= $post->getLast_update(); ?> </h4>><br/>
+	<h3> <?= $post->getCategory_id(); ?></h3><h2> <?= $post->getTitle(); ?></h2>  <h4>
+     écrit par <?= $user_manager->getAuthorName($post->getUser_id()); ?> le <?= $post->getCreate_date(); ?> et modifié le <?= $post->getLast_update(); ?> </h4>><br/>
 
 	  <p> 
 		<?php 
@@ -49,7 +49,7 @@ for ( $i=1; $i<=$q_total; $i++)
 	}
 	else
 	{
-		echo ' - <a href="index.php?post=' .$post->getId(). '&page=' .$i. '">'.$i.'</a>';
+		echo ' - <a href="index.php?p=single&amp;id=' .$post->getId(). '&amp;page=' .$i. '">'.$i.'</a>';
 	}
 }
 ?>
@@ -57,7 +57,7 @@ for ( $i=1; $i<=$q_total; $i++)
 <h3>Ecrire un commentaire</h3>
 
 
-<form method="post" action="index.php?post=<?= htmlspecialchars($_GET['post']);?>">
+<form method="post" action="index.php?p=single&id=<?= htmlspecialchars($_GET['id']);?>">
 
 <p><label for="author_com">Votre pseudo : </label> <input type="text" name="author_com" id="author_com"/></p>
 
@@ -68,4 +68,4 @@ for ( $i=1; $i<=$q_total; $i++)
 
 <?php $content=ob_get_clean();
 
-require('basic_template.php');
+require('view/template/basic_template.php');

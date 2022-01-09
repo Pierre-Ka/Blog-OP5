@@ -4,7 +4,7 @@ namespace Project5 ;
 class Comment extends Entity
 {
 	private $id,
-			$id_post,
+			$post_id,
 			$author,
 			$content,
 			$is_valid,
@@ -26,9 +26,9 @@ class Comment extends Entity
 	{
 		return $this->id;
 	}
-	public function getId_post()
+	public function getPost_id()
 	{
-		return $this->id_post;
+		return $this->post_id;
 	}
 	public function getAuthor()
 	{
@@ -57,12 +57,12 @@ class Comment extends Entity
 		}
 	}
 
-	public function setId_post($id_post)
+	public function setPost_id($post_id)
 	{
-		$id_post= (int) $id_post;
-		if ($id_post>0)
+		$post_id= (int) $post_id;
+		if ($post_id>0)
 		{
-			$this->id_post = $id_post;
+			$this->post_id = $post_id;
 		}
 	}
 

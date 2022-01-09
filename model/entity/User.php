@@ -4,8 +4,6 @@ namespace Project5;
 class User extends Entity
 {
 
-
-
 	// !!!!!!!!!!!  IL MANQUE UN ATTRIBUT LAST_CONNEXION A MON USER !!!!!!!!!!!!   //
 	private $id,
 			$email,

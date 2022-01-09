@@ -1,8 +1,37 @@
 <?php
 
-$title = 'Creation de compte';
+$title = 'Connexion';
 
 ob_start(); ?>
+<p>wesh</p>
+
+<?php if ($incorrect===true): ?>
+	<div class="alert alert-danger">
+		Identifiants incorrects !
+	</div>
+<?php endif; ?>
+
+Connectez-vous à votre compte : 
+
+<form class="form-control" method="post">
+
+<label for="email"> Votre email : <input type="text" name="email" id="email"/></label><br/><br/>
+
+<label for="password"> Votre mot de passe : <input type="password" name="password" id="password"/></label><br/><br/>
+
+<input class=" btn btn-primary"type="submit" value="Connexion "/>
+
+</form>
+
+<?php $content=ob_get_clean(); 
+
+require('view/template/basic_template.php');
+
+
+
+/**************************************
+<p> Vous n'êtes pas encore inscrit mais souhaitez néanmoins publier sur ce blog ?</p>
+Inscrivez-vous ici </a><br/><br/><br/>
 
 <p> Creer un compte pour pouvoir publier des articles sur ce blog </p>
 <p> Une fois votre compte crée, vous devez attendre un message de confirmation de la part de l'administrateur du groupe avant de pouvoir publier sur ce blog </p>
@@ -26,9 +55,5 @@ ob_start(); ?>
 <label for="cookie"> Je choisit la connexion automatique : <input type="checkbox" name="cookie" id="cookie"/><br/><br/>
 
 <input type="submit" value="Creer mon compte" /><br/><br/>
-</form>
-
-<?php $content=ob_get_clean(); 
-
-require('basic_template.php');
-
+</form> 
+*************************************************/
