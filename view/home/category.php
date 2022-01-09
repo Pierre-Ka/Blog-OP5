@@ -1,11 +1,11 @@
 <?php
 
-$title = 'Liste des categories';
+$title = $category->getName();
 
 ob_start(); ?>
-<p> la page listant l’ensemble des blog posts (du plus récent au plus ancien) par categorie;
-le titre ; la date de dernière modification ; le châpo ; et un lien vers le blog post. </p>
-
+<div class="container-fluid text-center">
+<h1> <?= $category->getName() ?></h1>
+</div>
 <?php 
 foreach ($posts as $post)
 {

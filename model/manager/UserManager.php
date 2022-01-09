@@ -34,6 +34,20 @@ class UserManager extends Manager
 		}
 	}
 
+	public function is_admin()
+	{
+		if($_SESSION['auth'])
+		{
+			$q = $this->_db->prepare('SELECT * FROM users WHERE id =:id AND is_admin=1');
+			$q->bindValue('id', $_SESSION['auth']);
+			$q->execute();
+			if(isset($q)) 
+			{
+				return true;
+			}
+		}
+	}
+
 	public function getUserId()
 	{
 		if($this->logged())

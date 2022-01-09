@@ -3,8 +3,7 @@
 $title = 'Liste des posts';
 
 ob_start(); ?>
-<p> la page listant l’ensemble des blog posts (du plus récent au plus ancien) ;
-le titre ; la date de dernière modification ; le châpo ; et un lien vers le blog post. </p>
+<h1 class="text-center container-fluid"> Tous les articles du blog </h1>
 
 <?php 
 foreach ($posts as $post)

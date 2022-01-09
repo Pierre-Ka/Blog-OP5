@@ -2,26 +2,37 @@
 
 $title = 'Editer mon profil';
 
-ob_start(); ?>
+ob_start(); 
+?>
+<div class="text-center">
+	<form method="post" class="form-control">
 
-<br/><br/>
+		<label for="nameUpdate"> Changer mon nom </label><br/>
+		<input type="text" name="nameUpdate" id="nameUpdate" value="<?= $user->getName(); ?>"/><br/><br/>
 
-<form method="post" enctype="multipart/form-data">
+		<label for="passwordUpdate"> Changer mon mot de passe</label><br/>
+		<input type="password" name="passwordUpdate" id="passwordUpdate"/><br/><br/>
+		<label for="passwordConfirm"> Confirmer mon mot de passe</label><br/>
+		<input type="password" name="passwordConfirm" id="passwordConfirm"/><br/><br/>
 
-<label for="nameUpdate"> Changer mon nom : <input type="text" name="nameUpdate" id="nameUpdate"/></label><br/><br/>
+		<label for="descriptionUpdate"> Changer la description à votre sujet </label><br/>
+		<input type="text" name="descriptionUpdate" id="descriptionUpdate" value="<?= $user->getDescription(); ?>"/><br/><br/>
+		<input type="submit" value="Sauvegarder les modifications"/>
+	</form>
 
-
-<label for="passwordUpdate"> Changer mon mot de passe : <input type="password" name="passwordUpdate" id="passwordUpdate"/></label><br/><br/>
-
-<label for="passwordUpdateConfirm"> Confirmer mon mot de passe : <input type="password" name="passwordUpdateConfirm" id="passwordUpdateConfirm"/></label><br/><br/>
-
-<label for="descriptionUpdate"> Changer la descriptino à votre sujet :  <br/><br/>
-<textarea name="descriptionUpdate"  id="descriptionUpdate" value="votre description ici" rows="5" cols="20"></textarea> <br/><br/>
-
-<label> Changer votre photo de profil : <br/>
-    <input type="file" name="pictureUpdate" /></label><br/> <br/>
+	<p> <img src="<?= 'assets/media/photo/' . $user->getPicture() . '' ; ?>" alt="sans ext"> </p>
+		
+		<form method="post" action="index.php?p=user.edit&id=<?= $user->getId() ?>" class="form-control" enctype="multipart/form-data">
+			<label> Changer ma photo de profil : <br />
+			<input type="file" name="pictureUpdate" /><br /> </label><br/>
+			<input class="btn btn-primary" type="submit"/><br/><br/>
+		</form>
+</div>
 
 <br/><br/>
 
 <?php $content=ob_get_clean(); 
 require('view/template/basic_template.php');
+
+
+

@@ -11,6 +11,7 @@ un formulaire de contact (à la soumission de ce formulaire, un e-mail avec tout
 nom/prénom, e-mail de contact, message, un lien vers votre CV au format PDF ;
 et l’ensemble des liens vers les réseaux sociaux où l’on peut vous suivre (GitHub, LinkedIn, Twitter…).</p>
 
+
 <br/><br/>
 <br/><br/>
 

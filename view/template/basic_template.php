@@ -34,21 +34,26 @@
 
 				<div id="menu" class="collapse navbar-collapse" >
 					<ul id="menuborder" class="navbar-nav">
-						<li class="nav-item active">
+
+					<li class="nav-item active">
 							<a class="nav-link" href="index.php?p=home">Accueil</a>
-						</li>
+					</li>
+
+					<li class="nav-item ">
+							<a class="nav-link" href="index.php?p=post">Tous les articles</a>
+					</li>
+
+					<?php
+					foreach ( $category_manager->getAll() as $categorie )
+					{
+						?>
 						<li class="nav-item ">
-							<a class="nav-link" href="index.php?p=post">Articles</a>
+							<a class="nav-link" href="index.php?p=category&id=<?= $categorie->getId(); ?>"><?= $categorie->getName(); ?> </a>
 						</li>
-						<li class="nav-item ">
-							<a class="nav-link" href="index.php?p=category&id=">Type1 ( ex: Astronomie</a>
-						</li>
-						<li class="nav-item" id="nav-item4">
-							<a class="nav-link" href="index.php?p=category&id=">Type2 ( ex: Jardinage</a>
-						</li>
-						<li class="nav-item" id="nav-item4">
-							<a class="nav-link" href="index.php?p=category&id=">Type3 ( ex: Cuisine</a>
-						</li>
+						<?php
+					} 
+					?>
+
 					</ul>
 				</div>
 

@@ -21,9 +21,9 @@ else
 
 if($page==='home')
 {
-	$controller = new PostController ;
-	$controller->home();
-	//require('controller/non_user_controller.php');
+	//$controller = new PostController ;
+	//$controller->home();
+	require('controller/non_user_controller.php');
 }
 elseif($page==='post')
 {
@@ -47,6 +47,7 @@ elseif($page==='sign_in')
 {
 	//$controller = new PostController ;
 	//$controller->sign_in();
+	//$controller->sign_up();
 	require('controller/non_user_controller.php');
 }
 elseif($page==='user.home')
@@ -63,14 +64,14 @@ elseif($page==='user.edit')
 }
 elseif($page==='user.post.edit')
 {
+	//$controller = new UserController ;
+	//$controller->editpost();
+	//$controller->managecom();
 	require('controller/non_user_controller.php');
 }
 elseif($page==='user.post.add')
 {
-	require('controller/non_user_controller.php');
-}
-elseif($page==='user.com.edit')
-{
+	//$controller->addpost();
 	require('controller/non_user_controller.php');
 }
 elseif($page==='admin.home')

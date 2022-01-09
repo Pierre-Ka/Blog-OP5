@@ -14,7 +14,6 @@ require('controller/ControllerParent.php');
 require('controller/PostController.php');
 require('controller/UserController.php');
 require('controller/AdminController.php');
-require('controller/AuthController.php');
 
 //Connexion
 $db = new \PDO('mysql:host=localhost;dbname=project5_blog;charset=utf8', 'root', 'root');

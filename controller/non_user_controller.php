@@ -4,12 +4,22 @@ use Project5\Post;
 use Project5\User;
 use Project5\Category;
 
-
 if($page==='home')
-{
-	require('view/home/home.php');
-}
+	{
+		$categories = $category_manager->getAll();
+		$q_total=$post_manager->totalPages();
 
+		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$q_total)
+		{
+			$actual_page =intval($_GET['page']);
+		}
+		else 
+		{
+			$actual_page = 1 ;
+		}
+		$posts=$post_manager->getAll($actual_page);
+		require('view/home/home.php');
+	}
 elseif($page==='post')
 	{
 		$q_total=$post_manager->totalPages();
@@ -26,9 +36,11 @@ elseif($page==='post')
 		require('view/home/post.php');
 	}
 
+
 elseif($page==='category')
 	{
 		$category_id=htmlspecialchars($_GET['id']);
+		$category = $category_manager->getOne($category_id);
 		$q_total=$post_manager->totalPagesByCategory($category_id);
 			
 		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$q_total)
@@ -94,6 +106,8 @@ elseif($page==='sign_in')
 		}
 	}
 
+////////// UserController
+
 elseif($page==='user.home')
 {
 	if($user_manager->logged())
@@ -111,11 +125,72 @@ elseif($page==='user.home')
 }
 elseif($page==='user.edit')
 {
+	$user = $user_manager->getOne($user_manager->getUserId());
+	if (isset($_FILES['pictureUpdate']) AND $_FILES['pictureUpdate']['error'] == 0)
+	{
+        if ($_FILES['pictureUpdate']['size'] <= 1000000)
+        {
+                $infosfichier = pathinfo($_FILES['pictureUpdate']['name']);
+                $extension_upload = $infosfichier['extension'];
+                $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
+                if (in_array($extension_upload, $extensions_autorisees))
+                {
+                	move_uploaded_file($_FILES['pictureUpdate']['tmp_name'], 'assets/media/photo/USER_IMG_' . $user->getId() .'.'.$extension_upload);
+            
+                	$picture_name = 'USER_IMG_' . $user->getId() .'.'.$extension_upload ;
+                	$user->setPicture($picture_name);
+                	$user_manager->edit($user);
+            	}
+                header('Location:index.php?p=user.home');
+         }
+    }
+    if(empty($_POST))
+	{
+		require('view/user/edit.php');
+	}
+	else
+	{
+		switch ($_POST)
+		{
+				case !empty($_POST['nameUpdate']) :
+			$user->setName(htmlspecialchars($_POST['nameUpdate'])); 
+
+				case !empty($_POST['passwordUpdate']) AND !empty($_POST['passwordConfirm']) :
+					if (($_POST['passwordUpdate'])=== ($_POST['passwordConfirm']) )
+						{
+							$password=htmlspecialchars($_POST['passwordConfirm']);
+							$user->setPassword(sha1($password));
+						}
+				case !empty($_POST['descriptionUpdate']) :	
+			$user->setDescription(htmlspecialchars($_POST['descriptionUpdate'])); 
+		}
+		$user_manager->edit($user);
+		header('Location:index.php?p=user.home');
+	}
 
 }
 elseif($page==='user.post.edit')
 {
 	$post = $post_manager->getOne($_GET['id']);
+
+	if (isset($_FILES['pictureChange']) AND $_FILES['pictureChange']['error'] == 0)
+	{
+        if ($_FILES['pictureChange']['size'] <= 1000000)
+        {
+                $infosfichier = pathinfo($_FILES['pictureChange']['name']);
+                $extension_upload = $infosfichier['extension'];
+                $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
+                if (in_array($extension_upload, $extensions_autorisees))
+                {
+                	move_uploaded_file($_FILES['pictureChange']['tmp_name'], 'assets/media/photo/POST_IMG_' . $_GET['id'] .'.'.$extension_upload);
+            
+                	$picture_name = 'POST_IMG_' . $_GET['id'] .'.'.$extension_upload ;
+                	$post->setPicture($picture_name);
+                	$post_manager->edit($post);
+            	}
+                header('Location:index.php?p=user.home');
+         }
+    }
 	if(empty($_POST))
 	{
 		if(!empty($_GET['valid']) OR !empty($_GET['delete']))
@@ -153,9 +228,6 @@ elseif($page==='user.post.edit')
 
 				case !empty($_POST['contentChange']) :
 			$post->setContent(htmlspecialchars($_POST['contentChange']));
-
-				case !empty($_POST['pictureChange']) :
-			$post->setPicture(htmlspecialchars($_POST['pictureChange']));
 		}
 		$post_manager->edit($post);
 		header('Location:index.php?p=user.home');

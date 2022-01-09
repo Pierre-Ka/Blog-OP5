@@ -3,19 +3,31 @@
 $title = 'Post numero' . $_GET['id'] ;
 
 ob_start(); ?>
-<p> la page affichant un post du blog avec tous ces commentaires (du plus récent au plus ancien) ;</p>
+<h1> <?= $post->getTitle(); ?></h1> 
 
 <div> 
-	<h3> <?= $post->getCategory_id(); ?></h3><h2> <?= $post->getTitle(); ?></h2>  <h4>
-     écrit par <?= $user_manager->getAuthorName($post->getUser_id()); ?> le <?= $post->getCreate_date(); ?> et modifié le <?= $post->getLast_update(); ?> </h4>><br/>
+
+	 <h4>
+     écrit par <?= $user_manager->getAuthorName($post->getUser_id()); ?> le <?= $post->getCreate_date(); ?>  
+
+     	<?php 
+		if (($post->getLast_update())===null)
+		{
+			echo 'et crée le ' .$post->getCreate_date();
+		}
+		else 
+		{
+			echo 'et modifié le ' .$post->getLast_update();
+		}
+		?> 
+ 	</h4><br/><br/><br/>
 
 	  <p> 
 		<?php 
 		$pathPicture = 'assets/media/photo/' . $post->getPicture() . '.jpg' ;
-		var_dump($post->getPicture())
 		?>
-
 		<p> <img src="<?= $pathPicture; ?>" alt=""> </p> <br/>
+		<p> <img src="<?= 'assets/media/photo/' . $post->getPicture(); ?>" alt=""> </p> <br/>
 		<?= $post->getContent(); ?>
 	  </p> <br/>
 </div>

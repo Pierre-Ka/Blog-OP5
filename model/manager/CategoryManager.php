@@ -55,10 +55,10 @@ class CategoryManager extends Manager
 	public function getAll() 
 	{
 		$categories=[];
-		$q = $this->_db->query('SELECT * FROM categories');
+		$q = $this->_db->query('SELECT id, name FROM categories');
 		while($data=$q->fetch(\PDO::FETCH_ASSOC))
 		{
-			$categories= new Category($data);
+			$categories[]= new Category($data);
 		}
 		return $categories;
 	}
