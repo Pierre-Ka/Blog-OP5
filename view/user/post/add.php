@@ -1,14 +1,13 @@
 <?php
 
 var_dump($categories);
-$grosconnard=[];
 foreach ($categories as $categorie)
 {
 	var_dump($categorie);
 }
 
 /*
-$title = 'Menu du blog';
+$title = 'Ajouter un article';
 
 ob_start(); ?>
 

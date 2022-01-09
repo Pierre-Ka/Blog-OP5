@@ -116,11 +116,54 @@ elseif($page==='user.edit')
 elseif($page==='user.post.edit')
 {
 	$post = $post_manager->getOne($_GET['id']);
+	if(empty($_POST))
+	{
+		if(!empty($_GET['valid']) OR !empty($_GET['delete']))
+		{
+			switch ($_GET)
+			{
+				case !empty($_GET['valid']) :
+				$comment_manager->valid(($_GET['valid']));
+				break ;
+				case !empty($_GET['delete']) : 
+				$comment_manager->delete(($_GET['delete']));
+				break ;
+			}
+		}
+		$comments = $comment_manager->getNotYetValid($_GET['id']);
+		$categories = $category_manager->getAll();
+		require('view/user/post/edit.php');
+		
+	}
+	else
+	{
+		switch ($_POST)
+		{
+				case !empty($_POST['titleChange']) :
+			$post->setTitle(htmlspecialchars($_POST['titleChange'])); 
 
+				case !empty($_POST['categorieChange']) :
+					if (($_POST['categorieChange'])!= null)
+						{
+							$category_id = $category_manager->getCategoryId($_POST['categorieChange']);
+							$post->setCategory_id(htmlspecialchars($category_id));
+						}
+				case !empty($_POST['chapoChange']) :	
+			$post->setChapo(htmlspecialchars($_POST['chapoChange'])); 
 
+				case !empty($_POST['contentChange']) :
+			$post->setContent(htmlspecialchars($_POST['contentChange']));
+
+				case !empty($_POST['pictureChange']) :
+			$post->setPicture(htmlspecialchars($_POST['pictureChange']));
+		}
+		$post_manager->edit($post);
+		header('Location:index.php?p=user.home');
+	}
 }
 elseif($page==='user.post.add')
 {
+
 	$categories = $category_manager->getAll();
 	require('view/user/post/add.php');
 

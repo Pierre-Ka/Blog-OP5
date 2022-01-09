@@ -1,6 +1,6 @@
 <?php
 
-$title = 'Menu du blog';
+$title = 'Interface utilisateur';
 
 ob_start(); ?>
 
@@ -11,11 +11,11 @@ ob_start(); ?>
 </p>
 
 <p> 
-	<a href="index.php??p=user.edit" class="btn btn-success">Editer mon profil</a>
+	<a href="index.php?p=user.edit" class="btn btn-success">Editer mon profil</a>
 </p>
 
 <p> 
-	<a href="index.php??disconnect" class="btn btn-success">Me deconnecter</a>
+	<a href="index.php?disconnect" class="btn btn-success">Me deconnecter</a>
 </p>
 
 <p> 
@@ -52,7 +52,7 @@ ob_start(); ?>
 				?>
 				<td><?= $date ?></td>
 				<td><?= $comment_manager->countNotYetValid($post->getId()); ?></td>
-				<td><a class="btn btn-primary" href="index?p=user.post.edit">Editer</a>
+				<td><a class="btn btn-primary" href="index.php?p=user.post.edit&id=<?= $post->getId(); ?>">Editer</a>
 					<form>
 						<input type="hidden" name="id" value="<?= $post->getId(); ?>"/>
 						<button type="submit" class="btn btn-danger">Supprimer</button>

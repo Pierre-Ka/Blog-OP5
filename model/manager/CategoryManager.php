@@ -20,11 +20,11 @@ class CategoryManager extends Manager
 		$q->execute();
 	}
 
-	public function getOne($id_category)
+	public function getOne($category)
 	{ 
-		if (ctype_digit($id_post))
+		if (ctype_digit($category))
 		{
-			$q = $this->_db->query('SELECT * FROM categories WHERE id=' .$id_post);
+			$q = $this->_db->query('SELECT * FROM categories WHERE id=' .$category);
 			$data=$q->fetch();
 			return new Category($data);
 		}
@@ -37,6 +37,13 @@ class CategoryManager extends Manager
 		return $data['name'];
 	}
 
+	public function getCategoryId(string $category_name)
+	{
+		$q = $this->_db->query('SELECT * FROM categories WHERE name=' .$category_name);
+		$data=$q->fetch(\PDO::FETCH_ASSOC);
+		return $data['id'];
+	}
+
 	public function delete($id_category)
 	{
 		if (ctype_digit($id_post))
@@ -45,7 +52,7 @@ class CategoryManager extends Manager
 		}
 	}
 
-	public function getAll($actual_page = null) 
+	public function getAll() 
 	{
 		$categories=[];
 		$q = $this->_db->query('SELECT * FROM categories');

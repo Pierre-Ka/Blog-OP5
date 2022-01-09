@@ -20,12 +20,12 @@ class PostManager extends Manager
 	public function edit(Post $post)
 	{
 		$q = $this->_db->prepare('UPDATE posts SET title = :title, category_id = :category_id, chapo = :chapo, content = :content, picture = :picture, last_update = CURDATE() WHERE id = :id');
-		$q->bindValue('id', $user->getId());
-		$q->bindValue('title', $user->getTitle());
-		$q->bindValue('category_id', $user->getCategory_id());
+		$q->bindValue('id', $post->getId());
+		$q->bindValue('title', $post->getTitle());
+		$q->bindValue('category_id', $post->getCategory_id());
 		$q->bindValue('chapo', $post->getChapo());
 		$q->bindValue('content', $post->getContent());
-		$q->bindValue('picture', $user->getPicture());
+		$q->bindValue('picture', $post->getPicture());
 		$q->execute();
 	}
 

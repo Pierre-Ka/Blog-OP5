@@ -12,7 +12,7 @@ foreach(range(1, 100) as $id)
 {
 	$body= '<p>' . implode('</p><p>', $faker->paragraphs(20)) . '</p>';
 
-	$db->query("INSERT INTO posts (id, title, id_user, type, chapo, content, picture, create_date) VALUES('" . $id . "','{$faker->sentence(6)}','{$faker->numberBetween(1, 8)}','{$faker->randomElement($array=array('type1','type2','type3'))}','{$faker->sentence(15)}','$body','POST_IMG_{$faker->randomDigit()}','{$faker->date()}')") ;
+	$db->query("INSERT INTO posts (id, title, user_id, type, chapo, content, picture, create_date) VALUES('" . $id . "','{$faker->sentence(6)}','{$faker->numberBetween(1, 8)}','{$faker->randomElement($array=array('type1','type2','type3'))}','{$faker->sentence(15)}','$body','POST_IMG_{$faker->randomDigit()}','{$faker->date()}')") ;
 }
 
 header('Location:index.php');

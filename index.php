@@ -79,17 +79,17 @@ elseif($page==='admin.home')
 }
 elseif($page==='faker_user')
 {
-	require('faker/faker_user.php');
+	require('model/faker/faker_user.php');
 }
 
 elseif($page==='faker_post')
 {
-	require('faker/faker_post.php');
+	require('model/faker/faker_post.php');
 }
 
 elseif($page==='faker_comment')
 {
-	require('faker/faker_comment.php');
+	require('model/faker/faker_comment.php');
 }
 
 
