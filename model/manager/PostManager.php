@@ -3,17 +3,16 @@ namespace Project5;
 
 class PostManager extends Manager
 {
-	// OPERATION EN BDD :  add  edit   getOne   delete   totalPages   totalPagesByCategory  GetAll getWithCategory
+	// OPERATION EN BDD :  add  edit   getOne   delete   totalPages   totalPagesByCategory  GetAll   GetAllAdmin   getWithCategory   getWithUserId   getLastInsertId()
 	
 	public function add(Post $post)
 	{
-		$q = $this->_db->prepare('INSERT INTO posts(title, user_id, type, category_id = :category_id, chapo, content, picture, create_date) VALUES(:title,:user_id,:type, :chapo, :content, :picture, CURDATE())');
+		$q = $this->_db->prepare('INSERT INTO posts(title, user_id, category_id, chapo, content, create_date) VALUES(:title,:user_id, :category_id, :chapo, :content, CURDATE())');
 		$q->bindValue('title', $post->getTitle());
 		$q->bindValue('user_id', $post->getUser_id());
-		$q->bindValue('category_id', $user->getCategory_id());
+		$q->bindValue('category_id', $post->getCategory_id());
 		$q->bindValue('chapo', $post->getChapo());
 		$q->bindValue('content', $post->getContent());
-		$q->bindValue('picture', $post->getPicture());
 		$q->execute();
 	}
 
@@ -101,6 +100,25 @@ class PostManager extends Manager
 		return $posts;
 	}
 
+	public function getAllAdmin() 
+	{
+		$q = $this->_db->query('
+			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, 
+				DATE_FORMAT(p.create_date, \'%d/%m/%Y\') AS create_date,  
+				DATE_FORMAT(p.last_update, \'%d/%m/%Y\') AS last_update, 
+				c.name as categorie  
+			FROM posts AS p
+			RIGHT JOIN categories AS c
+				ON p.category_id = c.id
+			ORDER BY DATE_FORMAT(create_date, \'%Y%m%d\') DESC'
+			);
+		while($data=$q->fetch(\PDO::FETCH_ASSOC))		
+		{
+			$posts[]= new Post ($data) ;
+		}
+		return $posts;
+	}
+
 
 	public function getWithCategory ($category_id, $actual_page)
 	{
@@ -126,27 +144,9 @@ class PostManager extends Manager
 		return $posts;
 	}
 
-	/*public function getWithCategory ($category_id, $actual_page)
+	public function getLastInsertId()
 	{
-		$posts=[];
-		$post_per_page = 4 ;
-		$start = ( $actual_page-1)*$post_per_page; 		
-		$q = $this->_db->query('
-			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, 
-				DATE_FORMAT(p.create_date, \'%d/%m/%Y\') AS create_date,  
-				DATE_FORMAT(p.last_update, \'%d/%m/%Y\') AS last_update, 
-				c.name as categorie  
-			FROM posts AS p
-			LEFT JOIN categories AS c
-				ON p.category_id = c.id
-			WHERE category_id= "' .$category_id. '" 
-			ORDER BY DATE_FORMAT(create_date, \'%Y%m%d\') DESC 
-			LIMIT ' . $start . ',' . $post_per_page
-			);
-		while($data=$q->fetch(\PDO::FETCH_ASSOC))
-		{
-			$posts[]= new Post ($data) ;
-		}
-		return $posts;
-	}*/
+		return $this->_db->lastInsertId();
+	}
+
 }

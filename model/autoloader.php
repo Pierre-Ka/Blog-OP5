@@ -26,7 +26,7 @@ class Autoloader
 		if ( strpos($class_name_with_namespace, __NAMESPACE__ . '\\') === 0) 
 		{
 			$class_name=str_replace('Project5\\', '', $class_name_with_namespace);
-			if (substr($class_name, -1) === 'r')
+			if (substr($class_name, -7) === 'Manager')
 			{
 				require_once('manager/'.$class_name. '.php');
 			}

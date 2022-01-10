@@ -19,7 +19,7 @@ ob_start(); ?>
 </p>
 
 <p> 
-	<a href="index.php?p=sign_in" class="btn btn-success">Connexion en tant qu'administrateur</a>
+	<a href="index.php?p=admin.home" class="btn btn-success">Connexion en tant qu'administrateur</a>
 </p>
 
 
@@ -53,8 +53,8 @@ ob_start(); ?>
 				<td><?= $date ?></td>
 				<td><?= $comment_manager->countNotYetValid($post->getId()); ?></td>
 				<td><a class="btn btn-primary" href="index.php?p=user.post.edit&id=<?= $post->getId(); ?>">Editer</a>
-					<form>
-						<input type="hidden" name="id" value="<?= $post->getId(); ?>"/>
+					<form method="post">
+						<input type="hidden" name="id_delete" value="<?= $post->getId(); ?>"/>
 						<button type="submit" class="btn btn-danger">Supprimer</button>
 					</form>
 				</td>

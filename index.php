@@ -21,63 +21,81 @@ else
 
 if($page==='home')
 {
-	//$controller = new PostController ;
+	//$controller = new PostController() ;
 	//$controller->home();
-	require('controller/non_user_controller.php');
+	require('controller/home_controller.php');
 }
 elseif($page==='post')
 {
-	//$controller = new PostController ;
+	//$controller = new PostController();
 	//$controller->post();
-	require('controller/non_user_controller.php');
+	require('controller/home_controller.php');
 }
 elseif($page==='single')
 {
 	//$controller = new PostController ;
 	//$controller->single();
-	require('controller/non_user_controller.php');
+	require('controller/home_controller.php');
 }
 elseif($page==='category')
 {
 	//$controller = new PostController ;
 	//$controller->category();
-	require('controller/non_user_controller.php');
+	require('controller/home_controller.php');
 }
 elseif($page==='sign_in')
 {
 	//$controller = new PostController ;
 	//$controller->sign_in();
 	//$controller->sign_up();
-	require('controller/non_user_controller.php');
+	require('controller/home_controller.php');
 }
 elseif($page==='user.home')
 {
 	//$controller = new UserController ;
 	//$controller->home();
-	require('controller/non_user_controller.php');
+	require('controller/user_controller.php');
 }
 elseif($page==='user.edit')
 {
 	//$controller = new UserController ;
 	//$controller->edit();
-	require('controller/non_user_controller.php');
+	require('controller/user_controller.php');
 }
 elseif($page==='user.post.edit')
 {
 	//$controller = new UserController ;
 	//$controller->editpost();
 	//$controller->managecom();
-	require('controller/non_user_controller.php');
+	require('controller/user_controller.php');
 }
 elseif($page==='user.post.add')
 {
 	//$controller->addpost();
-	require('controller/non_user_controller.php');
+	require('controller/user_controller.php');
 }
 elseif($page==='admin.home')
 {
-	require('controller/non_user_controller.php');
+	require('controller/admin_controller.php');
 }
+elseif($page==='admin.manage_user')
+{
+	require('controller/admin_controller.php');
+}
+
+elseif($page==='admin.manage_category')
+{
+	require('controller/admin_controller.php');
+}
+
+
+
+
+
+
+
+
+
 elseif($page==='faker_user')
 {
 	require('model/faker/faker_user.php');
@@ -117,7 +135,7 @@ if (isset($_SESSION['user'])) // Si la session de l'utilisateur existe, on resta
 
 else
 {
-	require('controller/non_user_controller.php');
+	require('controller/home_controller.php');
 }
 */
 

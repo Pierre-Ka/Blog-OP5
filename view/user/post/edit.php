@@ -13,11 +13,11 @@ ob_start(); ?>
 
 		<label for="title"> Changer le titre de l'article </label><br/>
 		<input type="text" name="titleChange" id="title" value="<?= $post->getTitle(); ?>"/><br/><br/>
-		<label for="Category"> Changer la categorie de l'article </label><br/>
-		<select name="categorieChange" id="categorie"> 
+		
+		<select name="categoryChange" id="categorie"> 
 		<?php foreach ($categories as $categorie): ?>
 
-			<option value="<?php $categorie->getName()?>;"/><?php $categorie->getName()?></option>
+			<option value="<?= $categorie->getName()?>;"/><?= $categorie->getName()?></option>
 
 		<?php endforeach ; ?>
 		</select><br/><br/>

@@ -4,22 +4,29 @@ $title = 'Editer mon profil';
 
 ob_start(); 
 ?>
-<div class="text-center">
-	<form method="post" class="form-control">
+<div class="container-fluid text-center">
 
-		<label for="nameUpdate"> Changer mon nom </label><br/>
-		<input type="text" name="nameUpdate" id="nameUpdate" value="<?= $user->getName(); ?>"/><br/><br/>
 
-		<label for="passwordUpdate"> Changer mon mot de passe</label><br/>
-		<input type="password" name="passwordUpdate" id="passwordUpdate"/><br/><br/>
-		<label for="passwordConfirm"> Confirmer mon mot de passe</label><br/>
-		<input type="password" name="passwordConfirm" id="passwordConfirm"/><br/><br/>
+	<h2>Bienvenue <?= $user->getName(); ?> </h2>
+	<h1>Editer votre profil </h1>
+	<div>
+		<br/><br/>
+		<form method="post" class="form-control">
 
-		<label for="descriptionUpdate"> Changer la description à votre sujet </label><br/>
-		<input type="text" name="descriptionUpdate" id="descriptionUpdate" value="<?= $user->getDescription(); ?>"/><br/><br/>
-		<input type="submit" value="Sauvegarder les modifications"/>
-	</form>
+			<label for="nameUpdate"> Changer mon nom </label><br/>
+			<input type="text" name="nameUpdate" id="nameUpdate" value="<?= $user->getName(); ?>"/><br/><br/>
 
+			<label for="passwordUpdate"> Changer mon mot de passe</label><br/>
+			<input type="password" name="passwordUpdate" id="passwordUpdate"/><br/><br/>
+			<label for="passwordConfirm"> Confirmer mon mot de passe</label><br/>
+			<input type="password" name="passwordConfirm" id="passwordConfirm"/><br/><br/>
+
+			<label for="descriptionUpdate"> Changer la description à votre sujet </label><br/>
+			<input type="text" name="descriptionUpdate" id="descriptionUpdate" value="<?= $user->getDescription(); ?>"/><br/><br/>
+			<input type="submit" value="Sauvegarder les modifications"/>
+		</form>
+	</div>
+	<h1>Editer votre photo de profil </h1>
 	<p> <img src="<?= 'assets/media/photo/' . $user->getPicture() . '' ; ?>" alt="sans ext"> </p>
 		
 		<form method="post" action="index.php?p=user.edit&id=<?= $user->getId() ?>" class="form-control" enctype="multipart/form-data">

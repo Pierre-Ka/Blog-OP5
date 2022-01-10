@@ -1,42 +1,38 @@
 <?php
 
-var_dump($categories);
-foreach ($categories as $categorie)
-{
-	var_dump($categorie);
-}
-
-/*
 $title = 'Ajouter un article';
 
-ob_start(); ?>
+ob_start(); 
+?>
+<div class="container-fluid text-center">
 
-<form method="post" enctype="multipart/form-data">
+	<h2>Creer un nouvel article</h2>
+	<br/><br/>
 
-<label for="title"> Titre de l'article </label><br/>
-<input type="text" name="title" id="title"/><br/><br/>
-<label for="Category"> Categorie de l'article </label><br/>
-<select name="categorie" id="categorie"> 
-<?php foreach ($categories as $categorie): ?>
+	<div>
+		<form method="post"  class="form-control" enctype="multipart/form-data">
 
-	<option value="<?php $categorie->getName()?>;"/><?php $categorie->getName()?></option>
+		<label for="title"> Titre de l'article </label><br/>
+		<input type="text" name="title" id="title"/><br/><br/>
+		<label for="category"> Choisissez la categorie de l'article </label><br/>
+		
+		<select name="category" id="categorie"> 
+		<?php foreach ($categories as $categorie): ?>
 
-<?php endforeach ; ?>
-</select><br/><br/>
+			<option value="<?= $categorie->getName()?>;"/><?= $categorie->getName()?></option>
 
-<label for="chapo"> Resumé de l'article </label><br/>
-<input type="text" name="chapo" id="chapo"/><br/><br/>
-<label for="content"> Contenu de l'article </label><br/>
-<textarea name="content" id="content"></textarea><br/><br/>
-<label> Choisissez une photo pour l'article : <br />
-<input type="file" name="picture" /><br />
-    </label><br/>
-<input class="btn btn-primary" type="submit"/>
-</form>
+		<?php endforeach ; ?>
+		</select><br/><br/>
 
-
-<br/><br/>
-
+		<label for="chapo"> Resumé de l'article </label><br/>
+		<input type="text" name="chapo" id="chapo"/><br/><br/>
+		<label for="content"> Contenu de l'article </label><br/>
+		<textarea name="content" id="content" cols="100" rows="30"></textarea><br/><br/>
+				
+			<label> Choisir la photo de l'article : <br />
+			<input type="file" name="picture" /><br /> </label><br/>
+		<input class="btn btn-primary" type="submit"/><br/><br/>
+	</form>
+<div>
 <?php $content=ob_get_clean(); 
 require('view/template/basic_template.php');
-*/?>

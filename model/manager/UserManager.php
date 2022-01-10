@@ -3,14 +3,14 @@ namespace Project5;
 
 class UserManager extends Manager
 {
-	// OPERATION EN BDD : login - logged - getUserId - add - getOne - getAuthorName - edit - valid - delete - getList 
+	// OPERATION EN BDD : login - logged - isAdmin - getUserId - add - getOne - getAuthorName - edit - valid - delete - getList 
 	
 	public function login($email_submit, $password_submit)
 	{
 		$email_submit = htmlspecialchars($email_submit);
 		$password_submit = htmlspecialchars($password_submit);
 
-		$q = $this->_db->prepare('SELECT * FROM users WHERE email=:email');
+		$q = $this->_db->prepare('SELECT * FROM users WHERE email=:email AND is_valid=1');
 		$q->bindValue('email', $email_submit);
 		$q->execute();
 
@@ -34,7 +34,7 @@ class UserManager extends Manager
 		}
 	}
 
-	public function is_admin()
+	public function isAdmin()
 	{
 		if($_SESSION['auth'])
 		{
@@ -58,11 +58,10 @@ class UserManager extends Manager
 
 	public function add(User $user)
 	{ 
-		$q = $this->_db->prepare('INSERT INTO users(email, password, name, picture, description, inscription_date) VALUES (:email, :password, :name,  :picture, :description, NOW())');
+		$q = $this->_db->prepare('INSERT INTO users(email, password, name, description, inscription_date) VALUES (:email, :password, :name, :description, NOW())');
 		$q->bindValue('email', $user->getEmail());
 		$q->bindValue('password', sha1($user->getPassword()));
 		$q->bindValue('name', $user->getName());
-		$q->bindValue('picture', $user->getPicture());
 		$q->bindValue('description', $user->getDescription());
 		$q->execute();
 	}
@@ -136,7 +135,7 @@ class UserManager extends Manager
 	public function getList()
 	{
 		$users=[];
-		$q = $this->_db->query('SELECT id,email,password, name, picture, description, is_valid, DATE_FORMAT(inscription_date, \'%d/%m/%Y à %Hh%imin%ss\') AS inscription_date FROM users ORDER BY DATE_FORMAT(inscription_date, \'%Y%m%d%Hh%imin%ss\') DESC');
+		$q = $this->_db->query('SELECT id,email, name, picture, description, is_valid, DATE_FORMAT(inscription_date, \'%d/%m/%Y à %Hh%imin%ss\') AS inscription_date FROM users WHERE is_admin = 0 ORDER BY DATE_FORMAT(inscription_date, \'%Y%m%d%Hh%imin%ss\') DESC');
 		
 		while($data=$q->fetch(\PDO::FETCH_ASSOC))
 		{

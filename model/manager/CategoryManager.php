@@ -3,52 +3,50 @@ namespace Project5;
 
 class CategoryManager extends Manager
 {
-	// OPERATION EN BDD :  add  edit   getOne  getCategoryName  delete  getAll
+	// OPERATION EN BDD :  add  edit   getOne  getCategoryName  getCategoryId  delete  getAll
 	
 	public function add(Category $category)
 	{
-		$q = $this->_db->prepare('INSERT INTO categories(name) VALUES(:name');
-		$q->bindValue('name', $post->getName());
+		$q = $this->_db->prepare('INSERT INTO categories(name) VALUES(:name)');
+		$q->bindValue('name', $category->getName());
 		$q->execute();
 	}
 
 	public function edit(Category $category)
 	{
 		$q = $this->_db->prepare('UPDATE categories SET name = :name WHERE id = :id');
-		$q->bindValue('id', $user->getId());
-		$q->bindValue('name', $user->getName());
+		$q->bindValue('id', $category->getId());
+		$q->bindValue('name', $category->getName());
 		$q->execute();
 	}
 
-	public function getOne($category)
+	public function getOne(int $category_id)
 	{ 
-		if (ctype_digit($category))
-		{
-			$q = $this->_db->query('SELECT * FROM categories WHERE id=' .$category);
-			$data=$q->fetch();
-			return new Category($data);
-		}
+		$q = $this->_db->query('SELECT * FROM categories WHERE id=' .$category_id);
+		$data=$q->fetch();
+		return new Category($data);
 	}
 
-	public function getCategoryName(int $category_id)
+	public function getCategoryName($category_id)
 	{
 		$q = $this->_db->query('SELECT * FROM categories WHERE id=' .$category_id);
 		$data=$q->fetch(\PDO::FETCH_ASSOC);
-		return $data['name'];
+		$name = $data['name'];
+		return $name; 
 	}
 
-	public function getCategoryId(string $category_name)
+	public function getCategoryId($category_name)
 	{
-		$q = $this->_db->query('SELECT * FROM categories WHERE name=' .$category_name);
+		$q = $this->_db->query('SELECT id FROM categories WHERE name="' .$category_name. '" ');
 		$data=$q->fetch(\PDO::FETCH_ASSOC);
-		return $data['id'];
+		return $data;
 	}
 
-	public function delete($id_category)
+	public function delete($info)
 	{
-		if (ctype_digit($id_post))
+		if (ctype_digit($info))
 		{
-			$q = $this->_db->exec('DELETE FROM categories WHERE id=' .$id_post);
+			$q = $this->_db->exec('DELETE FROM categories WHERE id=' .$info);
 		}
 	}
 
