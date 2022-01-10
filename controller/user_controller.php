@@ -4,7 +4,7 @@ use Project5\Post;
 use Project5\User;
 use Project5\Category;
 
-////////// UserController
+
 
 if($page==='user.home')
 {
@@ -24,6 +24,8 @@ if($page==='user.home')
         require('view/home/sign_in.php');
     }
 }
+
+
 elseif($page==='user.edit')
 {
     $user = $user_manager->getOne($user_manager->getUserId());
@@ -70,6 +72,8 @@ elseif($page==='user.edit')
     }
 
 }
+
+
 elseif($page==='user.post.edit')
 {
     $post = $post_manager->getOne($_GET['id']);
@@ -118,12 +122,8 @@ elseif($page==='user.post.edit')
             $post->setTitle(htmlspecialchars($_POST['titleChange'])); 
 
                 case !empty($_POST['categoryChange']) :
-                    if (($_POST['categoryChange'])!= null)
-                        {
-                            $category_name = $_POST['categoryChange'];
-                            $category_id = $category_manager->getCategoryId($category_name);
-                            $post->setCategory_id($category_id);
-                        }
+            $post->setCategory_id($_POST['categoryChange']);
+
                 case !empty($_POST['chapoChange']) :    
             $post->setChapo(htmlspecialchars($_POST['chapoChange'])); 
 
@@ -134,6 +134,9 @@ elseif($page==='user.post.edit')
         header('Location:index.php?p=user.home');
     }
 }
+
+
+
 elseif($page==='user.post.add')
 {
     if(!empty($_POST))
@@ -142,8 +145,6 @@ elseif($page==='user.post.add')
         {
             if (isset($_FILES['picture']) AND $_FILES['picture']['error'] == 0 AND ($_FILES['picture']['size'] <= 1000000))
             {
-                $category_id = $category_manager->getCategoryId($_POST['category']);
-
                 $infosfichier = pathinfo($_FILES['picture']['name']);
                 $extension_upload = $infosfichier['extension'];
                 $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
@@ -151,9 +152,10 @@ elseif($page==='user.post.add')
                 {
                    
                     $post= new Post([
+
                         'title'=>htmlspecialchars($_POST['title']),
                         'user_id'=> $user_manager->getUserId(),
-                        'category_id'=>$category_id,
+                        'category_id'=>($_POST['category']),
                         'chapo'=>htmlspecialchars($_POST['chapo']),
                         'content'=>htmlspecialchars($_POST['content'])
                     ]); 
@@ -165,16 +167,15 @@ elseif($page==='user.post.add')
                     $post->setContent(htmlspecialchars($_POST['content']));*/
 
                     $post_manager->add($post);
-                    echo 'youyyouyoyuou';
-                    /*
-
-                    move_uploaded_file($_FILES['pictureUpdate']['tmp_name'], 'assets/media/photo/POST_IMG_' . $post_manager->getLastInsertId() .'.'.$extension_upload);
-                    $picture_name = 'POST_IMG_' . $post_manager->getLastInsertId() .'.'.$extension_upload ;
-
+                    $new_id = $post_manager->getLastInsertId();
+ 
+                    move_uploaded_file($_FILES['picture']['tmp_name'], 'assets/media/photo/POST_IMG_' . $new_id .'.'.$extension_upload);// Oui
+                    $picture_name = 'POST_IMG_' . $new_id .'.'.$extension_upload ;
                     $post->setPicture($picture_name);
-
-                    $post_manager->edit($post);
-                    header('Location:index.php?p=user.home');*/
+                    $post->setId($new_id);
+                    $post_manager->edit($post);// Non !!
+                    header('Location:index.php?p=user.home');
+                    
                 }
             }
         }

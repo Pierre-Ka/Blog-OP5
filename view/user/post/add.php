@@ -19,7 +19,7 @@ ob_start();
 		<select name="category" id="categorie"> 
 		<?php foreach ($categories as $categorie): ?>
 
-			<option value="<?= $categorie->getName()?>;"/><?= $categorie->getName()?></option>
+			<option value="<?= $categorie->getId()?>;"/><?= $categorie->getName()?></option>
 
 		<?php endforeach ; ?>
 		</select><br/><br/>
