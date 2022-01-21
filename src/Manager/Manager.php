@@ -1,5 +1,5 @@
 <?php
-namespace Project5;
+namespace BlogApp\Manager;
 
 abstract class Manager
 {

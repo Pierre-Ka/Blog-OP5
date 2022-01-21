@@ -14,11 +14,14 @@ class ComposerStaticInitacb6bd8a7b4b8d26447948e37aabfe49
         'P' => 
         array (
             'Psr\\Container\\' => 14,
-            'Project5\\PhpBlog\\' => 17,
         ),
         'F' => 
         array (
             'Faker\\' => 6,
+        ),
+        'B' => 
+        array (
+            'BlogApp\\' => 8,
         ),
     );
 
@@ -27,13 +30,13 @@ class ComposerStaticInitacb6bd8a7b4b8d26447948e37aabfe49
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
-        'Project5\\PhpBlog\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src',
-        ),
         'Faker\\' => 
         array (
             0 => __DIR__ . '/..' . '/fakerphp/faker/src/Faker',
+        ),
+        'BlogApp\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 

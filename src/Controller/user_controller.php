@@ -1,8 +1,8 @@
 <?php
-use Project5\Comment;
-use Project5\Post;
-use Project5\User;
-use Project5\Category;
+use BlogApp\Entity\Comment;
+use BlogApp\Entity\Post;
+use BlogApp\Entity\User;
+use BlogApp\Entity\Category;
 
 
 
@@ -172,8 +172,12 @@ elseif($page==='user.post.add')
                     move_uploaded_file($_FILES['picture']['tmp_name'], 'assets/media/photo/POST_IMG_' . $new_id .'.'.$extension_upload);// Oui
                     $picture_name = 'POST_IMG_' . $new_id .'.'.$extension_upload ;
                     $post->setPicture($picture_name);
+
+                    // $post_manager->edit($post); ne marchait pas car nous n'avions pas setter l'id du post nouvellement crée. On corrige alors cela ( source David )
                     $post->setId($new_id);
-                    $post_manager->edit($post);// Non !!
+
+                    // Maintenant ça marche
+                    $post_manager->edit($post);
                     header('Location:index.php?p=user.home');
                     
                 }

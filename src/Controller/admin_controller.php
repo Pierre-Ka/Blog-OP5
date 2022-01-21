@@ -1,8 +1,8 @@
 <?php
-use Project5\Comment;
-use Project5\Post;
-use Project5\User;
-use Project5\Category;
+use BlogApp\Entity\Comment;
+use BlogApp\Entity\Post;
+use BlogApp\Entity\User;
+use BlogApp\Entity\Category;
 
 ////////// UserController
 

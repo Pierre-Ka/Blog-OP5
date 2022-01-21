@@ -2,6 +2,7 @@ Suite :
 1 Journée : 22 janvier
 
 1 - Supprimer les commentaires lors de la suppression de post
+
 2 - Creation des classes controllers :
 	- appel des post/comment/../_manager dans les controllers en fonction des besoins
 	- renommer les post/comment/../_manager + les classes + les fichiers
@@ -16,6 +17,7 @@ Suite :
 8 - image_resize - toutes les images
 9 - lire twig
 10 - faire le design
+11 - reecriture des liens
 
 
 

@@ -1,4 +1,8 @@
 <?php
+use BlogApp\Controller\HomeController;
+use BlogApp\Controller\UserController;
+use BlogApp\Controller\AdminController;
+
 require_once('init.php');
 session_start();
 
@@ -17,76 +21,117 @@ else
 }
 
 
-// ORIENTATION GENERALE
 
 if($page==='home')
 {
-	//$controller = new PostController() ;
-	//$controller->home();
-	require('controller/home_controller.php');
+	require('src/controller/home_controller.php');
 }
 elseif($page==='post')
 {
-	//$controller = new PostController();
-	//$controller->post();
-	require('controller/home_controller.php');
+	require('src/controller/home_controller.php');
 }
 elseif($page==='single')
 {
-	//$controller = new PostController ;
-	//$controller->single();
-	require('controller/home_controller.php');
+	require('src/controller/home_controller.php');
 }
 elseif($page==='category')
 {
-	//$controller = new PostController ;
-	//$controller->category();
-	require('controller/home_controller.php');
+	require('src/controller/home_controller.php');
 }
 elseif($page==='sign_in')
 {
-	//$controller = new PostController ;
-	//$controller->sign_in();
-	//$controller->sign_up();
-	require('controller/home_controller.php');
+	require('src/controller/home_controller.php');
 }
+
+
 elseif($page==='user.home')
 {
-	//$controller = new UserController ;
-	//$controller->home();
-	require('controller/user_controller.php');
+	require('src/controller/user_controller.php');
 }
 elseif($page==='user.edit')
 {
-	//$controller = new UserController ;
-	//$controller->edit();
-	require('controller/user_controller.php');
+	require('src/controller/user_controller.php');
 }
 elseif($page==='user.post.edit')
 {
-	//$controller = new UserController ;
-	//$controller->editpost();
-	//$controller->managecom();
-	require('controller/user_controller.php');
+	require('src/controller/user_controller.php');
 }
 elseif($page==='user.post.add')
 {
-	//$controller->addpost();
-	require('controller/user_controller.php');
+	require('src/controller/user_controller.php');
 }
+
+
 elseif($page==='admin.home')
 {
-	require('controller/admin_controller.php');
+	require('src/controller/admin_controller.php');
 }
 elseif($page==='admin.manage_user')
 {
-	require('controller/admin_controller.php');
+	require('src/controller/admin_controller.php');
 }
 
 elseif($page==='admin.manage_category')
 {
-	require('controller/admin_controller.php');
+	require('src/controller/admin_controller.php');
 }
+
+/*
+$homeController = new HomeController($post_manager, $user_manager, $category_manager, $comment_manager) ;
+if($page==='home')
+{
+	$homeController->home();
+}
+elseif($page==='post')
+{
+	$homeController->post();
+}
+elseif($page==='single')
+{
+	$homeController->single();
+}
+elseif($page==='category')
+{
+	$homeController->category();
+}
+elseif($page==='sign_in')
+{
+	$homeController->sign_in();
+}
+
+elseif($page==='user.home')
+{
+	$userController = new UserController($post_manager, $user_manager, $category_manager, $comment_manager) ;
+	$userController->userHome();
+}
+elseif($page==='user.edit')
+{
+	$userController->editUser();
+}
+elseif($page==='user.post.edit')
+{
+	$userController->editPost();
+}
+elseif($page==='user.post.add')
+{
+	$userController->addPost();
+}
+
+elseif($page==='admin.home')
+{
+	$adminController = new UserController($post_manager, $user_manager, $category_manager, $comment_manager) ;
+	$adminController->adminHome();
+}
+elseif($page==='admin.manage_user')
+{
+	$adminController->manageUsers();
+}
+
+elseif($page==='admin.manage_category')
+{
+	$adminController->manageCategories();
+}
+*/
 
 
 
@@ -98,45 +143,19 @@ elseif($page==='admin.manage_category')
 
 elseif($page==='faker_user')
 {
-	require('model/faker/faker_user.php');
+	require('src/faker/faker_user.php');
 }
 
 elseif($page==='faker_post')
 {
-	require('model/faker/faker_post.php');
+	require('src/faker/faker_post.php');
 }
 
 elseif($page==='faker_comment')
 {
-	require('model/faker/faker_comment.php');
+	require('src/faker/faker_comment.php');
 }
 
 
-/*
-if (isset($_SESSION['user'])) // Si la session de l'utilisateur existe, on restaure l'objet.
-{
-  	$user = $_SESSION['user'];
-  	if (isset($_GET['sign_out']))
-	{
-		session_destroy();
-		// DESTRUCTION DU COOKIE ?
-		// 	setcookie('pseudo', '');
-		//  setcookie('pass', '');
-		unset($user);
-		header('Location: .');
-		exit();
-	}
-	else
-	{
-		require('controller/user_controller.php');
-	}
-
-}
-
-else
-{
-	require('controller/home_controller.php');
-}
-*/
 
 

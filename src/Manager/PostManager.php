@@ -1,5 +1,7 @@
 <?php
-namespace Project5;
+namespace BlogApp\Manager;
+
+use BlogApp\Entity\Post ;
 
 class PostManager extends Manager
 {

@@ -1,4 +1,5 @@
 <?php
+namespace BlogApp\Faker;
 
 require_once 'vendor/autoload.php';
 

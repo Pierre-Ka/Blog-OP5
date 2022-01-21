@@ -1,5 +1,5 @@
 <?php
-namespace Project5 ;
+namespace BlogApp\Entity;
 
 class Comment extends Entity
 {

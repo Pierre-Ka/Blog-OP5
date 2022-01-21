@@ -1,13 +1,36 @@
 <?php
-use Project5\Comment;
-use Project5\Post;
-use Project5\User;
-use Project5\Category;
+namespace BlogApp\Controller;
 
-if($page==='home')
+use BlogApp\Entity\Comment;
+use BlogApp\Entity\Post;
+use BlogApp\Entity\User;
+use BlogApp\Entity\Category;
+
+use BlogApp\Manager\CommentManager;
+use BlogApp\Manager\PostManager;
+use BlogApp\Manager\UserManager;
+use BlogApp\Manager\CategoryManager;
+
+class HomeController extends AbstractController
+{
+	protected PostManager $postManager;
+    protected UserManager $userManager;
+    protected CategoryManager $categoryManager;
+    protected CommentManager $commentManager;
+
+    public function __construct(PostManager $postManager, UserManager $userManager, CategoryManager $categoryManager, CommentManager $commentManager)
+    {
+        $this->postManager = $postManager;
+        $this->userManager = $userManager;
+        $this->categoryManager = $categoryManager;
+        $this->commentManager = $commentManager;
+    }
+    
+
+	public function home()
 	{
-		$categories = $category_manager->getAll();
-		$q_total=$post_manager->totalPages();
+		$categories = $this->categoryManager->getAll();
+		$q_total=$this->postManager->totalPages();
 
 		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$q_total)
 		{
@@ -17,12 +40,14 @@ if($page==='home')
 		{
 			$actual_page = 1 ;
 		}
-		$posts=$post_manager->getAll($actual_page);
+		$posts=$this->postManager->getAll($actual_page);
 		require('view/home/home.php');
 	}
-elseif($page==='post')
+
+
+	public function post()
 	{
-		$q_total=$post_manager->totalPages();
+		$q_total=$postManager->totalPages();
 
 		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$q_total)
 		{
@@ -32,16 +57,15 @@ elseif($page==='post')
 		{
 			$actual_page = 1 ;
 		}
-		$posts=$post_manager->getAll($actual_page);
+		$posts=$postManager->getAll($actual_page);
 		require('view/home/post.php');
-	}
+	}	
 
-
-elseif($page==='category')
+	public function category()
 	{
 		$category_id=htmlspecialchars($_GET['id']);
-		$category = $category_manager->getOne($category_id);
-		$q_total=$post_manager->totalPagesByCategory($category_id);
+		$category = $categoryManager->getOne($category_id);
+		$q_total=$postManager->totalPagesByCategory($category_id);
 			
 		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$q_total)
 			{
@@ -51,12 +75,11 @@ elseif($page==='category')
 			{
 				$actual_page = 1 ;
 			}
-		$posts=$post_manager->getWithCategory($category_id,$actual_page);
+		$posts=$postManager->getWithCategory($category_id,$actual_page);
 		require('view/home/category.php');
-	}
-	
+	}	
 
-elseif($page==='single')
+	public function single()
 	{
 		$post_id= $_GET['id'];
 		if (isset($_POST['author_com']) AND isset($_POST['com']) AND !empty($_POST['author_com']) AND !empty($_POST['com']))
@@ -66,11 +89,11 @@ elseif($page==='single')
 			'author'=> htmlspecialchars($_POST['author_com']),
 			'content'=>htmlspecialchars($_POST['com']),
 				]);
-			$comment_manager->add($comment);
+			$commentManager->add($comment);
 		}
 
-		$post=$post_manager->getOne($post_id);
-		$q_total=$comment_manager->totalPages($post_id);
+		$post=$postManager->getOne($post_id);
+		$q_total=$commentManager->totalPages($post_id);
 
 		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$q_total)
 		{
@@ -80,16 +103,17 @@ elseif($page==='single')
 		{
 			$actual_page = 1 ;
 		}
-		$comments = $comment_manager->get($post_id,$actual_page);
+		$comments = $commentManager->get($post_id,$actual_page);
 		require('view/home/single.php');
-	}
+	}	
 
-elseif($page==='sign_in')
+
+	public function sign_in()
 	{
 		$incorrect=false;
 		if (!empty($_POST['email']) AND !empty($_POST['password']))
 		{
-			$logged = $user_manager->login($_POST['email'], $_POST['password']);
+			$logged = $userManager->login($_POST['email'], $_POST['password']);
 			if($logged)
 			{			
 				header('Location:index.php?p=user.home');
@@ -116,7 +140,7 @@ elseif($page==='sign_in')
 					'name'=> htmlspecialchars($_POST['nameCreate']),
 					'description'=> htmlspecialchars($_POST['descriptionCreate'])
 					]);
-					$user_manager->add($user);
+					$userManager->add($user);
 					$message = 'enregistrement reussi';
 					require('view/home/sign_in.php');
 
@@ -138,5 +162,5 @@ elseif($page==='sign_in')
 			require('view/home/sign_in.php');
 		}
 	}
-
+}
 
