@@ -8,7 +8,7 @@ ob_start(); ?>
 <div> 
 
 	 <h4>
-     écrit par <?= $user_manager->getAuthorName($post->getUser_id()); ?> le <?= $post->getCreate_date(); ?>  
+     écrit par <?= $userManager->getAuthorName($post->getUser_id()); ?> le <?= $post->getCreate_date(); ?>  
 
      	<?php 
 		if (($post->getLast_update())===null)

@@ -12,6 +12,8 @@ foreach(range(2,8) as $id)
 {
 	$db->query("INSERT INTO users (id,email, password, name, picture, description, inscription_date, is_valid ) VALUES('" . $id . "','{$faker->email()}','{$faker->password()}','{$faker->name()}','POST_IMG_{$faker->randomDigit()}','{$faker->sentence(15)}','{$faker->date()}','1')") ;
 }
-header('Location:index.php');
+
+$message = '7 Faux membres (id 2 à 8 ) créés ';
+header('Location:index.php?p=admin.home');
 
 

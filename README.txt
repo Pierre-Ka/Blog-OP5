@@ -1,16 +1,10 @@
 Suite : 
-1 Journée : 22 janvier
+22 janvier-30 janvier
 
 1 - Supprimer les commentaires lors de la suppression de post
-
-2 - Creation des classes controllers :
-	- appel des post/comment/../_manager dans les controllers en fonction des besoins
-	- renommer les post/comment/../_manager + les classes + les fichiers
-3 - Autoloader composer + namespaces App/Entity, App/Manager, App/Controller
-4 - Renommer tous les fichiers ( model : src, view : template, index dans public, var/media )
-5 - bdd tous les noms au singulier
-
-1 semaine : 30 janvier 
+2 - bdd tous les noms au singulier
+3 - Creation des classes controllers : gerer la presence des managers dans les views
+4 - Renommer tous les fichiers (view : template, index dans public, var/media )
 
 6 - verifier l'absence de connection si pas de session
 7 - erreurs et message erreurs

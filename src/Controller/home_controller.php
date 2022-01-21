@@ -6,8 +6,8 @@ use BlogApp\Entity\Category;
 
 if($page==='home')
 	{
-		$categories = $category_manager->getAll();
-		$q_total=$post_manager->totalPages();
+		$categories = $categoryManager->getAll();
+		$q_total=$postManager->totalPages();
 
 		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$q_total)
 		{
@@ -17,12 +17,12 @@ if($page==='home')
 		{
 			$actual_page = 1 ;
 		}
-		$posts=$post_manager->getAll($actual_page);
+		$posts=$postManager->getAll($actual_page);
 		require('view/home/home.php');
 	}
 elseif($page==='post')
 	{
-		$q_total=$post_manager->totalPages();
+		$q_total=$postManager->totalPages();
 
 		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$q_total)
 		{
@@ -32,7 +32,7 @@ elseif($page==='post')
 		{
 			$actual_page = 1 ;
 		}
-		$posts=$post_manager->getAll($actual_page);
+		$posts=$postManager->getAll($actual_page);
 		require('view/home/post.php');
 	}
 
@@ -40,8 +40,8 @@ elseif($page==='post')
 elseif($page==='category')
 	{
 		$category_id=htmlspecialchars($_GET['id']);
-		$category = $category_manager->getOne($category_id);
-		$q_total=$post_manager->totalPagesByCategory($category_id);
+		$category = $categoryManager->getOne($category_id);
+		$q_total=$postManager->totalPagesByCategory($category_id);
 			
 		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$q_total)
 			{
@@ -51,7 +51,7 @@ elseif($page==='category')
 			{
 				$actual_page = 1 ;
 			}
-		$posts=$post_manager->getWithCategory($category_id,$actual_page);
+		$posts=$postManager->getWithCategory($category_id,$actual_page);
 		require('view/home/category.php');
 	}
 	
@@ -66,11 +66,11 @@ elseif($page==='single')
 			'author'=> htmlspecialchars($_POST['author_com']),
 			'content'=>htmlspecialchars($_POST['com']),
 				]);
-			$comment_manager->add($comment);
+			$commentManager->add($comment);
 		}
 
-		$post=$post_manager->getOne($post_id);
-		$q_total=$comment_manager->totalPages($post_id);
+		$post=$postManager->getOne($post_id);
+		$q_total=$commentManager->totalPages($post_id);
 
 		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$q_total)
 		{
@@ -80,7 +80,7 @@ elseif($page==='single')
 		{
 			$actual_page = 1 ;
 		}
-		$comments = $comment_manager->get($post_id,$actual_page);
+		$comments = $commentManager->get($post_id,$actual_page);
 		require('view/home/single.php');
 	}
 
@@ -89,7 +89,7 @@ elseif($page==='sign_in')
 		$incorrect=false;
 		if (!empty($_POST['email']) AND !empty($_POST['password']))
 		{
-			$logged = $user_manager->login($_POST['email'], $_POST['password']);
+			$logged = $userManager->login($_POST['email'], $_POST['password']);
 			if($logged)
 			{			
 				header('Location:index.php?p=user.home');
@@ -116,7 +116,7 @@ elseif($page==='sign_in')
 					'name'=> htmlspecialchars($_POST['nameCreate']),
 					'description'=> htmlspecialchars($_POST['descriptionCreate'])
 					]);
-					$user_manager->add($user);
+					$userManager->add($user);
 					$message = 'enregistrement reussi';
 					require('view/home/sign_in.php');
 

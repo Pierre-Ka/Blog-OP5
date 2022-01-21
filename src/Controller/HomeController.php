@@ -47,7 +47,7 @@ class HomeController extends AbstractController
 
 	public function post()
 	{
-		$q_total=$postManager->totalPages();
+		$q_total=$this->postManager->totalPages();
 
 		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$q_total)
 		{
@@ -57,15 +57,15 @@ class HomeController extends AbstractController
 		{
 			$actual_page = 1 ;
 		}
-		$posts=$postManager->getAll($actual_page);
+		$posts=$this->postManager->getAll($actual_page);
 		require('view/home/post.php');
 	}	
 
 	public function category()
 	{
 		$category_id=htmlspecialchars($_GET['id']);
-		$category = $categoryManager->getOne($category_id);
-		$q_total=$postManager->totalPagesByCategory($category_id);
+		$category = $this->categoryManager->getOne($category_id);
+		$q_total=$this->postManager->totalPagesByCategory($category_id);
 			
 		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$q_total)
 			{
@@ -75,7 +75,7 @@ class HomeController extends AbstractController
 			{
 				$actual_page = 1 ;
 			}
-		$posts=$postManager->getWithCategory($category_id,$actual_page);
+		$posts=$this->postManager->getWithCategory($category_id,$actual_page);
 		require('view/home/category.php');
 	}	
 
@@ -89,11 +89,11 @@ class HomeController extends AbstractController
 			'author'=> htmlspecialchars($_POST['author_com']),
 			'content'=>htmlspecialchars($_POST['com']),
 				]);
-			$commentManager->add($comment);
+			$this->commentManager->add($comment);
 		}
 
-		$post=$postManager->getOne($post_id);
-		$q_total=$commentManager->totalPages($post_id);
+		$post=$this->postManager->getOne($post_id);
+		$q_total=$this->commentManager->totalPages($post_id);
 
 		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$q_total)
 		{
@@ -103,7 +103,7 @@ class HomeController extends AbstractController
 		{
 			$actual_page = 1 ;
 		}
-		$comments = $commentManager->get($post_id,$actual_page);
+		$comments = $this->commentManager->get($post_id,$actual_page);
 		require('view/home/single.php');
 	}	
 
@@ -113,7 +113,7 @@ class HomeController extends AbstractController
 		$incorrect=false;
 		if (!empty($_POST['email']) AND !empty($_POST['password']))
 		{
-			$logged = $userManager->login($_POST['email'], $_POST['password']);
+			$logged = $this->userManager->login($_POST['email'], $_POST['password']);
 			if($logged)
 			{			
 				header('Location:index.php?p=user.home');
@@ -140,7 +140,7 @@ class HomeController extends AbstractController
 					'name'=> htmlspecialchars($_POST['nameCreate']),
 					'description'=> htmlspecialchars($_POST['descriptionCreate'])
 					]);
-					$userManager->add($user);
+					$this->userManager->add($user);
 					$message = 'enregistrement reussi';
 					require('view/home/sign_in.php');
 

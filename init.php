@@ -10,10 +10,10 @@ $db = new \PDO('mysql:host=localhost;dbname=project5_blog;charset=utf8', 'root',
 $db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
 
 //Instanciation de nos classes manager 
-$comment_manager= new CommentManager($db);
-$post_manager= new PostManager($db);
-$user_manager= new UserManager($db);
-$category_manager= new CategoryManager($db);
+$commentManager= new CommentManager($db);
+$postManager= new PostManager($db);
+$userManager= new UserManager($db);
+$categoryManager= new CategoryManager($db);
 
 
 

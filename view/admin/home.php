@@ -4,6 +4,12 @@ $title = 'Interface administrateur';
 
 ob_start(); ?>
 
+<?php if (isset($message)): ?>
+	<div class="alert alert-success">
+		<?= $message; ?>
+	</div>
+<?php endif; ?>
+
 <h1> Administrer les utilisateurs et les categories</h1>
 
 <p> 
@@ -41,7 +47,7 @@ ob_start(); ?>
 			<tr>
 				<td><?= $post->getId(); ?></td>
 				<td><?= $post->getTitle(); ?></td>
-				<td><?= $category_manager->getCategoryName((int)$post->getCategory_id()); ?></td>
+				<td><?= $categoryManager->getCategoryName((int)$post->getCategory_id()); ?></td>
 				<?php 
 					if (($post->getLast_update())===null)
 					{
@@ -63,6 +69,21 @@ ob_start(); ?>
 		<?php endforeach; ?>
 	</tbody>
 </table>
+
+<p> 
+	<a href="index.php?p=faker_category" class="btn btn-success">Generer des fausses categories</a>
+</p>
+<p> 
+	<a href="index.php?p=faker_comment" class="btn btn-success">Generer des faux commentaires</a>
+</p>
+<p> 
+	<a href="index.php?p=faker_post" class="btn btn-success">Generer des faux posts</a>
+</p>
+<p> 
+	<a href="index.php?p=faker_user" class="btn btn-success">Generer de faux membres</a>
+</p>
+
+
 
 
 <?php $content=ob_get_clean(); 

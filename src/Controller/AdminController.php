@@ -18,7 +18,7 @@ class AdminController extends AbstractController
 	public function __construct(PostManager $postManager, UserManager $userManager, CategoryManager $categoryManager, CommentManager $commentManager)
     {
         parent::__construct($postManager, $userManager, $categoryManager, $commentManager);
-		if(!$userManager->is_admin())
+		if(!$this->userManager->is_admin())
 		{
 			$this->forbidden();
 		}
@@ -26,14 +26,14 @@ class AdminController extends AbstractController
 
 	public function adminHome()
 	{
-	    if(( $userManager->logged() AND $userManager->isAdmin() ))
+	    if(( $this->userManager->logged() AND $this->userManager->isAdmin() ))
 	    {
 	        if(isset($_POST['admin_post_delete']))
 	        {
-	            $postManager->delete($_POST['admin_post_delete']);
+	            $this->postManager->delete($_POST['admin_post_delete']);
 	        }
-	        $connect_id = $userManager->getUserId();
-	        $posts = $postManager->getAllAdmin();
+	        $connect_id = $this->userManager->getUserId();
+	        $posts = $this->postManager->getAllAdmin();
 	        require('view/admin/home.php');
 	    }
 	    else
@@ -47,13 +47,13 @@ class AdminController extends AbstractController
 	{
 		if(!empty($_GET['valid']))
 		{
-			$userManager->valid(($_GET['valid']));
+			$this->userManager->valid(($_GET['valid']));
 		}
 		if(isset($_POST['admin_user_delete']))
 		{
-			$userManager->delete($_POST['admin_user_delete']);
+			$this->userManager->delete($_POST['admin_user_delete']);
 		}
-		$users = $userManager->getList();
+		$users = $this->userManager->getList();
 		require('view/admin/manage_user.php');
 	}
 
@@ -61,7 +61,7 @@ class AdminController extends AbstractController
 	{
 		if(empty($_POST))
 		{
-			$categories = $categoryManager->getAll();
+			$categories = $this->categoryManager->getAll();
 			require('view/admin/manage_category.php');
 		}
 		else
@@ -69,20 +69,20 @@ class AdminController extends AbstractController
 			switch($_POST)
 			{
 				case isset($_POST['categoryEdit']) : 
-				$categorie = $categoryManager->getOne($_GET['id']);
+				$categorie = $this->categoryManager->getOne($_GET['id']);
 				$categorie->setName(htmlspecialchars($_POST['categoryEdit']));
-				$categoryManager->edit($categorie);
+				$this->categoryManager->edit($categorie);
 				break ;
 
 				case isset($_POST['categoryCreate']) :
 				$category = new Category([
 					'name'=> htmlspecialchars($_POST['categoryCreate'])
 					]);
-				$categoryManager->add($category);
+				$this->categoryManager->add($category);
 				break ; 
 
 				case isset($_POST['admin_category_delete']) :
-				$categoryManager->delete($_POST['admin_category_delete']);
+				$this->categoryManager->delete($_POST['admin_category_delete']);
 				break ; 
 			}
 			header('Location:index.php?p=admin.home');

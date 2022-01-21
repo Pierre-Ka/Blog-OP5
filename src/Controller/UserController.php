@@ -16,7 +16,7 @@ class UserController extends AbstractController
     public function __construct(PostManager $postManager, UserManager $userManager, CategoryManager $categoryManager, CommentManager $commentManager)
     {
         parent::__construct($postManager, $userManager, $categoryManager, $commentManager);
-        if(!$userManager->logged())
+        if(!$this->userManager->logged())
 		{
 			$this->forbidden();
 		}
@@ -25,14 +25,14 @@ class UserController extends AbstractController
 
 	public function userHome()
 	{
-	    if($userManager->logged())
+	    if($this->userManager->logged())
 	    {
 	        if(isset($_POST['id_delete']) )
 	        {
-	            $postManager->delete($_POST['id_delete']);
+	            $this->postManager->delete($_POST['id_delete']);
 	        }
-	        $connect_id = $userManager->getUserId();
-	        $posts = $postManager->getWithUserId($connect_id);
+	        $connect_id = $this->userManager->getUserId();
+	        $posts = $this->postManager->getWithUserId($connect_id);
 	        require('view/user/home.php');
 	    }
 	    else
@@ -44,7 +44,7 @@ class UserController extends AbstractController
 
 	public function editUser()
 	{
-	    $user = $userManager->getOne($userManager->getUserId());
+	    $user = $this->userManager->getOne($this->userManager->getUserId());
 	    if (isset($_FILES['pictureUpdate']) AND $_FILES['pictureUpdate']['error'] == 0)
 	    {
 	        if ($_FILES['pictureUpdate']['size'] <= 1000000)
@@ -58,7 +58,7 @@ class UserController extends AbstractController
 	            
 	                    $picture_name = 'USER_IMG_' . $user->getId() .'.'.$extension_upload ;
 	                    $user->setPicture($picture_name);
-	                    $userManager->edit($user);
+	                    $this->userManager->edit($user);
 	                }
 	                header('Location:index.php?p=user.home');
 	         }
@@ -83,7 +83,7 @@ class UserController extends AbstractController
 	                case !empty($_POST['descriptionUpdate']) :  
 	            $user->setDescription(htmlspecialchars($_POST['descriptionUpdate'])); 
 	        }
-	        $userManager->edit($user);
+	        $this->userManager->edit($user);
 	        header('Location:index.php?p=user.home');
 	    }
 
@@ -91,7 +91,7 @@ class UserController extends AbstractController
 
 		public function editPost()
 	{
-	    $post = $postManager->getOne($_GET['id']);
+	    $post = $this->postManager->getOne($_GET['id']);
 	    if (isset($_FILES['pictureChange']) AND $_FILES['pictureChange']['error'] == 0)
 	    {
 	        if ($_FILES['pictureChange']['size'] <= 1000000)
@@ -105,7 +105,7 @@ class UserController extends AbstractController
 	            
 	                    $picture_name = 'POST_IMG_' . $_GET['id'] .'.'.$extension_upload ;
 	                    $post->setPicture($picture_name);
-	                    $postManager->edit($post);
+	                    $this->postManager->edit($post);
 	                }
 	                header('Location:index.php?p=user.home');
 	         }
@@ -117,15 +117,15 @@ class UserController extends AbstractController
 	            switch ($_GET)
 	            {
 	                case !empty($_GET['valid']) :
-	                $commentManager->valid(($_GET['valid']));
+	                $this->commentManager->valid(($_GET['valid']));
 	                break ;
 	                case !empty($_GET['delete']) : 
-	                $commentManager->delete(($_GET['delete']));
+	                $this->commentManager->delete(($_GET['delete']));
 	                break ;
 	            }
 	        }
-	        $comments = $commentManager->getNotYetValid($_GET['id']);
-	        $categories = $categoryManager->getAll();
+	        $comments = $this->commentManager->getNotYetValid($_GET['id']);
+	        $categories = $this->categoryManager->getAll();
 	        require('view/user/post/edit.php');
 	        
 	    }
@@ -145,7 +145,7 @@ class UserController extends AbstractController
 	                case !empty($_POST['contentChange']) :
 	            $post->setContent(htmlspecialchars($_POST['contentChange']));
 	        }
-	        $postManager->edit($post);
+	        $this->postManager->edit($post);
 	        header('Location:index.php?p=user.home');
 	    }
 	}
@@ -167,7 +167,7 @@ class UserController extends AbstractController
 	                    $post= new Post([
 
 	                        'title'=>htmlspecialchars($_POST['title']),
-	                        'user_id'=> $userManager->getUserId(),
+	                        'user_id'=> $this->userManager->getUserId(),
 	                        'category_id'=>($_POST['category']),
 	                        'chapo'=>htmlspecialchars($_POST['chapo']),
 	                        'content'=>htmlspecialchars($_POST['content'])
@@ -179,8 +179,8 @@ class UserController extends AbstractController
 	                    $post->setChapo(htmlspecialchars($_POST['chapo'])); 
 	                    $post->setContent(htmlspecialchars($_POST['content']));*/
 
-	                    $postManager->add($post);
-	                    $new_id = $postManager->getLastInsertId();
+	                    $this->postManager->add($post);
+	                    $new_id = $this->postManager->getLastInsertId();
 	 
 	                    move_uploaded_file($_FILES['picture']['tmp_name'], 'assets/media/photo/POST_IMG_' . $new_id .'.'.$extension_upload);// Oui
 	                    $picture_name = 'POST_IMG_' . $new_id .'.'.$extension_upload ;
@@ -190,7 +190,7 @@ class UserController extends AbstractController
 	                    $post->setId($new_id);
 
 	                    // Maintenant ça marche
-	                    $postManager->edit($post);
+	                    $this->postManager->edit($post);
 	                    header('Location:index.php?p=user.home');
 	                    
 	                }
@@ -203,7 +203,7 @@ class UserController extends AbstractController
 	    }
 	    else
 	    {
-	        $categories = $categoryManager->getAll();
+	        $categories = $this->categoryManager->getAll();
 	        require('view/user/post/add.php');
 	    }
 	}
