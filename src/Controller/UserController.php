@@ -30,6 +30,7 @@ class UserController extends AbstractController
 	        if(isset($_POST['id_delete']) )
 	        {
 	            $this->postManager->delete($_POST['id_delete']);
+	            $this->commentManager->deletePerPost($_POST['id_delete']);
 	        }
 	        $connect_id = $this->userManager->getUserId();
 	        $posts = $this->postManager->getWithUserId($connect_id);
@@ -59,6 +60,8 @@ class UserController extends AbstractController
 	                    $picture_name = 'USER_IMG_' . $user->getId() .'.'.$extension_upload ;
 	                    $user->setPicture($picture_name);
 	                    $this->userManager->edit($user);
+
+	                    $picture_name = $user->resize_image('assets/media/photo/'.$picture_name, 300, 300);
 	                }
 	                header('Location:index.php?p=user.home');
 	         }
@@ -106,6 +109,8 @@ class UserController extends AbstractController
 	                    $picture_name = 'POST_IMG_' . $_GET['id'] .'.'.$extension_upload ;
 	                    $post->setPicture($picture_name);
 	                    $this->postManager->edit($post);
+
+	                    $picture_name = $post->resize_image('assets/media/photo/'.$picture_name, 500, 500);
 	                }
 	                header('Location:index.php?p=user.home');
 	         }
@@ -191,6 +196,8 @@ class UserController extends AbstractController
 
 	                    // Maintenant ça marche
 	                    $this->postManager->edit($post);
+
+	                    $picture_name = $post->resize_image('assets/media/photo/'.$picture_name, 500, 500);
 	                    header('Location:index.php?p=user.home');
 	                    
 	                }

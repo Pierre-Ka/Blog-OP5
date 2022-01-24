@@ -9,14 +9,14 @@ class CategoryManager extends Manager
 	
 	public function add(Category $category)
 	{
-		$q = $this->_db->prepare('INSERT INTO categories(name) VALUES(:name)');
+		$q = $this->_db->prepare('INSERT INTO category(name) VALUES(:name)');
 		$q->bindValue('name', $category->getName());
 		$q->execute();
 	}
 
 	public function edit(Category $category)
 	{
-		$q = $this->_db->prepare('UPDATE categories SET name = :name WHERE id = :id');
+		$q = $this->_db->prepare('UPDATE category SET name = :name WHERE id = :id');
 		$q->bindValue('id', $category->getId());
 		$q->bindValue('name', $category->getName());
 		$q->execute();
@@ -24,14 +24,14 @@ class CategoryManager extends Manager
 
 	public function getOne(int $category_id)
 	{ 
-		$q = $this->_db->query('SELECT * FROM categories WHERE id=' .$category_id);
+		$q = $this->_db->query('SELECT * FROM category WHERE id=' .$category_id);
 		$data=$q->fetch();
 		return new Category($data);
 	}
 
 	public function getCategoryName($category_id)
 	{
-		$q = $this->_db->query('SELECT * FROM categories WHERE id=' .$category_id);
+		$q = $this->_db->query('SELECT * FROM category WHERE id=' .$category_id);
 		$data=$q->fetch(\PDO::FETCH_ASSOC);
 		$name = $data['name'];
 		return $name; 
@@ -39,7 +39,7 @@ class CategoryManager extends Manager
 
 	public function getCategoryId($category_name)
 	{
-		$q = $this->_db->query('SELECT id FROM categories WHERE name="' .$category_name. '" ');
+		$q = $this->_db->query('SELECT id FROM category WHERE name="' .$category_name. '" ');
 		$data=$q->fetch(\PDO::FETCH_ASSOC);
 		return $data;
 	}
@@ -48,14 +48,14 @@ class CategoryManager extends Manager
 	{
 		if (ctype_digit($info))
 		{
-			$q = $this->_db->exec('DELETE FROM categories WHERE id=' .$info);
+			$q = $this->_db->exec('DELETE FROM category WHERE id=' .$info);
 		}
 	}
 
 	public function getAll() 
 	{
 		$categories=[];
-		$q = $this->_db->query('SELECT id, name FROM categories');
+		$q = $this->_db->query('SELECT id, name FROM category');
 		while($data=$q->fetch(\PDO::FETCH_ASSOC))
 		{
 			$categories[]= new Category($data);

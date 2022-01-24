@@ -1,6 +1,9 @@
 <?php
 namespace BlogApp\Entity;
 
+use BlogApp\Manager\CategoryManager;
+use BlogApp\Manager\UserManager;
+
 class Post extends Entity
 {
 	private $id,
@@ -144,4 +147,17 @@ class Post extends Entity
 	}
 
 	// FIN DES SETTERS //
+
+
+	public function getCategory() 
+	{
+          return (new CategoryManager())->getOne(($this->category_id);
+	}
+
+	public function getAuthor() 
+	{
+          return (new UserManager())->getOne(($this->user_id);
+	}
+
+
 }

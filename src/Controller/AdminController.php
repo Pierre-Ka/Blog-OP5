@@ -31,6 +31,7 @@ class AdminController extends AbstractController
 	        if(isset($_POST['admin_post_delete']))
 	        {
 	            $this->postManager->delete($_POST['admin_post_delete']);
+	            $this->commentManager->deletePerPost($_POST['admin_post_delete']);
 	        }
 	        $connect_id = $this->userManager->getUserId();
 	        $posts = $this->postManager->getAllAdmin();

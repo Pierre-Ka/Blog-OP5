@@ -13,6 +13,7 @@ if($page==='admin.home')
         if(isset($_POST['admin_post_delete']))
         {
             $postManager->delete($_POST['admin_post_delete']);
+            $commentManager->deletePerPost($_POST['admin_post_delete']);
         }
         $connect_id = $userManager->getUserId();
         $posts = $postManager->getAllAdmin();

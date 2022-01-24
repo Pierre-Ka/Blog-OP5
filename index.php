@@ -3,6 +3,11 @@ use BlogApp\Controller\HomeController;
 use BlogApp\Controller\UserController;
 use BlogApp\Controller\AdminController;
 
+/*
+var_dump(function_exists('imagecreatefromjpeg'));
+die();
+*/
+
 require_once('init.php');
 session_start();
 
@@ -21,73 +26,28 @@ else
 }
 
 
+switch ($page) 
+{ 
+	case $page==='home' ||  $page==='post' || $page==='single' || $page==='category' || $page==='sign_in' : 
+	require('src/controller/home_controller.php');
+	break;
 
-if($page==='home')
-{
-	require('src/controller/home_controller.php');
-}
-elseif($page==='post')
-{
-	require('src/controller/home_controller.php');
-}
-elseif($page==='single')
-{
-	require('src/controller/home_controller.php');
-}
-elseif($page==='category')
-{
-	require('src/controller/home_controller.php');
-}
-elseif($page==='sign_in')
-{
-	require('src/controller/home_controller.php');
-}
-
-
-elseif($page==='user.home')
-{
+	case $page==='user.home' ||  $page==='user.edit' || $page==='user.post.edit' || $page==='user.post.add' : 
 	require('src/controller/user_controller.php');
-}
-elseif($page==='user.edit')
-{
-	require('src/controller/user_controller.php');
-}
-elseif($page==='user.post.edit')
-{
-	require('src/controller/user_controller.php');
-}
-elseif($page==='user.post.add')
-{
-	require('src/controller/user_controller.php');
-}
+	break;
 
-
-elseif($page==='admin.home')
-{
+	case $page==='admin.home' ||  $page==='admin.manage_user' || $page==='admin.manage_category' : 
 	require('src/controller/admin_controller.php');
-}
-elseif($page==='admin.manage_user')
-{
-	require('src/controller/admin_controller.php');
-}
-elseif($page==='admin.manage_category')
-{
-	require('src/controller/admin_controller.php');
-}
-elseif($page==='faker_user')
-{
-	require('src/faker/faker_user.php');
+	break;
+
+	case $page==='faker_user' :  require('src/faker/faker_user.php'); break;
+	case $page==='faker_post' :  require('src/faker/faker_post.php'); break;
+	case $page==='faker_comment' :  require('src/faker/faker_comment.php'); break;
+	case $page==='faker_category' :  require('src/faker/faker_category.php'); break;
+
+	default : $page = 'home'; break ; 
 }
 
-elseif($page==='faker_post')
-{
-	require('src/faker/faker_post.php');
-}
-
-elseif($page==='faker_comment')
-{
-	require('src/faker/faker_comment.php');
-}
 
 /* 
 Le passage aux classes controllers pose problème à cause de la présence de manager dans les views ; la variable manager étant alors inconnue : 
@@ -101,10 +61,7 @@ user - home : $categoryManager->getCategoryName($post->getCategory_id()); et
 				$commentManager->countNotYetValid($post->getId()); dans foreach
 admin - home : $categoryManager->getCategoryName((int)$post->getCategory_id()); dans foreach
 */ 
-				
-
-
-/*
+/*			
 if (!isset($_SESSION['auth']))
 { 
 	$homeController = new HomeController($postManager, $userManager, $categoryManager, $commentManager) ;
@@ -189,14 +146,5 @@ else
 	}
 }
 */
-
-
-
-
-
-
-
-
-
 
 

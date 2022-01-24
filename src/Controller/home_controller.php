@@ -6,18 +6,6 @@ use BlogApp\Entity\Category;
 
 if($page==='home')
 	{
-		$categories = $categoryManager->getAll();
-		$q_total=$postManager->totalPages();
-
-		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$q_total)
-		{
-			$actual_page =intval($_GET['page']);
-		}
-		else 
-		{
-			$actual_page = 1 ;
-		}
-		$posts=$postManager->getAll($actual_page);
 		require('view/home/home.php');
 	}
 elseif($page==='post')

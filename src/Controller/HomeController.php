@@ -29,18 +29,7 @@ class HomeController extends AbstractController
 
 	public function home()
 	{
-		$categories = $this->categoryManager->getAll();
-		$q_total=$this->postManager->totalPages();
-
-		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$q_total)
-		{
-			$actual_page =intval($_GET['page']);
-		}
-		else 
-		{
-			$actual_page = 1 ;
-		}
-		$posts=$this->postManager->getAll($actual_page);
+		//$categories = $this->categoryManager->getAll();
 		require('view/home/home.php');
 	}
 
@@ -58,6 +47,7 @@ class HomeController extends AbstractController
 			$actual_page = 1 ;
 		}
 		$posts=$this->postManager->getAll($actual_page);
+		$categoryManager = $this->categoryManager;
 		require('view/home/post.php');
 	}	
 
@@ -143,7 +133,6 @@ class HomeController extends AbstractController
 					$this->userManager->add($user);
 					$message = 'enregistrement reussi';
 					require('view/home/sign_in.php');
-
 				}
 				else
 				{

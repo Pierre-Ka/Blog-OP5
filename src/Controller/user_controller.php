@@ -1,4 +1,4 @@
-_<?php
+<?php
 use BlogApp\Entity\Comment;
 use BlogApp\Entity\Post;
 use BlogApp\Entity\User;
@@ -13,6 +13,7 @@ if($page==='user.home')
         if(isset($_POST['id_delete']) )
         {
             $postManager->delete($_POST['id_delete']);
+            $commentManager->deletePerPost($_POST['id_delete']);
         }
         $connect_id = $userManager->getUserId();
         $posts = $postManager->getWithUserId($connect_id);
@@ -38,11 +39,13 @@ elseif($page==='user.edit')
                 $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
                 if (in_array($extension_upload, $extensions_autorisees))
                 {
-                    move_uploaded_file($_FILES['pictureUpdate']['tmp_name'], 'assets/media/photo/USER_IMG_' . $user->getId() .'.'.$extension_upload);
+                   move_uploaded_file($_FILES['pictureUpdate']['tmp_name'], 'assets/media/photo/USER_IMG_' . $user->getId() .'.'.$extension_upload);
             
                     $picture_name = 'USER_IMG_' . $user->getId() .'.'.$extension_upload ;
                     $user->setPicture($picture_name);
                     $userManager->edit($user);
+
+                    $picture_name = $user->resize_image('assets/media/photo/'.$picture_name, 300, 300);
                 }
                 header('Location:index.php?p=user.home');
          }
@@ -91,6 +94,8 @@ elseif($page==='user.post.edit')
                     $picture_name = 'POST_IMG_' . $_GET['id'] .'.'.$extension_upload ;
                     $post->setPicture($picture_name);
                     $postManager->edit($post);
+
+                    $picture_name = $post->resize_image('assets/media/photo/'.$picture_name, 300, 300);
                 }
                 header('Location:index.php?p=user.home');
          }
@@ -160,11 +165,13 @@ elseif($page==='user.post.add')
                         'content'=>htmlspecialchars($_POST['content'])
                     ]); 
 
-                    /*$post= new Post(); // Sans hydratation : 
+                    /*  // Sans hydratation :
+                    $post= new Post();  
                     $post->setTitle(htmlspecialchars($_POST['title'])); 
                     $post->setCategory_id($category_id);
                     $post->setChapo(htmlspecialchars($_POST['chapo'])); 
-                    $post->setContent(htmlspecialchars($_POST['content']));*/
+                    $post->setContent(htmlspecialchars($_POST['content']));
+                    */
 
                     $postManager->add($post);
                     $new_id = $postManager->getLastInsertId();
@@ -178,6 +185,8 @@ elseif($page==='user.post.add')
 
                     // Maintenant ça marche
                     $postManager->edit($post);
+
+                    $picture_name = $post->resize_image('assets/media/photo/'.$picture_name, 500, 500);
                     header('Location:index.php?p=user.home');
                     
                 }
