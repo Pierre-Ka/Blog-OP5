@@ -44,7 +44,7 @@
 					</li>
 
 					<?php
-					foreach ( $categoryManager->getAll() as $categorie )
+					foreach ( $categories_header as $categorie )
 					{
 						?>
 						<li class="nav-item ">

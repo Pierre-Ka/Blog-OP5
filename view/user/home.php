@@ -39,7 +39,7 @@ ob_start(); ?>
 			<tr>
 				<td><?= $post->getId(); ?></td>
 				<td><?= $post->getTitle(); ?></td>
-				<td><?= $categoryManager->getCategoryName($post->getCategory_id()); ?></td>
+				<td><?= $post->getCategory(); ?></td>
 				<?php 
 					if (($post->getLast_update())===null)
 					{
@@ -51,7 +51,7 @@ ob_start(); ?>
 					}
 				?>
 				<td><?= $date ?></td>
-				<td><?= $commentManager->countNotYetValid($post->getId()); ?></td>
+				<td><?= $post->getCommentNotYetValid(); ?></td>
 				<td><a class="btn btn-primary" href="index.php?p=user.post.edit&id=<?= $post->getId(); ?>">Editer</a>
 					<form method="post">
 						<input type="hidden" name="id_delete" value="<?= $post->getId(); ?>"/>

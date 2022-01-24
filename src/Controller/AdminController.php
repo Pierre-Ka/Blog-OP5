@@ -1,11 +1,12 @@
 <?php
 namespace BlogApp\Controller;
 
+use BlogApp\Entity\Category;
+/*
 use BlogApp\Entity\Comment;
 use BlogApp\Entity\Post;
 use BlogApp\Entity\User;
-use BlogApp\Entity\Category;
-
+*/
 use BlogApp\Manager\CommentManager;
 use BlogApp\Manager\PostManager;
 use BlogApp\Manager\UserManager;
@@ -18,7 +19,7 @@ class AdminController extends AbstractController
 	public function __construct(PostManager $postManager, UserManager $userManager, CategoryManager $categoryManager, CommentManager $commentManager)
     {
         parent::__construct($postManager, $userManager, $categoryManager, $commentManager);
-		if(!$this->userManager->is_admin())
+		if(!$this->userManager->isAdmin())
 		{
 			$this->forbidden();
 		}
@@ -26,6 +27,7 @@ class AdminController extends AbstractController
 
 	public function adminHome()
 	{
+		$categories_header = $this->categoryManager->getAll();
 	    if(( $this->userManager->logged() AND $this->userManager->isAdmin() ))
 	    {
 	        if(isset($_POST['admin_post_delete']))
@@ -46,6 +48,7 @@ class AdminController extends AbstractController
 
 	public function manageUsers()
 	{
+		$categories_header = $this->categoryManager->getAll();
 		if(!empty($_GET['valid']))
 		{
 			$this->userManager->valid(($_GET['valid']));
@@ -60,6 +63,7 @@ class AdminController extends AbstractController
 
 	public function manageCategories()
 	{
+		$categories_header = $this->categoryManager->getAll();
 		if(empty($_POST))
 		{
 			$categories = $this->categoryManager->getAll();

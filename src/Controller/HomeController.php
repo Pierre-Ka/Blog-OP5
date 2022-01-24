@@ -2,40 +2,27 @@
 namespace BlogApp\Controller;
 
 use BlogApp\Entity\Comment;
-use BlogApp\Entity\Post;
 use BlogApp\Entity\User;
+/*
+use BlogApp\Entity\Post;
 use BlogApp\Entity\Category;
-
 use BlogApp\Manager\CommentManager;
 use BlogApp\Manager\PostManager;
 use BlogApp\Manager\UserManager;
 use BlogApp\Manager\CategoryManager;
-
+*/
 class HomeController extends AbstractController
 {
-	protected PostManager $postManager;
-    protected UserManager $userManager;
-    protected CategoryManager $categoryManager;
-    protected CommentManager $commentManager;
-
-    public function __construct(PostManager $postManager, UserManager $userManager, CategoryManager $categoryManager, CommentManager $commentManager)
-    {
-        $this->postManager = $postManager;
-        $this->userManager = $userManager;
-        $this->categoryManager = $categoryManager;
-        $this->commentManager = $commentManager;
-    }
-    
-
 	public function home()
 	{
-		//$categories = $this->categoryManager->getAll();
+		$categories_header = $this->categoryManager->getAll();
 		require('view/home/home.php');
 	}
 
 
 	public function post()
 	{
+		$categories_header = $this->categoryManager->getAll();
 		$q_total=$this->postManager->totalPages();
 
 		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$q_total)
@@ -47,12 +34,12 @@ class HomeController extends AbstractController
 			$actual_page = 1 ;
 		}
 		$posts=$this->postManager->getAll($actual_page);
-		$categoryManager = $this->categoryManager;
 		require('view/home/post.php');
 	}	
 
 	public function category()
 	{
+		$categories_header = $this->categoryManager->getAll();
 		$category_id=htmlspecialchars($_GET['id']);
 		$category = $this->categoryManager->getOne($category_id);
 		$q_total=$this->postManager->totalPagesByCategory($category_id);
@@ -71,6 +58,7 @@ class HomeController extends AbstractController
 
 	public function single()
 	{
+		$categories_header = $this->categoryManager->getAll();
 		$post_id= $_GET['id'];
 		if (isset($_POST['author_com']) AND isset($_POST['com']) AND !empty($_POST['author_com']) AND !empty($_POST['com']))
 		{
@@ -100,6 +88,7 @@ class HomeController extends AbstractController
 
 	public function sign_in()
 	{
+		$categories_header = $this->categoryManager->getAll();
 		$incorrect=false;
 		if (!empty($_POST['email']) AND !empty($_POST['password']))
 		{

@@ -3,6 +3,7 @@ namespace BlogApp\Entity;
 
 use BlogApp\Manager\CategoryManager;
 use BlogApp\Manager\UserManager;
+use BlogApp\Manager\CommentManager;
 
 class Post extends Entity
 {
@@ -151,12 +152,30 @@ class Post extends Entity
 
 	public function getCategory() 
 	{
-          return (new CategoryManager())->getOne(($this->category_id);
+		$db = new \PDO('mysql:host=localhost;dbname=project5_blog;charset=utf8', 'root', 'root');
+$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
+		$category_manager = new CategoryManager($db) ;
+		$category = $category_manager->getOne($this->category_id) ;
+		$category_name = $category->getName() ;
+          return $category_name ;
 	}
 
-	public function getAuthor() 
+	public function getUser() 
 	{
-          return (new UserManager())->getOne(($this->user_id);
+		$db = new \PDO('mysql:host=localhost;dbname=project5_blog;charset=utf8', 'root', 'root');
+$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
+		$user_manager = new UserManager($db) ;
+		$user_name = $user_manager->getAuthorName($this->user_id) ;
+          return $user_name ;
+	}
+
+	public function getCommentNotYetValid() 
+	{
+		$db = new \PDO('mysql:host=localhost;dbname=project5_blog;charset=utf8', 'root', 'root');
+		$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
+		$comment_manager = new CommentManager($db) ;
+		$count = $comment_manager->countNotYetValid($this->id) ;
+          return $count ;
 	}
 
 

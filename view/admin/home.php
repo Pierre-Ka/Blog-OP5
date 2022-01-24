@@ -47,7 +47,7 @@ ob_start(); ?>
 			<tr>
 				<td><?= $post->getId(); ?></td>
 				<td><?= $post->getTitle(); ?></td>
-				<td><?= $categoryManager->getCategoryName((int)$post->getCategory_id()); ?></td>
+				<td><?= $post->getCategory(); ?></td>
 				<?php 
 					if (($post->getLast_update())===null)
 					{

@@ -1,11 +1,12 @@
 <?php
 namespace BlogApp\Controller;
 
-use BlogApp\Entity\Comment;
 use BlogApp\Entity\Post;
+/*
+use BlogApp\Entity\Comment;
 use BlogApp\Entity\User;
 use BlogApp\Entity\Category;
-
+*/
 use BlogApp\Manager\CommentManager;
 use BlogApp\Manager\PostManager;
 use BlogApp\Manager\UserManager;
@@ -25,6 +26,7 @@ class UserController extends AbstractController
 
 	public function userHome()
 	{
+		$categories_header = $this->categoryManager->getAll();
 	    if($this->userManager->logged())
 	    {
 	        if(isset($_POST['id_delete']) )
@@ -45,6 +47,7 @@ class UserController extends AbstractController
 
 	public function editUser()
 	{
+		$categories_header = $this->categoryManager->getAll();
 	    $user = $this->userManager->getOne($this->userManager->getUserId());
 	    if (isset($_FILES['pictureUpdate']) AND $_FILES['pictureUpdate']['error'] == 0)
 	    {
@@ -94,6 +97,7 @@ class UserController extends AbstractController
 
 		public function editPost()
 	{
+		$categories_header = $this->categoryManager->getAll();
 	    $post = $this->postManager->getOne($_GET['id']);
 	    if (isset($_FILES['pictureChange']) AND $_FILES['pictureChange']['error'] == 0)
 	    {
@@ -157,6 +161,7 @@ class UserController extends AbstractController
 
 	public function addPost()
 	{
+		$categories_header = $this->categoryManager->getAll();
 	    if(!empty($_POST))
 	    {
 	        if(!empty($_POST['title']) AND !empty($_POST['category']) AND !empty($_POST['chapo']) AND !empty($_POST['content'])) 

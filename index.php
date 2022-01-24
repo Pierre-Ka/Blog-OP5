@@ -25,126 +25,107 @@ else
 	$page = 'home';
 }
 
-
-switch ($page) 
+/*
+if (!isset($_SESSION['auth']))
 { 
-	case $page==='home' ||  $page==='post' || $page==='single' || $page==='category' || $page==='sign_in' : 
-	require('src/controller/home_controller.php');
-	break;
-
-	case $page==='user.home' ||  $page==='user.edit' || $page==='user.post.edit' || $page==='user.post.add' : 
-	require('src/controller/user_controller.php');
-	break;
-
-	case $page==='admin.home' ||  $page==='admin.manage_user' || $page==='admin.manage_category' : 
-	require('src/controller/admin_controller.php');
-	break;
-
-	case $page==='faker_user' :  require('src/faker/faker_user.php'); break;
-	case $page==='faker_post' :  require('src/faker/faker_post.php'); break;
-	case $page==='faker_comment' :  require('src/faker/faker_comment.php'); break;
-	case $page==='faker_category' :  require('src/faker/faker_category.php'); break;
-
-	default : $page = 'home'; break ; 
+	switch ($page) 
+	{ 
+		case $page==='home' ||  $page==='post' || $page==='single' || $page==='category' || $page==='sign_in' : 
+		require('src/controller/home_controller.php');
+		break;
+	}
 }
+else
+	switch ($page) 
+	{ 
+		case $page==='user.home' ||  $page==='user.edit' || $page==='user.post.edit' || $page==='user.post.add' : 
+		require('src/controller/user_controller.php');
+		break;
 
+		case $page==='admin.home' ||  $page==='admin.manage_user' || $page==='admin.manage_category' : 
+		require('src/controller/admin_controller.php');
+		break;
 
-/* 
-Le passage aux classes controllers pose problème à cause de la présence de manager dans les views ; la variable manager étant alors inconnue : 
-template - basic_template : foreach ( $categoryManager->getAll() as $categorie )
-home - category : $categoryManager->getCategoryName($post->getCategory_id());  et 
-					$userManager->getAuthorName($post->getUser_id()); dans foreach
-home - post : $categoryManager->getCategoryName($post->getCategory_id()); et
-					$userManager->getAuthorName($post->getUser_id()); dans foreach
-home - single : $userManager->getAuthorName($post->getUser_id());
-user - home : $categoryManager->getCategoryName($post->getCategory_id()); et 
-				$commentManager->countNotYetValid($post->getId()); dans foreach
-admin - home : $categoryManager->getCategoryName((int)$post->getCategory_id()); dans foreach
-*/ 
-/*			
+		case $page==='faker_user' :  require('src/faker/faker_user.php'); break;
+		case $page==='faker_post' :  require('src/faker/faker_post.php'); break;
+		case $page==='faker_comment' :  require('src/faker/faker_comment.php'); break;
+		case $page==='faker_category' :  require('src/faker/faker_category.php'); break;
+
+		default : $page = 'home'; break ; 
+	}
+}
+*/
+
+		
 if (!isset($_SESSION['auth']))
 { 
 	$homeController = new HomeController($postManager, $userManager, $categoryManager, $commentManager) ;
-	if($page==='home')
-	{
+	switch ($page) 
+	{ 
+		case $page==='home' : 
 		$homeController->home();
-	}
-	elseif($page==='post')
-	{
+		break ;
+
+		case $page==='post' : 
 		$homeController->post();
-	}
-	elseif($page==='single')
-	{
+		break ;
+
+		case $page==='single' : 
 		$homeController->single();
-	}
-	elseif($page==='category')
-	{
+		break ;
+
+		case $page==='category' : 
 		$homeController->category();
-	}
-	elseif($page==='sign_in')
-	{
+		break ;
+
+		case $page==='sign_in' : 
 		$homeController->sign_in();
-	}
-	else
-	{
-		$homeController->home();
+		break ;
+
+		default : $page = 'home'; break ;
 	}
 }
 else
 {
 	$userController = new UserController($postManager, $userManager, $categoryManager, $commentManager) ;
-	if($page==='user.home')
-	{
+	switch ($page) 
+	{ 
+		case $page==='user.home' : 
 		$userController->userHome();
-	}
-	elseif($page==='user.edit')
-	{
+		break ;
+
+		case $page==='user.edit' : 
 		$userController->editUser();
-	}
-	elseif($page==='user.post.edit')
-	{
+		break ;
+
+		case $page==='user.post.edit' : 
 		$userController->editPost();
-	}
-	elseif($page==='user.post.add')
-	{
+		break ;
+
+		case $page==='user.post.add' : 
 		$userController->addPost();
-	}
+		break ;
 
-	elseif($page==='admin.home' || $page==='admin.manage_user' || $page==='admin.manage_category')
-	{
-		$adminController = new UserController($postManager, $userManager, $categoryManager, $commentManager) ;
-		if($page==='admin.home')
-		{
-			$adminController->adminHome();
-		}
-		elseif($page==='admin.manage_user')
-		{
-			$adminController->manageUsers();
-		}
-		elseif($page==='admin.manage_category')
-		{
-			$adminController->manageCategories();
-		}
-		elseif($page==='faker_user')
-		{
-			require('src/faker/faker_user.php');
-		}
+		case $page==='admin.home' : 
+		$adminController = new AdminController($postManager, $userManager, $categoryManager, $commentManager) ;
+		$adminController->adminHome();
+		break ;
 
-		elseif($page==='faker_post')
-		{
-			require('src/faker/faker_post.php');
-		}
+		case $page==='admin.manage_user' : 
+		$adminController = new AdminController($postManager, $userManager, $categoryManager, $commentManager) ;
+		$adminController->manageUsers();
+		break ;
 
-		elseif($page==='faker_comment')
-		{
-			require('src/faker/faker_comment.php');
-		}
-	}
-	else
-	{
-		header('Location:index.php?disconnect');
+		case $page==='admin.manage_category' : 
+		$adminController = new AdminController($postManager, $userManager, $categoryManager, $commentManager) ;
+		$adminController->manageCategories();
+		break ;
+
+		// case ($page==='admin.home' || $page==='admin.manage_user' || $page==='admin.manage_category') : 
+		default : header('Location:index.php?disconnect');  break ;
 	}
 }
-*/
+
+
 
 

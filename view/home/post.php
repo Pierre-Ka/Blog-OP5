@@ -17,10 +17,10 @@ foreach ($posts as $post)
 			?>
 
 			<h2> <?= $post->getTitle(); ?> </h2> 
-			<h2> <?= $categoryManager->getCategoryName($post->getCategory_id()); ?> </h2> 
+			<h2> <?= $post->getCategory() ?> </h2> 
 
 			écrit le <?= $post->getCreate_date(); ?> par 
-			<?= $userManager->getAuthorName($post->getUser_id()); ?>  et modifié le <?= $post->getLast_update(); ?> 
+			<?= $post->getUser() ?>  et modifié le <?= $post->getLast_update(); ?> 
 			<p> <?= $post->getChapo(); ?> </p>
 			
 			<p> <img src="<?= $pathPicture; ?>" alt=""> </p> <br/>

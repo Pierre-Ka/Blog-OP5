@@ -97,8 +97,9 @@ class PostManager extends Manager
 			);
 		while($data=$q->fetch(\PDO::FETCH_ASSOC))		
 		{
-			$posts[]= new Post ($data) ;
+			$posts[]= new Post ($data);
 		}
+
 		return $posts;
 	}
 
