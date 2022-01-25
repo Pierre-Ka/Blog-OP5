@@ -1,4 +1,4 @@
-<?php
+<?php/*
 namespace BlogApp\Faker;
 
 require_once 'vendor/autoload.php';
@@ -16,6 +16,6 @@ foreach(range(1, 100) as $id)
 }
 
 $message = '100 Faux posts crées';
-header('Location:index.php?p=admin.home');
+header('Location:index.php?p=admin.home');*/
 
 

@@ -71,16 +71,16 @@ ob_start(); ?>
 </table>
 
 <p> 
-	<a href="index.php?p=faker_category" class="btn btn-success">Generer des fausses categories</a>
+	<a href="index.php?p=admin.home&faker=category" class="btn btn-success">Generer des fausses categories</a>
 </p>
 <p> 
-	<a href="index.php?p=faker_comment" class="btn btn-success">Generer des faux commentaires</a>
+	<a href="index.php?p=admin.home&faker=comment" class="btn btn-success">Generer des faux commentaires</a>
 </p>
 <p> 
-	<a href="index.php?p=faker_post" class="btn btn-success">Generer des faux posts</a>
+	<a href="index.php?p=admin.home&faker=post" class="btn btn-success">Generer des faux posts</a>
 </p>
 <p> 
-	<a href="index.php?p=faker_user" class="btn btn-success">Generer de faux membres</a>
+	<a href="index.php?p=admin.home&faker=user" class="btn btn-success">Generer de faux membres</a>
 </p>
 
 

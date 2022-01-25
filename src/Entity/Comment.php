@@ -3,15 +3,15 @@ namespace BlogApp\Entity;
 
 class Comment extends Entity
 {
-	private $id,
+/*	private $id,
 			$post_id,
 			$author,
 			$content,
 			$is_valid,
 			$create_date;
 
-/* AMELIORATION future: TYPEHINT
-
+ AMELIORATION future: TYPEHINT
+*/
 	private int $id;
 	private int $idPost;
 	private string $author;
@@ -19,7 +19,7 @@ class Comment extends Entity
 	private bool $isValid;
 	private datetime $createDate;
 
-*/
+
 	//GETTERS//
 
 	public function getId()

@@ -1,4 +1,4 @@
-<?php 
+<?php /*
 namespace BlogApp\Faker;
 
 require_once 'vendor/autoload.php';
@@ -14,6 +14,6 @@ foreach(range(2,8) as $id)
 }
 
 $message = '7 Faux membres (id 2 à 8 ) créés ';
-header('Location:index.php?p=admin.home');
+header('Location:index.php?p=admin.home');*/
 
 

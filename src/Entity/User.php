@@ -3,8 +3,7 @@ namespace BlogApp\Entity;
 
 class User extends Entity
 {
-
-	// !!!!!!!!!!!  IL MANQUE UN ATTRIBUT LAST_CONNEXION A MON USER !!!!!!!!!!!!   //
+/*
 	private $id,
 			$email,
 			$password,
@@ -14,8 +13,8 @@ class User extends Entity
 			$inscription_date,
 			$is_valid;
 
-/* AMELIORATION future: TYPEHINT
-
+ AMELIORATION future: TYPEHINT
+*/
 	private int $id;
 	private string $email;
 	private string $name;
@@ -24,7 +23,7 @@ class User extends Entity
 	private datetime $inscriptionDate;
 	private bool isValid ;
 
-*/
+
 		//GETTERS//
 
 	public function getId()

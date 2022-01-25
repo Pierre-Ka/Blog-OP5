@@ -1,4 +1,4 @@
-<?php
+<?php/*
 namespace BlogApp\Faker;
 
 require_once 'vendor/autoload.php';
@@ -22,7 +22,7 @@ foreach(range(0, 1000) as $id)
 }
 
 $message = '1000 Faux commentaires crées';
-header('Location:index.php?p=admin.home');
+header('Location:index.php?p=admin.home');*/
 
 
 

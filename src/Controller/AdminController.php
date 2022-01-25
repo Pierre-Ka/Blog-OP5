@@ -2,6 +2,7 @@
 namespace BlogApp\Controller;
 
 use BlogApp\Entity\Category;
+use BlogApp\Faker\FakeData;
 /*
 use BlogApp\Entity\Comment;
 use BlogApp\Entity\Post;
@@ -13,7 +14,7 @@ use BlogApp\Manager\UserManager;
 use BlogApp\Manager\CategoryManager;
 
 
-class AdminController extends AbstractController
+class AdminController extends UserController
 {
 
 	public function __construct(PostManager $postManager, UserManager $userManager, CategoryManager $categoryManager, CommentManager $commentManager)
@@ -28,22 +29,31 @@ class AdminController extends AbstractController
 	public function adminHome()
 	{
 		$categories_header = $this->categoryManager->getAll();
-	    if(( $this->userManager->logged() AND $this->userManager->isAdmin() ))
+		if (isset($_GET['faker']))
+		{
+			$fake = new FakeData();
+			switch($_GET['faker'])
+			{
+				case $_GET['faker']==="comment" : 
+				$fake->fakeComment();
+				break;
+				case $_GET['faker']==="user" : 
+				$fake->fakeUser();
+				break;
+				case $_GET['faker']==="post" : 
+				$fake->fakePost();
+				break;
+			}
+			header('Location:index.php?p=admin.home');
+		}
+		if(isset($_POST['admin_post_delete']))
 	    {
-	        if(isset($_POST['admin_post_delete']))
-	        {
-	            $this->postManager->delete($_POST['admin_post_delete']);
-	            $this->commentManager->deletePerPost($_POST['admin_post_delete']);
-	        }
-	        $connect_id = $this->userManager->getUserId();
-	        $posts = $this->postManager->getAllAdmin();
-	        require('view/admin/home.php');
+	        $this->postManager->delete($_POST['admin_post_delete']);
+	        $this->commentManager->deletePerPost($_POST['admin_post_delete']);
 	    }
-	    else
-	    {
-	        $incorrect=true;
-	        require('view/home/sign_in.php');
-	    }
+	    $connect_id = $this->userManager->getUserId();
+	    $posts = $this->postManager->getAllAdmin();
+	    require('view/admin/home.php');
 	}
 
 	public function manageUsers()

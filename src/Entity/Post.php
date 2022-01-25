@@ -7,7 +7,8 @@ use BlogApp\Manager\CommentManager;
 
 class Post extends Entity
 {
-	private $id,
+/*	
+private $id,
 			$title,
 			$user_id,
 			$category_id,
@@ -15,10 +16,12 @@ class Post extends Entity
 			$content,
 			$picture,
 			$last_update,
-			$create_date;
+			$create_date,
+			$category,
+			$user;
 
-/* AMELIORATION future: TYPEHINT
-
+AMELIORATION future: TYPEHINT
+*/
 	private int $id;
 	private string $title;
 	private int $idUser;
@@ -29,7 +32,10 @@ class Post extends Entity
 	private datetime $lastUpdate;
 	private datetime $createDate;
 
-*/
+	private string $category;
+	private string $user;
+
+
 
 	//GETTERS//
 
@@ -149,24 +155,23 @@ class Post extends Entity
 
 	// FIN DES SETTERS //
 
+	// RECUPERATION DES JOINTURES //
 
-	public function getCategory() 
+	public function getCategory()
 	{
-		$db = new \PDO('mysql:host=localhost;dbname=project5_blog;charset=utf8', 'root', 'root');
-$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
-		$category_manager = new CategoryManager($db) ;
-		$category = $category_manager->getOne($this->category_id) ;
-		$category_name = $category->getName() ;
-          return $category_name ;
+		return $this->category ;
 	}
-
-	public function getUser() 
+	public function setCategory($category)
 	{
-		$db = new \PDO('mysql:host=localhost;dbname=project5_blog;charset=utf8', 'root', 'root');
-$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
-		$user_manager = new UserManager($db) ;
-		$user_name = $user_manager->getAuthorName($this->user_id) ;
-          return $user_name ;
+		$this->category = $category ;
+	}
+	public function getUser()
+	{
+		return $this->user;
+	}
+	public function setUser($user)
+	{
+		$this->user = $user ;
 	}
 
 	public function getCommentNotYetValid() 

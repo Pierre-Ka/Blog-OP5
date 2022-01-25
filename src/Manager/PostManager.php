@@ -30,7 +30,7 @@ class PostManager extends Manager
 		$q->execute();
 	}
 
-	public function getOne($id)
+	/*public function getOne($id)
 	{ 
 		if (ctype_digit($id))
 		{
@@ -38,7 +38,30 @@ class PostManager extends Manager
 			$data=$q->fetch();
 			return new Post($data);
 		}
+	}*/
+
+	public function getOne($id)
+	{ 
+		if (ctype_digit($id))
+		{
+			$q = $this->_db->query('
+			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, 
+				DATE_FORMAT(p.create_date, \'%d/%m/%Y\') AS create_date,  
+				DATE_FORMAT(p.last_update, \'%d/%m/%Y\') AS last_update,  
+				u.name as user,
+				c.name as category
+			FROM post AS p
+			INNER JOIN user AS u
+				ON p.user_id = u.id
+			INNER JOIN category AS c
+				ON p.category_id = c.id
+			WHERE p.id=' .$id);
+			$data=$q->fetch();
+			return new Post($data);
+		}
 	}
+
+
 
 	public function delete($id)
 	{
@@ -87,10 +110,13 @@ class PostManager extends Manager
 		$q = $this->_db->query('
 			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, 
 				DATE_FORMAT(p.create_date, \'%d/%m/%Y\') AS create_date,  
-				DATE_FORMAT(p.last_update, \'%d/%m/%Y\') AS last_update, 
-				c.name as categorie  
+				DATE_FORMAT(p.last_update, \'%d/%m/%Y\') AS last_update,  
+				u.name as user,
+				c.name as category
 			FROM post AS p
-			RIGHT JOIN category AS c
+			INNER JOIN user AS u
+				ON p.user_id = u.id
+			INNER JOIN category AS c
 				ON p.category_id = c.id
 			ORDER BY DATE_FORMAT(create_date, \'%Y%m%d\') DESC 
 			LIMIT ' . $start . ',' . $post_per_page
@@ -109,9 +135,9 @@ class PostManager extends Manager
 			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, 
 				DATE_FORMAT(p.create_date, \'%d/%m/%Y\') AS create_date,  
 				DATE_FORMAT(p.last_update, \'%d/%m/%Y\') AS last_update, 
-				c.name as categorie  
+				c.name as category  
 			FROM post AS p
-			RIGHT JOIN category AS c
+			INNER JOIN category AS c
 				ON p.category_id = c.id
 			ORDER BY DATE_FORMAT(create_date, \'%Y%m%d\') DESC'
 			);
@@ -128,7 +154,20 @@ class PostManager extends Manager
 		$posts=[];
 		$post_per_page = 4 ;
 		$start = ( $actual_page-1)*$post_per_page; 		
-		$q = $this->_db->query('SELECT id, title, user_id, category_id, chapo, content, picture, DATE_FORMAT(create_date, \'%d/%m/%y\') AS create_date,  DATE_FORMAT(last_update, \'%d/%m/%y\') AS last_update FROM post WHERE category_id= "' .$category_id. '" ORDER BY DATE_FORMAT(create_date, \'%Y%m%d\') DESC LIMIT ' . $start . ',' . $post_per_page);
+		$q = $this->_db->query('
+			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, 
+				DATE_FORMAT(p.create_date, \'%d/%m/%Y\') AS create_date,  
+				DATE_FORMAT(p.last_update, \'%d/%m/%Y\') AS last_update,  
+				u.name as user,
+				c.name as category
+			FROM post AS p
+			INNER JOIN user AS u
+				ON p.user_id = u.id
+			INNER JOIN category AS c
+				ON p.category_id = c.id
+			WHERE category_id= "' .$category_id. '" 
+			ORDER BY DATE_FORMAT(create_date, \'%Y%m%d\') DESC 
+			LIMIT ' . $start . ',' . $post_per_page);
 		while($data=$q->fetch(\PDO::FETCH_ASSOC))
 		{
 			$posts[]= new Post ($data) ;
@@ -139,7 +178,16 @@ class PostManager extends Manager
 	public function getWithUserId ($connect_id)
 	{
 		$posts=[];		
-		$q = $this->_db->query('SELECT id, title, user_id, category_id, chapo, content, picture, DATE_FORMAT(create_date, \'%d/%m/%y\') AS create_date,  DATE_FORMAT(last_update, \'%d/%m/%y\') AS last_update FROM post WHERE user_id= "' .$connect_id. '" ORDER BY DATE_FORMAT(create_date, \'%Y%m%d\') DESC');
+		$q = $this->_db->query('
+			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, 
+				DATE_FORMAT(p.create_date, \'%d/%m/%Y\') AS create_date,  
+				DATE_FORMAT(p.last_update, \'%d/%m/%Y\') AS last_update,
+				c.name as category
+			FROM post AS p
+			INNER JOIN category AS c
+				ON p.category_id = c.id 
+			WHERE p.user_id= "' .$connect_id. '" 
+			ORDER BY DATE_FORMAT(create_date, \'%Y%m%d\') DESC');
 		while($data=$q->fetch(\PDO::FETCH_ASSOC))
 		{
 			$posts[]= new Post ($data) ;
