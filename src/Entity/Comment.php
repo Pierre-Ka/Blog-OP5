@@ -3,16 +3,7 @@ namespace BlogApp\Entity;
 
 class Comment extends Entity
 {
-/*	private $id,
-			$post_id,
-			$author,
-			$content,
-			$is_valid,
-			$create_date;
-
- AMELIORATION future: TYPEHINT
-*/
-	private int $id;
+	private $id;
 	private int $idPost;
 	private string $author;
 	private string $content;

@@ -12,7 +12,7 @@ foreach ($posts as $post)
 	?>
 		<div>
 			<?php 
-				$pathPicture = 'assets/media/photo/' . $post->getPicture() . '.jpg' ;
+				$pathPicture = 'var/media/photo/' . $post->getPicture() . '.jpg' ;
 				$id_user=$post->getUser_id();
 			?>
 			<h2> <?= $post->getTitle(); ?> </h2> 

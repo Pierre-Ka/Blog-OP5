@@ -3,26 +3,13 @@ namespace BlogApp\Entity;
 
 class User extends Entity
 {
-/*
-	private $id,
-			$email,
-			$password,
-			$name,
-			$picture,
-			$description,
-			$inscription_date,
-			$is_valid;
-
- AMELIORATION future: TYPEHINT
-*/
-	private int $id;
+	private $id;
 	private string $email;
 	private string $name;
 	private string $picture;
 	private string $description;
-	private datetime $inscriptionDate;
-	private bool isValid ;
-
+	private date $inscriptionDate;
+	private bool $isValid ;
 
 		//GETTERS//
 
@@ -111,11 +98,7 @@ class User extends Entity
 
 	public function setInscription_date($inscription_date)
 	{
-		$inscription_date=strtotime(($inscription_date));
-		if ($inscription_date = (int)$inscription_date)
-		{
-			$this->inscription_date = $inscription_date;
-		}
+		$this->inscription_date = $inscription_date;
 	}
 
 	public function setIs_valid($is_valid)

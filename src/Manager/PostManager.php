@@ -30,16 +30,6 @@ class PostManager extends Manager
 		$q->execute();
 	}
 
-	/*public function getOne($id)
-	{ 
-		if (ctype_digit($id))
-		{
-			$q = $this->_db->query('SELECT * FROM post WHERE id=' .$id);
-			$data=$q->fetch();
-			return new Post($data);
-		}
-	}*/
-
 	public function getOne($id)
 	{ 
 		if (ctype_digit($id))
@@ -60,8 +50,6 @@ class PostManager extends Manager
 			return new Post($data);
 		}
 	}
-
-
 
 	public function delete($id)
 	{
@@ -88,19 +76,6 @@ class PostManager extends Manager
 		$total_type_pages = ceil($post_total/$post_per_page);
 		return $total_type_pages;
 	}
-
-	/*public function getAll($actual_page) 
-	{
-		$posts=[];
-		$post_per_page = 4 ;
-		$start = ( $actual_page-1)*$post_per_page; 
-		$q = $this->_db->query('SELECT id, title, user_id, category_id, chapo, content, picture, DATE_FORMAT(create_date, \'%d/%m/%Y\') AS create_date,  DATE_FORMAT(last_update, \'%d/%m/%Y\') AS last_update  FROM post ORDER BY DATE_FORMAT(create_date, \'%Y%m%d\') DESC LIMIT ' . $start . ',' . $post_per_page);
-		while($data=$q->fetch(\PDO::FETCH_ASSOC))
-		{
-			$posts[]= new Post ($data) ;
-		}
-		return $posts;
-	}*/
 
 	public function getAll($actual_page) 
 	{
@@ -187,7 +162,7 @@ class PostManager extends Manager
 			INNER JOIN category AS c
 				ON p.category_id = c.id 
 			WHERE p.user_id= "' .$connect_id. '" 
-			ORDER BY DATE_FORMAT(create_date, \'%Y%m%d\') DESC');
+			ORDER BY DATE_FORMAT(p.create_date, \'%Y%m%d\') DESC');
 		while($data=$q->fetch(\PDO::FETCH_ASSOC))
 		{
 			$posts[]= new Post ($data) ;

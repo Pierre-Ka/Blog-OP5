@@ -29,8 +29,8 @@ ob_start(); ?>
 		<input type="submit" value="Sauvegarder"/>
 		</form>
 
-		<p> <img src="<?= 'assets/media/photo/' . $post->getPicture() . '.jpg' ; ?>" alt="avec ext"> </p>
-		<p> <img src="<?= 'assets/media/photo/' . $post->getPicture() . '' ; ?>" alt="sans ext"> </p>
+		<p> <img src="<?= 'var/media/photo/' . $post->getPicture() . '.jpg' ; ?>" alt="avec ext"> </p>
+		<p> <img src="<?= 'var/media/photo/' . $post->getPicture() . '' ; ?>" alt="sans ext"> </p>
 		
 		<form method="post" action="index.php?p=user.post.edit&id=<?= $post->getId() ?>" class="form-control" enctype="multipart/form-data">
 			<label> Changer la photo de l'article : <br />

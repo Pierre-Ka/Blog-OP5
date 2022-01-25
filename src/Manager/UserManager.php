@@ -124,12 +124,13 @@ class UserManager extends Manager
 	public function getList()
 	{
 		$users=[];
-		$q = $this->_db->query('SELECT id,email, name, picture, description, is_valid, DATE_FORMAT(inscription_date, \'%d/%m/%Y à %Hh%imin%ss\') AS inscription_date FROM user WHERE is_admin = 0 ORDER BY DATE_FORMAT(inscription_date, \'%Y%m%d%Hh%imin%ss\') DESC');
+		$q = $this->_db->query('SELECT id,email, name, picture, description, is_valid, DATE_FORMAT(inscription_date, \'%d/%m/%Y\') AS inscription_date FROM user WHERE is_admin = 0 ORDER BY DATE_FORMAT(inscription_date, \'%Y%m%d%Hh%imin%ss\') DESC');
 		
 		while($data=$q->fetch(\PDO::FETCH_ASSOC))
 		{
 			$users[]= new User ($data) ;
 		}
+
 		return $users;
 	}
 

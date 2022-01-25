@@ -11,7 +11,7 @@ foreach ($posts as $post)
 	?>
 		<div>
 			<?php 
-				$pathPicture = 'assets/media/photo/' . $post->getPicture() . '.jpg' ;
+				$pathPicture = 'var/media/photo/' . $post->getPicture() . '.jpg' ;
 				$user_id=$post->getUser_id();
 
 			?>

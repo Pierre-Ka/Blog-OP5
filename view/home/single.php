@@ -24,10 +24,10 @@ ob_start(); ?>
 
 	  <p> 
 		<?php 
-		$pathPicture = 'assets/media/photo/' . $post->getPicture() . '.jpg' ;
+		$pathPicture = 'var/media/photo/' . $post->getPicture() . '.jpg' ;
 		?>
 		<p> <img src="<?= $pathPicture; ?>" alt=""> </p> <br/>
-		<p> <img src="<?= 'assets/media/photo/' . $post->getPicture(); ?>" alt=""> </p> <br/>
+		<p> <img src="<?= 'var/media/photo/' . $post->getPicture(); ?>" alt=""> </p> <br/>
 		<?= $post->getContent(); ?>
 	  </p> <br/>
 </div>

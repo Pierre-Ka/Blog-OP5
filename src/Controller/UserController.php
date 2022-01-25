@@ -58,15 +58,16 @@ class UserController extends AbstractController
 	                $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
 	                if (in_array($extension_upload, $extensions_autorisees))
 	                {
-	                    move_uploaded_file($_FILES['pictureUpdate']['tmp_name'], 'assets/media/photo/USER_IMG_' . $user->getId() .'.'.$extension_upload);
+	                    move_uploaded_file($_FILES['pictureUpdate']['tmp_name'], 'var/media/photo/USER_IMG_' . $user->getId() .'.'.$extension_upload);
 	            
 	                    $picture_name = 'USER_IMG_' . $user->getId() .'.'.$extension_upload ;
 	                    $user->setPicture($picture_name);
 	                    $this->userManager->edit($user);
 
-	                    $picture_name = $user->resize_image('assets/media/photo/'.$picture_name, 300, 300);
+	                    $picture_name = $user->resize_image('var/media/photo/'.$picture_name, 300, 300);
+	                    $message = 'Votre profil a bien été modifié';
+	               		header('Location:index.php?p=user.home');
 	                }
-	                header('Location:index.php?p=user.home');
 	         }
 	    }
 	    if(empty($_POST))
@@ -78,24 +79,27 @@ class UserController extends AbstractController
 	        switch ($_POST)
 	        {
 	                case !empty($_POST['nameUpdate']) :
-	            $user->setName(htmlspecialchars($_POST['nameUpdate'])); 
+	            	$user->setName(htmlspecialchars($_POST['nameUpdate']));
+	            	
 
-	                case !empty($_POST['passwordUpdate']) AND !empty($_POST['passwordConfirm']) :
-	                    if (($_POST['passwordUpdate'])=== ($_POST['passwordConfirm']) )
-	                        {
-	                            $password=htmlspecialchars($_POST['passwordConfirm']);
-	                            $user->setPassword(sha1($password));
-	                        }
+	                case !empty($_POST['passwordUpdate']) AND !empty($_POST['passwordConfirm'])
+	                    AND (($_POST['passwordUpdate'])=== ($_POST['passwordConfirm'])) : 
+	                $password=htmlspecialchars($_POST['passwordConfirm']);
+	                $user->setPassword(sha1($password));
+	                
+
 	                case !empty($_POST['descriptionUpdate']) :  
-	            $user->setDescription(htmlspecialchars($_POST['descriptionUpdate'])); 
+	            	$user->setDescription(htmlspecialchars($_POST['descriptionUpdate']));
+
 	        }
 	        $this->userManager->edit($user);
+	        $message = 'Votre profil a bien été modifié';
 	        header('Location:index.php?p=user.home');
 	    }
 
 	}
 
-		public function editPost()
+	public function editPost()
 	{
 		$categories_header = $this->categoryManager->getAll();
 	    $post = $this->postManager->getOne($_GET['id']);
@@ -108,15 +112,16 @@ class UserController extends AbstractController
 	                $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
 	                if (in_array($extension_upload, $extensions_autorisees))
 	                {
-	                    move_uploaded_file($_FILES['pictureChange']['tmp_name'], 'assets/media/photo/POST_IMG_' . $_GET['id'] .'.'.$extension_upload);
+	                    move_uploaded_file($_FILES['pictureChange']['tmp_name'], 'var/media/photo/POST_IMG_' . $_GET['id'] .'.'.$extension_upload);
 	            
 	                    $picture_name = 'POST_IMG_' . $_GET['id'] .'.'.$extension_upload ;
 	                    $post->setPicture($picture_name);
 	                    $this->postManager->edit($post);
 
-	                    $picture_name = $post->resize_image('assets/media/photo/'.$picture_name, 500, 500);
+	                    $picture_name = $post->resize_image('var/media/photo/'.$picture_name, 500, 500);
+	                    $message = 'Votre post a bien été modifié';
+	                    header('Location:index.php?p=user.home');
 	                }
-	                header('Location:index.php?p=user.home');
 	         }
 	    }
 	    if(empty($_POST))
@@ -155,6 +160,7 @@ class UserController extends AbstractController
 	            $post->setContent(htmlspecialchars($_POST['contentChange']));
 	        }
 	        $this->postManager->edit($post);
+	        $message = 'Votre post a bien été modifié';
 	        header('Location:index.php?p=user.home');
 	    }
 	}
@@ -192,7 +198,7 @@ class UserController extends AbstractController
 	                    $this->postManager->add($post);
 	                    $new_id = $this->postManager->getLastInsertId();
 	 
-	                    move_uploaded_file($_FILES['picture']['tmp_name'], 'assets/media/photo/POST_IMG_' . $new_id .'.'.$extension_upload);// Oui
+	                    move_uploaded_file($_FILES['picture']['tmp_name'], 'var/media/photo/POST_IMG_' . $new_id .'.'.$extension_upload);// Oui
 	                    $picture_name = 'POST_IMG_' . $new_id .'.'.$extension_upload ;
 	                    $post->setPicture($picture_name);
 
@@ -202,7 +208,8 @@ class UserController extends AbstractController
 	                    // Maintenant ça marche
 	                    $this->postManager->edit($post);
 
-	                    $picture_name = $post->resize_image('assets/media/photo/'.$picture_name, 500, 500);
+	                    $picture_name = $post->resize_image('var/media/photo/'.$picture_name, 500, 500);
+	                    $message = 'Votre post a bien été ajouté';
 	                    header('Location:index.php?p=user.home');
 	                    
 	                }

@@ -4,6 +4,12 @@ $title = 'Manage users';
 
 ob_start(); ?>
 
+<?php if (isset($message)): ?>
+	<div class="alert alert-success">
+		<?= $message; ?>
+	</div>
+<?php endif; ?>
+
 <h1> Administrer les utilisateurs</h1>
 
 <p> 

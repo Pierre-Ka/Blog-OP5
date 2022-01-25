@@ -7,22 +7,7 @@ use BlogApp\Manager\CommentManager;
 
 class Post extends Entity
 {
-/*	
-private $id,
-			$title,
-			$user_id,
-			$category_id,
-			$chapo,
-			$content,
-			$picture,
-			$last_update,
-			$create_date,
-			$category,
-			$user;
-
-AMELIORATION future: TYPEHINT
-*/
-	private int $id;
+	private $id;
 	private string $title;
 	private int $idUser;
 	private string $type;

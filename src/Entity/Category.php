@@ -3,7 +3,7 @@ namespace BlogApp\Entity;
 
 class Category extends Entity
 {
-	private int $id;
+	private $id;
 	private string $name ;
 
 	public function getId()
