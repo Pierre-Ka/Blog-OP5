@@ -27,22 +27,18 @@ class UserController extends AbstractController
 	public function userHome()
 	{
 		$categories_header = $this->categoryManager->getAll();
-	    if($this->userManager->logged())
+	    if(isset($_POST['id_delete']) )
 	    {
-	        if(isset($_POST['id_delete']) )
-	        {
-	            $this->postManager->delete($_POST['id_delete']);
-	            $this->commentManager->deletePerPost($_POST['id_delete']);
-	        }
-	        $connect_id = $this->userManager->getUserId();
-	        $posts = $this->postManager->getWithUserId($connect_id);
-	        require('../template/user/home.php');
+	        $this->postManager->delete($_POST['id_delete']);
+	        $this->commentManager->deletePerPost($_POST['id_delete']);
 	    }
-	    else
-	    {
-	        $incorrect=true;
-	        require('../template/home/sign_in.php');
-	    }
+	    $connect_id = $this->userManager->getUserId();
+	    $posts = $this->postManager->getWithUserId($connect_id);
+
+		echo $this->twig->render('user/home.twig', [
+			'posts' => $posts,
+			'categories_header' => $categories_header
+				]);
 	}
 
 	public function editUser()
@@ -72,7 +68,10 @@ class UserController extends AbstractController
 	    }
 	    if(empty($_POST))
 	    {
-	        require('../template/user/edit.php');
+	        echo $this->twig->render('user/edit.twig', [
+				'user' => $user,
+				'categories_header' => $categories_header
+					]);
 	    }
 	    else
 	    {
@@ -140,7 +139,13 @@ class UserController extends AbstractController
 	        }
 	        $comments = $this->commentManager->getNotYetValid($_GET['id']);
 	        $categories = $this->categoryManager->getAll();
-	        require('../template/user/post/edit.php');
+	        
+	        echo $this->twig->render('user/post_edit.twig', [
+				'post' => $post,
+				'comments' => $comments,
+				'categories' => $categories,
+				'categories_header' => $categories_header
+					]);
 	        
 	    }
 	    else
@@ -223,7 +228,11 @@ class UserController extends AbstractController
 	    else
 	    {
 	        $categories = $this->categoryManager->getAll();
-	        require('../template/user/post/add.php');
+	        
+	        echo $this->twig->render('user/post_edit.twig', [
+				'categories' => $categories,
+				'categories_header' => $categories_header
+					]);
 	    }
 	}
 }

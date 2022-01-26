@@ -1,14 +1,14 @@
-<?php
+{% extends 'layout.twig' %}
 
-$title = 'Interface administrateur';
+	{% block title %}
+		Interface administrateur 
+	{% endblock title %}
 
-ob_start(); ?>
+{% block content %}
 
-<?php if (isset($message)): ?>
-	<div class="alert alert-success">
-		<?= $message; ?>
-	</div>
-<?php endif; ?>
+{{ message ? '	<div class="alert alert-success">
+			<?= $message; ?>
+		</div>' : ''}}
 
 <h1> Administrer les utilisateurs et les categories</h1>
 
@@ -43,30 +43,20 @@ ob_start(); ?>
 		</tr>
 	</thead>
 	<tbody>
-		<?php foreach ($posts as $post):?>
+		{% for post in posts %}
 			<tr>
-				<td><?= $post->getId(); ?></td>
-				<td><?= $post->getTitle(); ?></td>
-				<td><?= $post->getCategory(); ?></td>
-				<?php 
-					if (($post->getLast_update())===null)
-					{
-					$date=($post->getCreate_date()) . ' (creation)';
-					}
-					else 
-					{
-					$date =($post->getLast_update());
-					}
-				?>
-				<td><?= $date ?></td>
+				<td>{{ post.id }}</td>
+				<td>{{ post.title }}</td>
+				<td>{{ post.category }}</td>
+				<td>{{ post.last_update == null ? post.create_date : post.last_update }}</td>
 				<td>
 					<form method="post">
-						<input type="hidden" name="admin_post_delete" value="<?= $post->getId(); ?>"/>
+						<input type="hidden" name="admin_post_delete" value="{{ post.id }}"/>
 						<button type="submit" class="btn btn-danger">Supprimer</button>
 					</form>
 				</td>
 			</tr>
-		<?php endforeach; ?>
+		{% endfor %}
 	</tbody>
 </table>
 
@@ -83,8 +73,4 @@ ob_start(); ?>
 	<a href="index.php?p=admin.home&faker=user" class="btn btn-success">Generer de faux membres</a>
 </p>
 
-
-
-
-<?php $content=ob_get_clean(); 
-require('../template/basic/basic_template.php');
+{% endblock content %}

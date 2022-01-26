@@ -12,6 +12,7 @@ abstract class AbstractController
     protected UserManager $userManager;
     protected CategoryManager $categoryManager;
     protected CommentManager $commentManager;
+    protected $twig;
 
     public function __construct(PostManager $postManager, UserManager $userManager, CategoryManager $categoryManager, CommentManager $commentManager)
     {
@@ -19,6 +20,13 @@ abstract class AbstractController
         $this->userManager = $userManager;
         $this->categoryManager = $categoryManager;
         $this->commentManager = $commentManager;
+        $loader = new \Twig\Loader\FilesystemLoader('../template');
+        $twig = new \Twig\Environment($loader, [
+        'debug' => true
+        //'cache' => '/path/to/cache',
+         ]);
+        $twig->addExtension(new \Twig\Extension\DebugExtension());
+        $this->twig = $twig ;
     }
     
     public function forbidden()

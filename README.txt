@@ -1,11 +1,13 @@
 Suite : 
 22 janvier-30 janvier
 
-1 - lire twig
+0 ---- Changement : pour l'edition d'article il n'y a plus qu'un seul formulaire : il faut donc adapter le controller en fonction 
+1 - implementer twig
 2 - faire le design
 3 - erreurs et message erreurs
 4 - bug : edit profil :: le mot de passe change sans qu'on le souhaite
 5 - bug : la partie administrative est ouverte a tous les membres
+6 - bug : il me charge l'else lorsque les id sont incorrecte (sign_in.twig)
 6 - image_resize - toutes les images
 7 - reecriture des liens
 

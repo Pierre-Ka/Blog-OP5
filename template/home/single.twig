@@ -1,0 +1,73 @@
+{% extends 'layout.twig' %}
+
+	{% block title %}
+	 Article numero {{ post.id }}
+	{% endblock title %}
+
+{% block content %}
+
+	<h1> {{ post.title }} </h1> 
+		<div> 
+			 <h4>
+		     écrit par {{ post.user }} le {{ post.last_update == null ? post.create_date : post.last_update }}
+			</h4>
+
+			<br/><br/><br/>
+			<p> 
+				<img src="{{ '../var/media/photo/' ~ post.picture  ~ '.jpg' }}" alt="sans l'ext"> 
+			</p> <br/>
+			<p> 
+				<img src="{{ '../var/media/photo/' ~ post.picture }}" alt="avec l'ext"> 
+			</p> <br/>
+				{{ post.content }}
+			  </p> <br/>
+		</div>
+
+	<br/><br/>
+
+	<h2> Commentaires : </h2> 
+	<br/>
+
+	<div>
+		{% for comment in comments %}
+			<div>
+				<div>
+					{{ comment.author }} a écrit à
+					{{ comment.create_date }}
+				</div>
+				<br/>
+				<p>
+					{{ comment.content}}
+				</p>
+				<br/>
+			</div>
+		{% endfor %}
+	</div>
+
+
+	<p> PAGE : 
+
+		{% for i in 1..max_page %}
+
+			{% if i == actual_page %}
+				{{i}} 
+			{% else %}
+				<a href="index.php?p=single&id={{ post.id }}&page={{i}}"> {{i}} </a>
+			{% endif %}
+
+		{% endfor %}
+	</p><br/>
+
+	<h3>Ecrire un commentaire</h3>
+
+
+	<form method="post" action="index.php?p=single&id={{ post.id }}">
+
+	<p><label for="author_com">Votre pseudo : </label> <input type="text" name="author_com" id="author_com"/></p>
+
+	<p><textarea name="com" value="votre commentaire ici" rows="5" cols="50"></textarea></p>
+
+	<input type="submit" value="Envoyer"/>
+	</form>
+
+{% endblock content %}

@@ -1,9 +1,11 @@
-<?php
+{% extends 'layout.twig' %}
 
-$title = 'Manage categories';
+	{% block title %}
+		Manage categories
+	{% endblock title %}
 
-ob_start(); 
-?>
+{% block content %}
+
 <h1> Administrer les categories</h1>
 
 <p> 
@@ -19,36 +21,26 @@ ob_start();
 			<td>Supprimer</td>
 		</tr>
 	</thead>
+	
 	<tbody>
-
-		<?php foreach ($categories as $categorie):?>
+		{% for categorie in categories %}
 			<tr>
+				<td>	{{categorie.id}} 	</td>
+				<td>	{{categorie.name}} 	</td>
 				<td>
-					<?= $categorie->getId(); ?>
-				</td>
-				<td>
-					<?= $categorie->getName(); ?>
-				</td>
-
-				<td>
-					<form method="post" action="index.php?p=admin.manage_category&id=<?= $categorie->getId(); ?>">
+					<form method="post" action="index.php?p=admin.manage_category&id={{categorie.id}} ">
 						<input type="text" name="categoryEdit"/>
 						<input class="btn btn-primary" type="submit"/>
 					</form>
-
 				</td>
-				
-
 				<td>
-
 					<form method="post">
-						<input type="hidden" name="admin_category_delete" value="<?= $categorie->getId(); ?>"/>
+						<input type="hidden" name="admin_category_delete" value="{{categorie.id}} "/>
 						<button type="submit" class="btn btn-danger">Supprimer la categorie</button>
 					</form> 
-	
 				</td>
 			</tr>
-		<?php endforeach ; ?>
+		{% endfor %}
 		<tr>
 			<td></td>
 			<td>Creer une nouvelle categorie
@@ -59,12 +51,7 @@ ob_start();
 			<td></td>
 			<td></td>
 		</tr>
-
-
 	</tbody>
 </table>
 
-
-
-<?php $content=ob_get_clean(); 
-require('../template/basic/basic_template.php');
+{% endblock content %}

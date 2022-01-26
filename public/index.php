@@ -16,15 +16,6 @@ $categoryManager= new BlogApp\Manager\CategoryManager($db);
 
 session_start();
 
-// Twig environnement création
-$loader = new \Twig\Loader\FilesystemLoader('../template');
-$twig = new \Twig\Environment($loader, [
-		'debug' => true
-	    //'cache' => '/path/to/cache',
-	]);
-$twig->addExtension(new \Twig\Extension\DebugExtension());
-
-
 if(isset($_GET['p']))
 {
 	$page = $_GET['p']; 
@@ -62,7 +53,7 @@ if (!isset($_SESSION['auth']))
 		break ;
 
 		case $page==='sign_in' : 
-		$homeController->sign_in();
+		$homeController->signIn();
 		break ;
 
 		default : header('Location:index.php?p=home'); break ;

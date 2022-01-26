@@ -1,0 +1,57 @@
+{% extends 'layout.twig' %}
+
+	{% block title %}
+		Manage users
+	{% endblock title %}
+
+{% block content %}
+
+{{ message ? '	<div class="alert alert-success">
+			<?= $message; ?>
+		</div>' : ''}}
+
+<h1> Administrer les utilisateurs</h1>
+
+<p> 
+	<a href="index.php?p=admin.home" class="btn btn-success">Interface d'administration</a>
+</p>
+
+<table class="table">
+	<thead>
+		<tr>
+			<td>Id</td>
+			<td>Nom</td>
+			<td>Email</td>
+			<td>Date de création du compte</td>
+			<td>Description</td>
+			<td>Valider l'utilisateur</td>
+			<td>Supprimer l'utilisateur</td>
+		</tr>
+	</thead>
+	<tbody>
+		{% for user in users %}
+			<tr>
+				<td>{{ user.id }}</td>
+				<td>{{ user.name }}</td>
+				<td>{{ user.email }}</td>
+				<td>{{ user.inscription_date }}</td>
+				<td>{{ user.description }}</td>
+				<td>
+					{% if user.is_valid == 0 %}
+						<button type="submit" class="btn btn-light">
+							<a href="index.php?p=admin.manage_user&valid={{ user.id }}">Valider</a>
+						</button>
+					{% endif %}
+				</td>
+				<td>
+					<form method="post">
+						<input type="hidden" name="admin_user_delete" value="{{ user.id }}"/>
+						<button type="submit" class="btn btn-danger">Supprimer</button>
+					</form>
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+{% endblock content %}

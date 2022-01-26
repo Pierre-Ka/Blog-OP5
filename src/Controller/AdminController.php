@@ -53,7 +53,11 @@ class AdminController extends UserController
 	    }
 	    $connect_id = $this->userManager->getUserId();
 	    $posts = $this->postManager->getAllAdmin();
-	    require('../template/admin/home.php');
+
+	    echo $this->twig->render('admin/home.twig', [
+			'posts' => $posts,
+			'categories_header' => $categories_header
+				]);
 	}
 
 	public function manageUsers()
@@ -68,7 +72,12 @@ class AdminController extends UserController
 			$this->userManager->delete($_POST['admin_user_delete']);
 		}
 		$users = $this->userManager->getList();
-		require('../template/admin/manage_user.php');
+
+		echo $this->twig->render('admin/manage_user.twig', [
+			'users' => $users,
+			'categories_header' => $categories_header
+				]);
+
 	}
 
 	public function manageCategories()
@@ -77,7 +86,12 @@ class AdminController extends UserController
 		if(empty($_POST))
 		{
 			$categories = $this->categoryManager->getAll();
-			require('../template/admin/manage_category.php');
+
+			echo $this->twig->render('admin/manage_category.twig', [
+			'categories' => $categories,
+			'categories_header' => $categories_header
+				]);
+
 		}
 		else
 		{

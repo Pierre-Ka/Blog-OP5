@@ -1,8 +1,12 @@
-<?php
+{% extends 'layout.twig' %}
 
-$title = 'Menu du blog';
 
-ob_start(); ?>
+	{% block title %}
+		Page d'accueil 
+	{% endblock title %}
+
+	{% block content %}
+
 
 <br/><br/>
 <p> votre nom et votre prénom ; une photo et/ou un logo ;
@@ -25,6 +29,4 @@ et l’ensemble des liens vers les réseaux sociaux où l’on peut vous suivre 
 
 <br/><br/>
 
-<?php $content=ob_get_clean(); 
-require('../template/basic/basic_template.php');
-?>
+{% endblock content %}

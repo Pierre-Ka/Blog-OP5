@@ -1,8 +1,10 @@
-<?php
+{% extends 'layout.twig' %}
 
-$title = 'Interface utilisateur';
+	{% block title %}
+		Interface utilisateur 
+	{% endblock title %}
 
-ob_start(); ?>
+{% block content %}
 
 <h1> Administrer les articles</h1>
 
@@ -34,35 +36,27 @@ ob_start(); ?>
 			<td>Actions</td>
 		</tr>
 	</thead>
+	
 	<tbody>
-		<?php foreach ($posts as $post):?>
+		{% for post in posts %}
 			<tr>
-				<td><?= $post->getId(); ?></td>
-				<td><?= $post->getTitle(); ?></td>
-				<td><?= $post->getCategory(); ?></td>
-				<?php 
-					if (($post->getLast_update())===null)
-					{
-					$date=($post->getCreate_date()) . ' (creation)';
-					}
-					else 
-					{
-					$date =($post->getLast_update());
-					}
-				?>
-				<td><?= $date ?></td>
-				<td><?= $post->getCommentNotYetValid(); ?></td>
-				<td><a class="btn btn-primary" href="index.php?p=user.post.edit&id=<?= $post->getId(); ?>">Editer</a>
+				<td>{{ post.id }}</td>
+				<td>{{ post.title }}</td>
+				<td>{{ post.category }}</td>
+				<td>
+	{{ post.last_update == null ? post.create_date : post.last_update }}
+				</td>
+				<td>{{ post.commentNotYetValid }} </td>
+	<!--			<td><?= $post->getCommentNotYetValid(); ?></td>      !-->
+				<td><a class="btn btn-primary" href="index.php?p=user.post.edit&id={{ post.id }}">Editer</a>
 					<form method="post">
-						<input type="hidden" name="id_delete" value="<?= $post->getId(); ?>"/>
+						<input type="hidden" name="id_delete" value="{{ post.id }}"/>
 						<button type="submit" class="btn btn-danger">Supprimer</button>
 					</form>
 				</td>
 			</tr>
-		<?php endforeach; ?>
+		{% endfor %}
 	</tbody>
 </table>
 
-
-<?php $content=ob_get_clean(); 
-require('../template/basic/basic_template.php');
+{% endblock content %}
