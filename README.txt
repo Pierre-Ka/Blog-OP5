@@ -1,14 +1,17 @@
 Suite : 
 22 janvier-30 janvier
 
-1 - erreurs et message erreurs
-2 - bug : edit profil :: le mot de passe change sans qu'on le souhaite
-3 - bug : la partie administrative est ouverte a tous les membres
-3 - Renommer tous les fichiers (view : template, index dans public, var/media )
-5 - image_resize - toutes les images
-6 - lire twig
-7 - faire le design
-8 - reecriture des liens
+1 - lire twig
+2 - faire le design
+3 - erreurs et message erreurs
+4 - bug : edit profil :: le mot de passe change sans qu'on le souhaite
+5 - bug : la partie administrative est ouverte a tous les membres
+6 - image_resize - toutes les images
+7 - reecriture des liens
+
+8 - reecriture des classes controller de manière plus coherente ( postcontroller, categorycontroller, usercontroller, commentcontroller) 
+
+
 
 Le domaine home est de visibilité public : 
 Le domaine user est l'espace membre : 

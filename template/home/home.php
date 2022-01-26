@@ -26,5 +26,5 @@ et l’ensemble des liens vers les réseaux sociaux où l’on peut vous suivre 
 <br/><br/>
 
 <?php $content=ob_get_clean(); 
-require('view/template/basic_template.php');
+require('../template/basic/basic_template.php');
 ?>

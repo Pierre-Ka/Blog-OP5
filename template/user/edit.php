@@ -27,7 +27,7 @@ ob_start();
 		</form>
 	</div>
 	<h1>Editer votre photo de profil </h1>
-	<p> <img src="<?= 'var/media/photo/' . $user->getPicture() . '' ; ?>" alt="sans ext"> </p>
+	<p> <img src="<?= '../var/media/photo/' . $user->getPicture() . '' ; ?>" alt="sans ext"> </p>
 		
 		<form method="post" action="index.php?p=user.edit&id=<?= $user->getId() ?>" class="form-control" enctype="multipart/form-data">
 			<label> Changer ma photo de profil : <br />
@@ -39,7 +39,7 @@ ob_start();
 <br/><br/>
 
 <?php $content=ob_get_clean(); 
-require('view/template/basic_template.php');
+require('../template/basic/basic_template.php');
 
 
 

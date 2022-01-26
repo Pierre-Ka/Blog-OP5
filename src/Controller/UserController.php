@@ -36,12 +36,12 @@ class UserController extends AbstractController
 	        }
 	        $connect_id = $this->userManager->getUserId();
 	        $posts = $this->postManager->getWithUserId($connect_id);
-	        require('view/user/home.php');
+	        require('../template/user/home.php');
 	    }
 	    else
 	    {
 	        $incorrect=true;
-	        require('view/home/sign_in.php');
+	        require('../template/home/sign_in.php');
 	    }
 	}
 
@@ -58,13 +58,13 @@ class UserController extends AbstractController
 	                $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
 	                if (in_array($extension_upload, $extensions_autorisees))
 	                {
-	                    move_uploaded_file($_FILES['pictureUpdate']['tmp_name'], 'var/media/photo/USER_IMG_' . $user->getId() .'.'.$extension_upload);
+	                    move_uploaded_file($_FILES['pictureUpdate']['tmp_name'], '../var/media/photo/USER_IMG_' . $user->getId() .'.'.$extension_upload);
 	            
 	                    $picture_name = 'USER_IMG_' . $user->getId() .'.'.$extension_upload ;
 	                    $user->setPicture($picture_name);
 	                    $this->userManager->edit($user);
 
-	                    $picture_name = $user->resize_image('var/media/photo/'.$picture_name, 300, 300);
+	                    $picture_name = $user->resize_image('../var/media/photo/'.$picture_name, 300, 300);
 	                    $message = 'Votre profil a bien été modifié';
 	               		header('Location:index.php?p=user.home');
 	                }
@@ -72,7 +72,7 @@ class UserController extends AbstractController
 	    }
 	    if(empty($_POST))
 	    {
-	        require('view/user/edit.php');
+	        require('../template/user/edit.php');
 	    }
 	    else
 	    {
@@ -112,13 +112,13 @@ class UserController extends AbstractController
 	                $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
 	                if (in_array($extension_upload, $extensions_autorisees))
 	                {
-	                    move_uploaded_file($_FILES['pictureChange']['tmp_name'], 'var/media/photo/POST_IMG_' . $_GET['id'] .'.'.$extension_upload);
+	                    move_uploaded_file($_FILES['pictureChange']['tmp_name'], '../var/media/photo/POST_IMG_' . $_GET['id'] .'.'.$extension_upload);
 	            
 	                    $picture_name = 'POST_IMG_' . $_GET['id'] .'.'.$extension_upload ;
 	                    $post->setPicture($picture_name);
 	                    $this->postManager->edit($post);
 
-	                    $picture_name = $post->resize_image('var/media/photo/'.$picture_name, 500, 500);
+	                    $picture_name = $post->resize_image('../var/media/photo/'.$picture_name, 500, 500);
 	                    $message = 'Votre post a bien été modifié';
 	                    header('Location:index.php?p=user.home');
 	                }
@@ -140,7 +140,7 @@ class UserController extends AbstractController
 	        }
 	        $comments = $this->commentManager->getNotYetValid($_GET['id']);
 	        $categories = $this->categoryManager->getAll();
-	        require('view/user/post/edit.php');
+	        require('../template/user/post/edit.php');
 	        
 	    }
 	    else
@@ -198,7 +198,7 @@ class UserController extends AbstractController
 	                    $this->postManager->add($post);
 	                    $new_id = $this->postManager->getLastInsertId();
 	 
-	                    move_uploaded_file($_FILES['picture']['tmp_name'], 'var/media/photo/POST_IMG_' . $new_id .'.'.$extension_upload);// Oui
+	                    move_uploaded_file($_FILES['picture']['tmp_name'], '../var/media/photo/POST_IMG_' . $new_id .'.'.$extension_upload);// Oui
 	                    $picture_name = 'POST_IMG_' . $new_id .'.'.$extension_upload ;
 	                    $post->setPicture($picture_name);
 
@@ -208,7 +208,7 @@ class UserController extends AbstractController
 	                    // Maintenant ça marche
 	                    $this->postManager->edit($post);
 
-	                    $picture_name = $post->resize_image('var/media/photo/'.$picture_name, 500, 500);
+	                    $picture_name = $post->resize_image('../var/media/photo/'.$picture_name, 500, 500);
 	                    $message = 'Votre post a bien été ajouté';
 	                    header('Location:index.php?p=user.home');
 	                    
@@ -223,7 +223,7 @@ class UserController extends AbstractController
 	    else
 	    {
 	        $categories = $this->categoryManager->getAll();
-	        require('view/user/post/add.php');
+	        require('../template/user/post/add.php');
 	    }
 	}
 }

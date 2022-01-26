@@ -1,8 +1,6 @@
 <?php
 namespace BlogApp\Entity;
 
-use BlogApp\Manager\CategoryManager;
-use BlogApp\Manager\UserManager;
 use BlogApp\Manager\CommentManager;
 
 class Post extends Entity

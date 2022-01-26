@@ -54,7 +54,7 @@ abstract class Entity
 				$newwidth = $w;
 			}
 		}
-		$src = imagecreatefromjpeg($file);
+		$src = \imagecreatefromjpeg($file);
 		$dst = imagecreatetruecolor($newwidth, $newheight);
 		imagecopysampled($dst, $src, 0,0,0,0, $newwidth, $newheight, $width, $height);
 

@@ -67,4 +67,4 @@ ob_start();
 
 
 <?php $content=ob_get_clean(); 
-require('view/template/basic_template.php');
+require('../template/basic/basic_template.php');

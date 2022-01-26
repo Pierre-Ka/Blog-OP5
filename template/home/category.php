@@ -1,24 +1,22 @@
 <?php
 
-$title = 'Liste des posts';
+$title = $category->getName();
 
 ob_start(); ?>
-<h1 class="text-center container-fluid"> Tous les articles du blog </h1>
-
+<div class="container-fluid text-center">
+<h1> <?= $category->getName() ?></h1>
+</div>
 <?php 
 foreach ($posts as $post)
 {
 	?>
 		<div>
 			<?php 
-				$pathPicture = 'var/media/photo/' . $post->getPicture() . '.jpg' ;
-				$user_id=$post->getUser_id();
-
+				$pathPicture = '../var/media/photo/' . $post->getPicture() . '.jpg' ;
+				$id_user=$post->getUser_id();
 			?>
-
 			<h2> <?= $post->getTitle(); ?> </h2> 
-			<h2> <?= $post->getCategory() ?> </h2> 
-
+			<h2> <?= $post->getCategory(); ?> </h2>
 			écrit le <?= $post->getCreate_date(); ?> par 
 			<?= $post->getUser() ?>  et modifié le <?= $post->getLast_update(); ?> 
 			<p> <?= $post->getChapo(); ?> </p>
@@ -42,10 +40,11 @@ foreach ($posts as $post)
 		}
 		else
 		{
-			echo '<a href="index.php?p=post&page=' .$i. '"> Page '.$i.'</a>';
+			echo '<a href="index.php?p=category&id=' . $_GET['id'] . '&page=' .$i. '"> Page '.$i.'</a>';
 		}
 	}
 ?>
 
 <?php $content=ob_get_clean(); 
-require('view/template/basic_template.php');
+
+require('../template/basic/basic_template.php');

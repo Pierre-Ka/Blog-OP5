@@ -16,7 +16,7 @@ class HomeController extends AbstractController
 	public function home()
 	{
 		$categories_header = $this->categoryManager->getAll();
-		require('view/home/home.php');
+		require '../template/home/home.php' ;
 	}
 
 
@@ -34,7 +34,7 @@ class HomeController extends AbstractController
 			$actual_page = 1 ;
 		}
 		$posts=$this->postManager->getAll($actual_page);
-		require('view/home/post.php');
+		require('../template/home/post.php');
 	}	
 
 	public function category()
@@ -53,7 +53,7 @@ class HomeController extends AbstractController
 				$actual_page = 1 ;
 			}
 		$posts=$this->postManager->getWithCategory($category_id,$actual_page);
-		require('view/home/category.php');
+		require('../template/home/category.php');
 	}	
 
 	public function single()
@@ -82,7 +82,7 @@ class HomeController extends AbstractController
 			$actual_page = 1 ;
 		}
 		$comments = $this->commentManager->get($post_id,$actual_page);
-		require('view/home/single.php');
+		require('../template/home/single.php');
 	}	
 
 
@@ -100,7 +100,7 @@ class HomeController extends AbstractController
 			else
 			{
 				$incorrect=true;
-				require('view/home/sign_in.php');
+				require('../template/home/sign_in.php');
 			}
 		}
 		if ( isset($_POST['emailCreate']) AND !empty($_POST['emailCreate']) AND
@@ -121,23 +121,23 @@ class HomeController extends AbstractController
 					]);
 					$this->userManager->add($user);
 					$message = 'enregistrement reussi';
-					require('view/home/sign_in.php');
+					require('../template/home/sign_in.php');
 				}
 				else
 				{
 					$incorrect=true;
-					require('view/home/sign_in.php');
+					require('../template/home/sign_in.php');
 				}
 			}
 			else
 			{
 				$incorrect=true;
-				require('view/home/sign_in.php');
+				require('../template/home/sign_in.php');
 			}
 		}
 		else 
 		{
-			require('view/home/sign_in.php');
+			require('../template/home/sign_in.php');
 		}
 	}
 }

@@ -53,7 +53,7 @@ class AdminController extends UserController
 	    }
 	    $connect_id = $this->userManager->getUserId();
 	    $posts = $this->postManager->getAllAdmin();
-	    require('view/admin/home.php');
+	    require('../template/admin/home.php');
 	}
 
 	public function manageUsers()
@@ -68,7 +68,7 @@ class AdminController extends UserController
 			$this->userManager->delete($_POST['admin_user_delete']);
 		}
 		$users = $this->userManager->getList();
-		require('view/admin/manage_user.php');
+		require('../template/admin/manage_user.php');
 	}
 
 	public function manageCategories()
@@ -77,7 +77,7 @@ class AdminController extends UserController
 		if(empty($_POST))
 		{
 			$categories = $this->categoryManager->getAll();
-			require('view/admin/manage_category.php');
+			require('../template/admin/manage_category.php');
 		}
 		else
 		{

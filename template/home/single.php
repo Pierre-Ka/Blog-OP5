@@ -24,10 +24,10 @@ ob_start(); ?>
 
 	  <p> 
 		<?php 
-		$pathPicture = 'var/media/photo/' . $post->getPicture() . '.jpg' ;
+		$pathPicture = '../var/media/photo/' . $post->getPicture() . '.jpg' ;
 		?>
 		<p> <img src="<?= $pathPicture; ?>" alt=""> </p> <br/>
-		<p> <img src="<?= 'var/media/photo/' . $post->getPicture(); ?>" alt=""> </p> <br/>
+		<p> <img src="<?= '../var/media/photo/' . $post->getPicture(); ?>" alt=""> </p> <br/>
 		<?= $post->getContent(); ?>
 	  </p> <br/>
 </div>
@@ -80,4 +80,4 @@ for ( $i=1; $i<=$q_total; $i++)
 
 <?php $content=ob_get_clean();
 
-require('view/template/basic_template.php');
+require('../template/basic/basic_template.php');

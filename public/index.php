@@ -2,15 +2,28 @@
 use BlogApp\Controller\HomeController;
 use BlogApp\Controller\UserController;
 use BlogApp\Controller\AdminController;
-/*
-var_dump(function_exists('imagecreatefromjpeg'));
-var_dump(sha1('ikanhiu@outlook.fr'));
-die();
 
-*/
+require dirname(__DIR__).'/vendor/autoload.php';
 
-require_once('init.php');
+$db = new \PDO('mysql:host=localhost;dbname=project5_blog;charset=utf8', 'root', 'root');
+$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
+
+//Instanciation de nos classes manager 
+$commentManager= new BlogApp\Manager\CommentManager($db);
+$postManager= new BlogApp\Manager\PostManager($db);
+$userManager= new BlogApp\Manager\UserManager($db);
+$categoryManager= new BlogApp\Manager\CategoryManager($db);
+
 session_start();
+
+// Twig environnement création
+$loader = new \Twig\Loader\FilesystemLoader('../template');
+$twig = new \Twig\Environment($loader, [
+		'debug' => true
+	    //'cache' => '/path/to/cache',
+	]);
+$twig->addExtension(new \Twig\Extension\DebugExtension());
+
 
 if(isset($_GET['p']))
 {
