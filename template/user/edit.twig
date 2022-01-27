@@ -4,6 +4,10 @@
 		Editer mon profil
 	{% endblock title %}
 
+	{% block h1 %}
+		Administrer vos articles 
+	{% endblock h1 %}
+
 {% block content %}
 
 <div class="container-fluid text-center">
@@ -13,7 +17,7 @@
 	<h1>Editer votre profil </h1>
 	<div>
 		<br/><br/>
-		<form method="post" class="form-control">
+		<form method="post">
 
 			<label for="nameUpdate"> Changer mon nom </label><br/>
 			<input type="text" name="nameUpdate" id="nameUpdate" value=" {{ user.name }}"/><br/><br/>
@@ -31,7 +35,7 @@
 	<h1>Editer votre photo de profil </h1>
 	<p> <img src="<?= '../var/media/photo/ {{ user.picture }}' ; ?>" alt="sans ext"> </p>
 		
-		<form method="post" action="index.php?p=user.edit&id= {{ user.id }}" class="form-control" enctype="multipart/form-data">
+		<form method="post" action="index.php?p=user.edit&id= {{ user.id }}" enctype="multipart/form-data">
 			<label> Changer ma photo de profil : <br />
 			<input type="file" name="pictureUpdate" /><br /> </label><br/>
 			<input class="btn btn-primary" type="submit"/><br/><br/>

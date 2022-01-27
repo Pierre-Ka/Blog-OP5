@@ -6,12 +6,15 @@
 
 {% block content %}
 
-<h1> Administrer les categories</h1>
-
-<p> 
-	<a href="index.php?p=admin.home" class="btn btn-success">Interface d'administration</a>
-</p>
-
+<div class="text-center">
+	<br/><br/>
+	<h1> Administrer les categories</h1>
+	<br/><br/>
+	<p> 
+		<a href="index.php?p=admin.home" class="btn-lg btn-success">Retour à l'interface d'administration</a>
+	</p>
+</div>
+<br/><br/>
 <table class="table">
 	<thead>
 		<tr>
@@ -30,7 +33,7 @@
 				<td>
 					<form method="post" action="index.php?p=admin.manage_category&id={{categorie.id}} ">
 						<input type="text" name="categoryEdit"/>
-						<input class="btn btn-primary" type="submit"/>
+						<input class="btn btn-info" type="submit"/>
 					</form>
 				</td>
 				<td>
@@ -46,12 +49,13 @@
 			<td>Creer une nouvelle categorie
 			<form method="post">
 						<input type="text" name="categoryCreate"/>
-						<input class="btn btn-primary" type="submit" value="Creer"/>
+						<input class="btn btn-info" type="submit" value="Creer"/>
 			</form></td>
 			<td></td>
 			<td></td>
 		</tr>
 	</tbody>
 </table>
+<br/><br/><br/><br/><br/>
 
 {% endblock content %}

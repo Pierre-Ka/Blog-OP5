@@ -4,32 +4,37 @@
 		Interface administrateur 
 	{% endblock title %}
 
+			{% block h1 %}
+		Administrer votre blog 
+	{% endblock h1 %}
+
 {% block content %}
 
 {{ message ? '	<div class="alert alert-success">
 			<?= $message; ?>
 		</div>' : ''}}
 
-<h1> Administrer les utilisateurs et les categories</h1>
+<div class="text-center">
+<br/><br/><br/>
+	<h1> Administrer les utilisateurs et les categories</h1>
 
-<p> 
-	<a href="index.php?p=admin.manage_category" class="btn btn-success">Administrer les categories</a>
-</p>
+	<br/><br/>
 
-<p> 
-	<a href="index.php?p=admin.manage_user" class="btn btn-success">Administrer les utilisateurs</a>
-</p>
+	<p> 
+		<a href="index.php?p=admin.manage_category" class="btn-lg btn-success">Administrer les categories</a>
+	</p>
+	<br/><br/>
 
-<p> 
-	<a href="index.php?p=user.home" class="btn btn-success">Me deconnecter de l'administration</a>
-</p>
+	<p> 
+		<a href="index.php?p=admin.manage_user" class="btn-lg btn-success">Administrer les utilisateurs</a>
+	</p>
 
-<p> 
-	<a href="index.php?disconnect" class="btn btn-success">Me deconnecter completement</a>
-</p>
 
-<h1> Supprimer des articles </h1>
+	<br/><br/><br/>
 
+	<h1> Supprimer des articles </h1>
+	<br/><br/>
+</div>
 
 
 <table class="table">
@@ -60,17 +65,38 @@
 	</tbody>
 </table>
 
+
+
+<br/><br/><br/>
+
+<div class="text-center">
 <p> 
-	<a href="index.php?p=admin.home&faker=category" class="btn btn-success">Generer des fausses categories</a>
+	<a href="index.php?p=user.home" class="btn-lg btn-success">Me deconnecter de l'administration</a>
 </p>
+<br/><br/>
+
 <p> 
-	<a href="index.php?p=admin.home&faker=comment" class="btn btn-success">Generer des faux commentaires</a>
+	<a href="index.php?disconnect" class="btn-lg btn-success">Me deconnecter completement</a>
 </p>
-<p> 
-	<a href="index.php?p=admin.home&faker=post" class="btn btn-success">Generer des faux posts</a>
-</p>
-<p> 
-	<a href="index.php?p=admin.home&faker=user" class="btn btn-success">Generer de faux membres</a>
-</p>
+</div>
+
+<br/><br/><br/>
+
+
+
+
+<div class="border">
+	<p> 
+		<a href="index.php?p=admin.home&faker=category" class="btn btn-danger">  Generer des fausses categories</a>
+
+		<a href="index.php?p=admin.home&faker=comment" class="btn btn-danger">  Generer des faux commentaires</a>
+
+		<a href="index.php?p=admin.home&faker=post" class="btn btn-danger">  Generer des faux posts</a>
+
+		<a href="index.php?p=admin.home&faker=user" class="btn btn-danger">  Generer de faux membres</a>
+	</p>
+</div>
+
+<br/><br/><br/>
 
 {% endblock content %}

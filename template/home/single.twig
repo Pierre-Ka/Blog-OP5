@@ -1,27 +1,36 @@
-{% extends 'layout.twig' %}
+{% extends 'layout_with_sidebar.twig' %}
 
 	{% block title %}
 	 Article numero {{ post.id }}
 	{% endblock title %}
+	{% block h1 %}
+        {{ post.title }} 
+    {% endblock h1 %}
 
-{% block content %}
 
-	<h1> {{ post.title }} </h1> 
-		<div> 
-			 <h4>
-		     écrit par {{ post.user }} le {{ post.last_update == null ? post.create_date : post.last_update }}
-			</h4>
+{% block main %}
 
-			<br/><br/><br/>
-			<p> 
-				<img src="{{ '../var/media/photo/' ~ post.picture  ~ '.jpg' }}" alt="sans l'ext"> 
-			</p> <br/>
-			<p> 
-				<img src="{{ '../var/media/photo/' ~ post.picture }}" alt="avec l'ext"> 
-			</p> <br/>
-				{{ post.content }}
-			  </p> <br/>
-		</div>
+<div class="col-sm-12 blog-item mb100 wow match-height">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="hover-item mb30">
+            <!-- Retrait du .jpg au moment final !-->
+                    <img src="{{ '../var/media/photo/' ~ post.picture  ~ '.jpg' }}" class="img-responsive smoothie" alt="title">
+                    <div class="overlay-item-caption smoothie"></div>
+                    <div class="">
+                        <h3 class="vertical-center smoothie"></h3>
+                    </div>
+                </div>
+                <h2 class="post-title">{{ post.title }}</h2>
+                <div class="item-metas text-muted mb30">
+                    <span class="meta-item"><i class="pe-icon pe-7s-folder"></i> POSTER DANS <span>{{ post.category }} </span></span>
+                    <span class="meta-item"><i class="pe-icon pe-7s-user"></i> AUTEUR <span>{{ post.user }}</span></span> LE {{ post.create_date }}
+                </div>
+                <p>{{ post.content }}</p>
+                
+            </div>
+        </div>
+    </div>
 
 	<br/><br/>
 
@@ -70,4 +79,10 @@
 	<input type="submit" value="Envoyer"/>
 	</form>
 
-{% endblock content %}
+{% endblock main %}
+
+{% block paging %}
+
+	<p> </p> 
+
+{% endblock paging %}

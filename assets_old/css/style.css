@@ -1,0 +1,12 @@
+
+*
+{
+ 	color :red;
+ 	text-decoration: underline;
+}
+
+#logo
+{
+	max-height: 100px;
+	max-width: 150px;
+}

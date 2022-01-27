@@ -1,45 +1,55 @@
-{% extends 'layout.twig' %}
+{% extends 'layout_with_sidebar.twig' %}
 
 	{% block title %}
 		{{ category ? category.name : 'Tous les articles du blog' }} 
 	{% endblock title %}
+    {% block h1 %}
+        {{ category ? category.name : 'Articles' }} 
+    {% endblock h1 %}
 	
-{% block content %}
+{% block main %}
 
-	<h1 class="text-center container-fluid"> 
-	{{ category ? category.name : 'Tous les articles du blog' }} 
-	</h1>
+{% for post in posts %}
+    <div class="col-sm-12 blog-item mb100 wow match-height">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="hover-item mb30">
+            <!-- Retrait du .jpg au moment final !-->
+                    <img src="{{ '../var/media/photo/' ~ post.picture  ~ '.jpg' }}" class="img-responsive smoothie" alt="title">
+                    <div class="overlay-item-caption smoothie"></div>
+                    <div class="hover-item-caption smoothie">
+                        <h3 class="vertical-center smoothie"><a href="index.php?p=single&id={{ post.id }}" class="smoothie btn btn-primary page-scroll" title="view article">Voir</a></h3>
+                    </div>
+                </div>
+                <h2 class="post-title">{{ post.title }}</h2>
+                <div class="item-metas text-muted mb30">
+                    <span class="meta-item"><i class="pe-icon pe-7s-folder"></i> POSTER DANS <span>{{ post.category }} </span></span>
+                    <span class="meta-item"><i class="pe-icon pe-7s-user"></i> AUTEUR <span>{{ post.user }}</span></span> LE {{ post.create_date }}
+                </div>
+                <p>{{ post.chapo }}</p>
+                <a class="btn btn-primary mt30" href="index.php?p=single&id={{ post.id }}">
+                Lire plus</a>
+            </div>
+        </div>
+    </div>
+{% endfor %}
 
-	<div>
-		{% for post in posts %}
-				<div>
-					<h2> {{ post.title }} </h2> 
-					<h2> {{ post.category }} </h2> 
+{% endblock main %}
 
-					écrit le {{ post.create_date }} par 
-					{{ post.user }}  et modifié le {{ post.last_update }} 
-					<p> {{ post.chapo }} </p>
-					
-					<p> <img src="{{ '../var/media/photo/' ~ post.picture  ~ '.jpg' }}" alt=""> </p> <br/>
-					<a href="index.php?p=single&id={{ post.id }}">Lien vers l'article' </a> 
-				</div> 
-			<br/><br/>
-		{% endfor %}
-	</div>
+{% block paging %}
 
-	<br/><br/><br/><br/>
+        <div>
+        {% for i in 1..max_page %}
 
-	<div>
-		{% for i in 1..max_page %}
+            {% if i == actual_page %}
+                PAGE {{i}} |
+            {% elseif category %}
+                <a href="index.php?p=category&id={{category.id}}&page={{i}}"> Page {{i}} |</a>
+            {% else %}
+                <a href="index.php?p=post&page={{i}}"> Page {{i}} </a>
+            {% endif %}
 
-			{% if i == actual_page %}
-				PAGE {{i}} 
-			{% elseif category %}
-				<a href="index.php?p=category&id={{category.id}}&page={{i}}"> Page {{i}}</a>
-			{% else %}
-				<a href="index.php?p=post&page={{i}}"> Page {{i}} </a>
-			{% endif %}
+        {% endfor %}
+    </div>
 
-		{% endfor %}
-	</div>
-{% endblock content %}
+{% endblock paging %}

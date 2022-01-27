@@ -20,6 +20,11 @@ class HomeController extends AbstractController
 		echo $this->twig->render('home/home.twig', [
 			'categories_header' => $this->categoryManager->getAll()
 				]);
+		/*
+		echo $this->twig->render('pre_content.twig', [
+			'categories_header' => $this->categoryManager->getAll()
+				]);*/
+				
 	}
 
 
@@ -114,6 +119,7 @@ class HomeController extends AbstractController
 	{
 		$categories_header = $this->categoryManager->getAll();
 		$incorrect=false;
+
 		if (!empty($_POST['email']) AND !empty($_POST['password']))
 		{
 			$logged = $this->userManager->login($_POST['email'], $_POST['password']);

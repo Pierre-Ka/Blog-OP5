@@ -1,4 +1,11 @@
 <?php
+   /*
+   require '../template/traditional-sidebar.html';
+   die (); 
+   */
+   /*
+   */
+
 use BlogApp\Controller\HomeController;
 use BlogApp\Controller\UserController;
 use BlogApp\Controller\AdminController;

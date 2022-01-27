@@ -4,25 +4,28 @@
 		Interface utilisateur 
 	{% endblock title %}
 
+		{% block h1 %}
+		Administrer vos articles 
+	{% endblock h1 %}
+
 {% block content %}
 
-<h1> Administrer les articles</h1>
+
+<br/><br/><br/>
+
+<div class="text-center">
+<p> 
+	<a href="index.php?p=user.post.add" class="btn-lg btn-success">Ajouter un nouvel article</a>
+</p>
+<br/><br/>
 
 <p> 
-	<a href="index.php?p=user.post.add" class="btn btn-success">Ajouter</a>
+	<a href="index.php?p=user.edit" class="btn-lg btn-success">Editer mon profil</a>
 </p>
+</div>
 
-<p> 
-	<a href="index.php?p=user.edit" class="btn btn-success">Editer mon profil</a>
-</p>
+<br/><br/><br/>
 
-<p> 
-	<a href="index.php?disconnect" class="btn btn-success">Me deconnecter</a>
-</p>
-
-<p> 
-	<a href="index.php?p=admin.home" class="btn btn-success">Connexion en tant qu'administrateur</a>
-</p>
 
 
 <table class="table">
@@ -48,7 +51,7 @@
 				</td>
 				<td>{{ post.commentNotYetValid }} </td>
 	<!--			<td><?= $post->getCommentNotYetValid(); ?></td>      !-->
-				<td><a class="btn btn-primary" href="index.php?p=user.post.edit&id={{ post.id }}">Editer</a>
+				<td><a class="btn btn-info" href="index.php?p=user.post.edit&id={{ post.id }}">Editer</a>
 					<form method="post">
 						<input type="hidden" name="id_delete" value="{{ post.id }}"/>
 						<button type="submit" class="btn btn-danger">Supprimer</button>
@@ -58,5 +61,20 @@
 		{% endfor %}
 	</tbody>
 </table>
+
+<br/><br/><br/>
+
+<div class="text-center">
+<p> 
+	<a href="index.php?disconnect" class="btn-lg btn-success">Me deconnecter</a>
+</p>
+<br/><br/>
+<p> 
+	<a href="index.php?p=admin.home" class="btn btn-success">Connexion en tant qu'administrateur</a>
+</p>
+</div>
+
+<br/><br/><br/>
+
 
 {% endblock content %}
