@@ -89,7 +89,7 @@
                     </button>
 
                     <a class="logo"
-                    href="index.php?p=home">
+                    href="home">
                     <img id="watersport" style="margin-top:10px;" src="../var/icons/watersport.png" alt="logo"/></a>
 
                 </div>
@@ -99,17 +99,17 @@
                     <ul class="nav navbar-nav navbar-right">
                         
                         <li class="nav-item">
-                            <a href="index.php?p=home" class="nav-link" >Accueil</a>
+                            <a href="home" class="nav-link" >Accueil</a>
                         </li>
                         <li class="nav-item">
-                            <a href="index.php?p=post" class="nav-link" >Articles </a>
+                            <a href="post" class="nav-link" >Articles </a>
                         </li>
 
                     {% block nav %}
                     {% for categorie in categories_header %}
                         
                         <li class="nav-item">
-                            <a class="nav-link" href="index.php?p=category&id={{ categorie.id }}"> {{ categorie.name | capitalize }} </a>
+                            <a class="nav-link" href="category&id={{ categorie.id }}"> {{ categorie.name | capitalize }} </a>
                         </li>
 
                     {% endfor %}
@@ -163,21 +163,21 @@
                                 <h4 class="widget-title"><strong>Déjà Membre ?</strong> Pas Encore ?</h4>
                                 <div>
                                     <div class="media">
-                                        <a href="index.php?p=sign_in">
+                                        <a href="sign_in">
                                         <div class="pull-left">
                                             <img class="widget-img" src="../var/icons/signin.png" alt="">
                                         </div></a>
                                         <div class="media-body tagcloud">
-<a href="index.php?p=sign_in" class="tag-link btn btn-theme btn btn-md smoothie" style="margin-top : 10px; margin-left : 10px;" title="3 topics"> Me connecter</a>
+<a href="sign_in" class="tag-link btn btn-theme btn btn-md smoothie" style="margin-top : 10px; margin-left : 10px;" title="3 topics"> Me connecter</a>
                                         </div>
                                     </div>
                                     <div class="media">
-                                        <a href="index.php?p=sign_in#sign_up">
+                                        <a href="sign_in#sign_up">
                                         <div class="pull-left">
                                             <img class="widget-img" src="../var/icons/signup.png" alt="">
                                         </div></a>
                                         <div class="media-body tagcloud">
-<a href="index.php?p=sign_in#sign_up" class="tag-link btn btn-theme btn btn-md smoothie" style="margin-top : 10px;  margin-left : 10px;" title="3 topics"> M'inscrire</a>
+<a href="sign_in#sign_up" class="tag-link btn btn-theme btn btn-md smoothie" style="margin-top : 10px;  margin-left : 10px;" title="3 topics"> M'inscrire</a>
                                         </div>
                                     </div>
                                 </div>
@@ -189,7 +189,7 @@
                                 <div class="tagcloud">
                     {% for categorie in categories_header %}
                         
-                        <a href="index.php?p=category&id={{ categorie.id }}" class="tag-link btn btn-theme btn-white btn-xs smoothie" title="3 topics">{{ categorie.name}} </a>
+                        <a href="category&id={{ categorie.id }}" class="tag-link btn btn-theme btn-white btn-xs smoothie" title="3 topics">{{ categorie.name}} </a>
                     
 
                     {% endfor %}

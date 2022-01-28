@@ -141,7 +141,7 @@ class HomeController extends AbstractController
 			$logged = $this->userManager->login($_POST['email'], $_POST['password']);
 			if($logged)
 			{			
-				header('Location:index.php?p=user.home');
+				header('Location: user.home');
 			}
 			else
 			{

@@ -1,15 +1,19 @@
 Suite : 
-22 janvier-30 janvier
+28 janvier-31 janvier
 
-1 - Debugage general
-2 - Changement : pour l'edition d'article il n'y a plus qu'un seul formulaire : il faut 		donc adapter le controller en fonction 
-
-3 - erreurs et message erreurs
+1 - Debugage general : 
 4 - bug : edit profil :: le mot de passe change sans qu'on le souhaite
 5 - bug : la partie administrative est ouverte a tous les membres
 6 - bug : il me charge l'else lorsque les id sont incorrecte (sign_in.twig)
+2 - Changement : pour l'edition d'article il n'y a plus qu'un seul formulaire : il faut 		donc adapter le controller en fonction 
+
+En + = Reecriture des liens depuis le dossier racine et non plus depuis public/
+En + = correction de la fonction GetValidComment qui est très moche
+
+1 fevrier  - 3 fevrier
+
 6 - image_resize - toutes les images
-7 - reecriture des liens
+3 - erreurs et message erreurs et redirection 404
 8 -  Validez la qualité du code via SymfonyInsight ou Codacy.
 
 9- option - reecriture des classes controller de manière plus coherente ( postcontroller, categorycontroller, usercontroller, commentcontroller) 

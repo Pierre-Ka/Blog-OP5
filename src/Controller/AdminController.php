@@ -44,7 +44,7 @@ class AdminController extends UserController
 				$fake->fakePost();
 				break;
 			}
-			header('Location:index.php?p=admin.home');
+			header('Location:admin.home');
 		}
 		if(isset($_POST['admin_post_delete']))
 	    {
@@ -114,7 +114,7 @@ class AdminController extends UserController
 				$this->categoryManager->delete($_POST['admin_category_delete']);
 				break ; 
 			}
-			header('Location:index.php?p=admin.home');
+			header('Location:admin.home');
 		}
 	}
 

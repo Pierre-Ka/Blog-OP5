@@ -11,7 +11,7 @@
 	<h1> Administrer les categories</h1>
 	<br/><br/>
 	<p> 
-		<a href="index.php?p=admin.home" class="btn-lg btn-success">Retour à l'interface d'administration</a>
+		<a href="admin.home" class="btn-lg btn-success">Retour à l'interface d'administration</a>
 	</p>
 </div>
 <br/><br/>
@@ -31,7 +31,7 @@
 				<td>	{{categorie.id}} 	</td>
 				<td>	{{categorie.name}} 	</td>
 				<td>
-					<form method="post" action="index.php?p=admin.manage_category&id={{categorie.id}} ">
+					<form method="post" action="admin.manage_category&id={{categorie.id}} ">
 						<input type="text" name="categoryEdit"/>
 						<input class="btn btn-info" type="submit"/>
 					</form>

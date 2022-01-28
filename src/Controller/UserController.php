@@ -62,7 +62,7 @@ class UserController extends AbstractController
 
 	                    $picture_name = $user->resize_image('../var/media/photo/'.$picture_name, 300, 300);
 	                    $message = 'Votre profil a bien été modifié';
-	               		header('Location:index.php?p=user.home');
+	               		header('Location:user.home');
 	                }
 	         }
 	    }
@@ -93,7 +93,7 @@ class UserController extends AbstractController
 	        }
 	        $this->userManager->edit($user);
 	        $message = 'Votre profil a bien été modifié';
-	        header('Location:index.php?p=user.home');
+	        header('Location:user.home');
 	    }
 
 	}
@@ -119,7 +119,7 @@ class UserController extends AbstractController
 
 	                    $picture_name = $post->resize_image('../var/media/photo/'.$picture_name, 500, 500);
 	                    $message = 'Votre post a bien été modifié';
-	                    header('Location:index.php?p=user.home');
+	                    header('Location:user.home');
 	                }
 	         }
 	    }
@@ -166,7 +166,7 @@ class UserController extends AbstractController
 	        }
 	        $this->postManager->edit($post);
 	        $message = 'Votre post a bien été modifié';
-	        header('Location:index.php?p=user.home');
+	        header('Location:user.home');
 	    }
 	}
 
@@ -215,7 +215,7 @@ class UserController extends AbstractController
 
 	                    $picture_name = $post->resize_image('../var/media/photo/'.$picture_name, 500, 500);
 	                    $message = 'Votre post a bien été ajouté';
-	                    header('Location:index.php?p=user.home');
+	                    header('Location:user.home');
 	                    
 	                }
 	            }

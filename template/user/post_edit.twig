@@ -25,7 +25,7 @@
 	<br/><br/>
 
 	<div>
-		<form method="post" action="index.php?p=user.post.edit&id={{ post.id }}" enctype="multipart/form-data">
+		<form method="post" action="user.post.edit&id={{ post.id }}" enctype="multipart/form-data">
 			<label for="title">
 				{% if post %}
 			    	Changer le titre de l'article
@@ -128,8 +128,8 @@
 					{{ comment.author }} a écrit à {{ comment.create_date }}
 				</div><br/>
 				<p> {{ comment.content }} </p> <br/>
-				<a href="index.php?p=user.post.edit&id={{ comment.id }}&valid={{ comment.id }}">Valider le commentaire</a>
-				<a href="index.php?p=user.post.edit&id={{ comment.id }}&delete={{ comment.id }}">Supprimer le commentaire</a>
+				<a href="user.post.edit&id={{ comment.id }}&valid={{ comment.id }}">Valider le commentaire</a>
+				<a href="user.post.edit&id={{ comment.id }}&delete={{ comment.id }}">Supprimer le commentaire</a>
 			</div>
 		{% endfor %}
 	</div>

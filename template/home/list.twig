@@ -18,7 +18,7 @@
                     <img src="{{ '../var/media/photo/' ~ post.picture  ~ '.jpg' }}" class="img-responsive smoothie" alt="title">
                     <div class="overlay-item-caption smoothie"></div>
                     <div class="hover-item-caption smoothie">
-                        <h3 class="vertical-center smoothie"><a href="index.php?p=single&id={{ post.id }}" class="smoothie btn btn-primary page-scroll" title="view article">Voir</a></h3>
+                        <h3 class="vertical-center smoothie"><a href="single&id={{ post.id }}" class="smoothie btn btn-primary page-scroll" title="view article">Voir</a></h3>
                     </div>
                 </div>
                 <h2 class="post-title">{{ post.title }}</h2>
@@ -27,7 +27,7 @@
                     <span class="meta-item"><i class="pe-icon pe-7s-user"></i> AUTEUR <span>{{ post.user }}</span></span> LE {{ post.create_date }}
                 </div>
                 <p>{{ post.chapo }}</p>
-                <a class="btn btn-primary mt30" href="index.php?p=single&id={{ post.id }}">
+                <a class="btn btn-primary mt30" href="single&id={{ post.id }}">
                 Lire plus</a>
             </div>
         </div>
@@ -44,9 +44,9 @@
             {% if i == actual_page %}
                 PAGE {{i}} |
             {% elseif category %}
-                <a href="index.php?p=category&id={{category.id}}&page={{i}}"> Page {{i}} |</a>
+                <a href="category&id={{category.id}}&page={{i}}"> Page {{i}} |</a>
             {% else %}
-                <a href="index.php?p=post&page={{i}}"> Page {{i}} </a>
+                <a href="post&page={{i}}"> Page {{i}} </a>
             {% endif %}
 
         {% endfor %}

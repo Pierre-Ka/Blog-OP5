@@ -35,7 +35,7 @@
 	<h1>Editer votre photo de profil </h1>
 	<p> <img src="<?= '../var/media/photo/ {{ user.picture }}' ; ?>" alt="sans ext"> </p>
 		
-		<form method="post" action="index.php?p=user.edit&id= {{ user.id }}" enctype="multipart/form-data">
+		<form method="post" action="user.edit&id= {{ user.id }}" enctype="multipart/form-data">
 			<label> Changer ma photo de profil : <br />
 			<input type="file" name="pictureUpdate" /><br /> </label><br/>
 			<input class="btn btn-primary" type="submit"/><br/><br/>

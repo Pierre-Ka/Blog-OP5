@@ -15,7 +15,7 @@
 	<h1> Administrer les utilisateurs</h1>
 	<br/><br/>
 	<p> 
-		<a href="index.php?p=admin.home" class="btn-lg btn-success">Interface d'administration</a>
+		<a href="admin.home" class="btn-lg btn-success">Interface d'administration</a>
 	</p>
 </div>
 <br/><br/><br/><br/>
@@ -42,7 +42,7 @@
 				<td>
 					{% if user.is_valid == 0 %}
 						<button type="submit" class="btn btn-light">
-							<a href="index.php?p=admin.manage_user&valid={{ user.id }}">Valider</a>
+							<a href="admin.manage_user&valid={{ user.id }}">Valider</a>
 						</button>
 					{% endif %}
 				</td>

@@ -61,7 +61,7 @@
 			{% if i == actual_page %}
 				{{i}} 
 			{% else %}
-				<a href="index.php?p=single&id={{ post.id }}&page={{i}}"> {{i}} </a>
+				<a href="single&id={{ post.id }}&page={{i}}"> {{i}} </a>
 			{% endif %}
 
 		{% endfor %}
@@ -70,7 +70,7 @@
 	<h3>Ecrire un commentaire</h3>
 
 
-	<form method="post" action="index.php?p=single&id={{ post.id }}">
+	<form method="post" action="single&id={{ post.id }}">
 
 	<p><label for="author_com">Votre pseudo : </label> <input type="text" name="author_com" id="author_com"/></p>
 

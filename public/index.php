@@ -24,7 +24,7 @@ if(isset($_GET['p']))
 elseif(isset($_GET['disconnect']))
 {
 	session_destroy();
-	$page = 'home';
+	header('Location: home');
 }
 else
 {
