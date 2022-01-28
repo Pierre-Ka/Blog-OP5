@@ -17,6 +17,20 @@ class HomeController extends AbstractController
 	{
 		$categories_header = $this->categoryManager->getAll();
 		
+		if (isset($_POST['message']) AND isset($_POST['message-email']))  
+		{
+            $entete  = 'MIME-Version: 1.0' . "\r\n";
+            $entete .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+            $entete .= 'From: webmaster@monsite.fr' . "\r\n";
+            $entete .= 'Reply-to: ' . $_POST['email'];
+
+            $message = '<h1>Message envoyé depuis la page Contact de monsite.fr</h1>
+            <p><b>Email : </b>' . $_POST['message-email'] . '<br>
+            <b>Message : </b>' . htmlspecialchars($_POST['message']) . '</p>';
+
+            $retour = mail('ikanhiu@outlook.fr', 'Envoi depuis page Contact', $message, $entete);
+        }
+
 		echo $this->twig->render('home/home.twig', [
 			'categories_header' => $this->categoryManager->getAll()
 				]);

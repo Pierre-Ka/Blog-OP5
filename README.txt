@@ -1,17 +1,20 @@
 Suite : 
 22 janvier-30 janvier
 
-0 ---- Changement : pour l'edition d'article il n'y a plus qu'un seul formulaire : il faut donc adapter le controller en fonction 
-1 - implementer twig
-2 - faire le design
+
+0 ---- Depuis l'implementation Bootstrap, l'ensemble des "type="submit"" ne marche plus. Debugger ! 
+
+1 - Changement : pour l'edition d'article il n'y a plus qu'un seul formulaire : il faut donc adapter le controller en fonction 
+2 - finir le design
 3 - erreurs et message erreurs
 4 - bug : edit profil :: le mot de passe change sans qu'on le souhaite
 5 - bug : la partie administrative est ouverte a tous les membres
 6 - bug : il me charge l'else lorsque les id sont incorrecte (sign_in.twig)
 6 - image_resize - toutes les images
 7 - reecriture des liens
+8 -  Validez la qualité du code via SymfonyInsight ou Codacy.
 
-8 - reecriture des classes controller de manière plus coherente ( postcontroller, categorycontroller, usercontroller, commentcontroller) 
+9- option - reecriture des classes controller de manière plus coherente ( postcontroller, categorycontroller, usercontroller, commentcontroller) 
 
 
 

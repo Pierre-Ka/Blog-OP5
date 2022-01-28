@@ -1,38 +1,52 @@
-{% extends 'layout.twig' %}
+{% extends 'layout_with_sidebar.twig' %}
 
-
-{% block title %}
-		Page d'accueil
-	{% endblock title %}
+    {% block title %}
+    		Page d'accueil
+    {% endblock title %}
 
 	{% block h1 %}
-		Bienvenue sur Watersport
-
-	<h3><em> Le site des sports d'eaux </em></h3>
+		Bienvenue sur Watersport-gear
+	<h3><em> Review du materiel aquatiques </em></h3>
 	{% endblock h1 %}
 
-	{% block content %}
 
+{% block main %}
 
-<br/><br/>
-<p> votre nom et votre prénom ; une photo et/ou un logo ;
-un menu permettant de naviguer parmi l’ensemble des pages de votre site web ;
-un formulaire de contact (à la soumission de ce formulaire, un e-mail avec toutes ces informations vous sera envoyé) avec les champs suivants :
-nom/prénom, e-mail de contact, message, un lien vers votre CV au format PDF ;
-et l’ensemble des liens vers les réseaux sociaux où l’on peut vous suivre (GitHub, LinkedIn, Twitter…).</p>
-
-
-<br/><br/>
+<h2> Présentation de l'équipe de Watersport-gear </h2>
 <br/><br/>
 
-<a href='index.php?p=post'>Liste des posts</a><br/>
+                                 <div class="col-sm-12 blog-item mb100 wow match-height">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="hover-item mb30">
+                                                <img src="../var/photo/voile.jpg" class="img-responsive smoothie" alt="title">
+                                                <div class="overlay-item-caption smoothie"></div>
+                                                <div class="hover-item-caption smoothie">
+                                                    <h3 class="vertical-center smoothie"><a href="single-post-right-sidebar.html" class="smoothie btn btn-primary page-scroll" title="view article">View</a></h3>
+                                                </div>
+                                            </div>
+            <h2 class="post-title text-center">Une équipe de passionnés </h2>
+            <div class="item-metas text-muted mb30">
+            </div>
+            <p> Composés de sportifs aguerris et d'aventuriers de l'extrême, les redacteurs de watersport-gear testent le materiel lié au sport nautique et aquatique et vous livrent leur évaluation des produits testés. Composés de sportifs aguerris et d'aventuriers de l'extrême, les redacteurs de watersport-gear testent le materiel lié au sport nautique et aquatique et vous livrent leur évaluation des produits testés. <br/> Composés de sportifs aguerris et d'aventuriers de l'extrême, les redacteurs de watersport-gear testent le materiel lié au sport nautique et aquatique et vous livrent leur évaluation des produits testés. Composés de sportifs aguerris et d'aventuriers de l'extrême, les redacteurs de watersport-gear testent le materiel lié au sport nautique et aquatique et vous livrent leur évaluation des produits testés. </p>
+                                           
+            <br/><br/><br/>
+                    
+            <h2 class="post-title text-center">Nous contacter </h2>
+            <br/><br/>
+            <form method="post" action="index.php?p=home" class="text-center">
+                    <label for="message-email">Votre email</label><br/>
+                    <input type="email" name="message-email" id="message-email" required><br/><br/>
+                    <label for="message">Message</label><br/>
+                    <textarea name="message" cols="50" rows="8" id="message" required></textarea><br/><br/>
+                <input class="btn btn-primary" type="submit" value="Envoyer"/>
+            </form>
+           
+        </div>
+    </div>
+</div>
 
-<?php //REQUETE PUIS BOUCLE ?? ?>
-<a href='index.php?p=category&id=1'>Liste des posts du type1</a><br/>
-<a href='index.php?p=category&id=2'>Liste des posts du type2</a><br/>
-<a href='index.php?p=category&id=3'>Liste des posts du type3</a><br/>
-<a href='index.php?p=sign_in'>Connexion à la partie administration</a><br/>
+{% endblock main %}
 
-<br/><br/>
-
-{% endblock content %}
+{% block paging %}
+{% endblock paging %}
