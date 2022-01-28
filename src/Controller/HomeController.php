@@ -16,7 +16,8 @@ class HomeController extends AbstractController
 	public function home()
 	{
 		$categories_header = $this->categoryManager->getAll();
-		
+		//$post_last5=$this->postManager->getAll(1);
+
 		if (isset($_POST['message']) AND isset($_POST['message-email']))  
 		{
             $entete  = 'MIME-Version: 1.0' . "\r\n";
@@ -34,6 +35,7 @@ class HomeController extends AbstractController
 		echo $this->twig->render('home/home.twig', [
 			'categories_header' => $this->categoryManager->getAll()
 				]);
+
 		/*
 		echo $this->twig->render('pre_content.twig', [
 			'categories_header' => $this->categoryManager->getAll()

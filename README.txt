@@ -1,11 +1,9 @@
 Suite : 
 22 janvier-30 janvier
 
+1 - Debugage general
+2 - Changement : pour l'edition d'article il n'y a plus qu'un seul formulaire : il faut 		donc adapter le controller en fonction 
 
-0 ---- Depuis l'implementation Bootstrap, l'ensemble des "type="submit"" ne marche plus. Debugger ! 
-
-1 - Changement : pour l'edition d'article il n'y a plus qu'un seul formulaire : il faut donc adapter le controller en fonction 
-2 - finir le design
 3 - erreurs et message erreurs
 4 - bug : edit profil :: le mot de passe change sans qu'on le souhaite
 5 - bug : la partie administrative est ouverte a tous les membres
