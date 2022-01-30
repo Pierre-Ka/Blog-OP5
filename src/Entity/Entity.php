@@ -24,7 +24,7 @@ abstract class Entity
 	}
 
 
-	public function resize_image($file, $w, $h, $crop=FALSE)
+	/*public function resizeImage($file, $fullNameDestination, $w, $h, $crop=FALSE)
 	{
 		list($width, $height) = getimagesize($file);
 		$r = $width / $height ;
@@ -54,31 +54,33 @@ abstract class Entity
 				$newwidth = $w;
 			}
 		}
-		$src = \imagecreatefromjpeg($file);
+		$src = imagecreatefromjpeg($file);
 		$dst = imagecreatetruecolor($newwidth, $newheight);
-		imagecopysampled($dst, $src, 0,0,0,0, $newwidth, $newheight, $width, $height);
+		imagecopyresampled($dst, $src, 0,0,0,0, $newwidth, $newheight, $width, $height);
+		
+		imagejpeg($dst, $fullNameDestination);
+		imagedestroy($dst);
+	}*/
 
-		return $dst;
 
+	public function resizeImage ( $fullNameSource, $fullNameDestination, $width, $height )
+	{
+		$source = imagecreatefromjpeg($fullNameSource); // La photo est la source
+		$destination = imagecreatetruecolor($width, $height); // On crée la miniature vide
+
+		// Les fonctions imagesx et imagesy renvoient la largeur et la hauteur d'une image
+		$largeur_source = imagesx($source);
+		$hauteur_source = imagesy($source);
+		$largeur_destination = imagesx($destination);
+		$hauteur_destination = imagesy($destination);
+
+		// On crée la miniature
+		imagecopyresampled($destination, $source, 0, 0, 0, 0, $largeur_destination, $hauteur_destination, $largeur_source, $hauteur_source);
+
+		// On enregistre la miniature sous le nom "mini_couchersoleil.jpg"
+		imagejpeg($destination, $fullNameDestination);
+		imagedestroy($destination);
 	}
 
-	/*
-<?php
-$source = imagecreatefromjpeg("foret1.jpg"); // La photo est la source
-$destination = imagecreatetruecolor(200, 150); // On crée la miniature vide
-
-// Les fonctions imagesx et imagesy renvoient la largeur et la hauteur d'une image
-$largeur_source = imagesx($source);
-$hauteur_source = imagesy($source);
-$largeur_destination = imagesx($destination);
-$hauteur_destination = imagesy($destination);
-
-// On crée la miniature
-imagecopyresampled($destination, $source, 22, 22, 0, 0, $largeur_destination, $hauteur_destination, $largeur_source, $hauteur_source);
-
-// On enregistre la miniature sous le nom "mini_couchersoleil.jpg"
-imagejpeg($destination, "mini_foret1.jpg");
-?>
-*/
 
 }

@@ -10,11 +10,20 @@
 
 {% block content %}
 
+{{ incorrect ? '<div class="alert alert-danger">
+	Attention, champs non remplis !
+	</div>' : '' }}
+
 <div class="container-fluid text-center">
 
 
 	<h2>Bienvenue {{ user.name }} </h2>
 	<h1>Editer votre profil </h1>
+
+		<br/><br/>
+	<p> 
+		<a href="user.home" class="btn-lg btn-success">Retour à l'interface utilisateur</a>
+	</p>
 	<div>
 		<br/><br/>
 		<form method="post">
@@ -29,18 +38,19 @@
 
 			<label for="descriptionUpdate"> Changer la description à votre sujet </label><br/>
 			<input type="text" name="descriptionUpdate" id="descriptionUpdate" value=" {{ user.description }}"/><br/><br/>
-			<input type="submit" value="Sauvegarder les modifications"/>
+			<input class="btn btn-primary" type="submit" value="Sauvegarder les modifications"/><br/><br/>
 		</form>
+		<br/><br/><br/>
 	</div>
-	<h1>Editer votre photo de profil </h1>
-	<p> <img src="<?= '../var/media/photo/ {{ user.picture }}' ; ?>" alt="sans ext"> </p>
-		
+	<h3>Editer votre photo de profil </h3>
+	<p> Attention ! L'image doit être au format JPEG et ne pas excédée 4Mo ! </p><br/><br/><br/>
+	<p> <img src="{{ '../var/media/user/' ~ user.picture }}" alt=""style=" border-radius : 50%;" /> </p>
 		<form method="post" action="user.edit&id= {{ user.id }}" enctype="multipart/form-data">
 			<label> Changer ma photo de profil : <br />
 			<input type="file" name="pictureUpdate" /><br /> </label><br/>
 			<input class="btn btn-primary" type="submit"/><br/><br/>
 		</form>
-</div>
+</div><br/><br/>
 
 <br/><br/>
 

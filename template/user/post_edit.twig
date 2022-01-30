@@ -2,9 +2,9 @@
 
 	{% block title %}
 		{% if post %}
-		'Editer un article'
+		Editer un article
 		{% else %} 
-		'Ajouter un article'
+		Ajouter un article
 		{% endif %}		
 	{% endblock title %}
 
@@ -13,47 +13,78 @@
 	{% endblock h1 %}
 
 {% block content %}
-<div class="container-fluid text-center">
 	<br/><br/>
-	<h2>
+
+	{% autoescape false %}
+	{{ message ? '<div class="alert alert-success">'
+			~ message ~
+		'</div>' : '' }}
+	{% endautoescape %}
+
+<div class="text-center">
+	<br/><br/>
+		<h1>
 		{% if post %}
 		  Edition de l'article : {{post.title}}
 		{% else %} 
-			'Ajouter un article'
+			Ajouter un article
 		{% endif %}	
-	</h2>
+	</h1>
 	<br/><br/>
+	<p> 
+		<a href="user.home" class="btn-lg btn-success">Retour à l'interface utilisateur</a>
+	</p>
 
-	<div>
-		<form method="post" action="user.post.edit&id={{ post.id }}" enctype="multipart/form-data">
+			{% if post %}
+			<br/><br/>
+			{% else %} 
+			<br />
+			Tous les champs sont obligatoires ! 
+			<br/><br/>
+			{% endif %}	
+</div>
+
+	<div class="text-center">
+		<form method="post" action=
+			
+				{% if post %}
+					"user.post.edit&id={{ post.id }}" 
+				{% else %} 
+						"user.post.add"
+				{% endif %} 
+
+			enctype="multipart/form-data">
 			<label for="title">
+
 				{% if post %}
 			    	Changer le titre de l'article
 				{% else %} 
 					Titre de l'article
 				{% endif %}	
+
 			</label><br/>
-			<input type="text" 
-			name="
+		<input type="text" 
+			name=
 			{% if post %}
-			    titleChange
+			    "titleChange"
 			{% else %} 
-				title
+				"title"
 			{% endif %}	
-				" 
+				
 			id="title" 
 			value="{{ post.title?: null }}"/>
 			<br/><br/>
 		
 			<label for="category"> Choisissez la categorie de l'article </label><br/>
 			<select 
-			name="
+			name=
+
 			{% if post %}
-			    categoryChange
+			    "categoryChange"
 			{% else %} 
-				category
+				"category"
 			{% endif %}
-				"
+				
 			id="category">
 				{% for categorie in categories %}
 					<option value="{{ categorie.id }};"/>{{ categorie.name }}</option>
@@ -68,13 +99,14 @@
 			{% endif %}	
 			</label><br/>
 			<input type="text" 
-			name="
+			name=
+
 			{% if post %}
-			    chapoChange
+			    "chapoChange"
 			{% else %} 
-				chapo
+				"chapo"
 			{% endif %}
-			" 
+			
 			id="chapo" value="{{ post.chapo?: null }}"/><br/><br/>
 			<label for="content">
 			{% if post %}
@@ -84,56 +116,74 @@
 			{% endif %}	
 			</label><br/>
 			<textarea 
-			name="
+			name=
+
 			{% if post %}
-			    contentChange
+			    "contentChange"
 			{% else %} 
-				content
+				"content"
 			{% endif %}
-			" 
-			id="content" cols="100" rows="30">{{ post.content?: null }}</textarea><br/><br/>
+			
+			id="content" cols="100" rows="18">{{ post.content?: null }}</textarea><br/><br/>
 
 	{% if post %}
-		<p> <img src="../var/media/photo/{{ post.picture }}.jpg" alt="avec ext"> </p>
-		<p> <img src="../var/media/photo/{{ post.picture }}" alt="sans ext"> </p>
+	<div>
+		<p> <img src="{{ '../var/media/post/' ~ post.picture }}" alt="" style="max-height: 600px; max-width: 600px; margin-bottom:0px;"> </p> <br/><br/><br/><br/>
+	</div>
 	{% endif %}
 
-			<label>
-			{% if post %}
-			   Changer la photo de l'article : 
-			{% else %} 
-				Choisir la photo de l'article :
-			{% endif %}	
-			<br />
+
+				<label><h3>
+				{% if post %}
+				   Changer la photo de l'article : 
+				{% else %} 
+					Choisir la photo de l'article :
+				{% endif %}	
+				</h3> <br />
+				<p> Attention ! L'image doit être au format JPEG et ne pas excédée 4Mo !
+				{% if post %}
+				</p><br />
+				{% else %} 
+				<br />
+				L'image n'est pas obligatoire </p>
+				<br/>
+				{% endif %}	
+
+
 			<input type="file" 
-			name="
+			name=
+
 			{% if post %}
-			    pictureChange
+			    "pictureChange"
 			{% else %} 
-				picture
+				"picture"
 			{% endif %}
-			"
+			
 			 /><br /> </label><br/>
 			<input class="btn btn-info" type="submit" value="Sauvegarder"/><br/><br/>
 		</form>
-	</div>
 
-{% if post %}
-	<h2>Validation des commentaires</h2>
 	<br/><br/>
-	<div>		
-		{% for comment in comments %}
-			<div>
+	{% if post %}
+		{% if comments %}
+		<h2>Validation des commentaires</h2>
+		<br/><br/>
+		<div>		
+			{% for comment in comments %}
 				<div>
-					{{ comment.author }} a écrit à {{ comment.create_date }}
-				</div><br/>
-				<p> {{ comment.content }} </p> <br/>
-				<a href="user.post.edit&id={{ comment.id }}&valid={{ comment.id }}">Valider le commentaire</a>
-				<a href="user.post.edit&id={{ comment.id }}&delete={{ comment.id }}">Supprimer le commentaire</a>
-			</div>
-		{% endfor %}
-	</div>
-{% endif %}
+					<div>
+						{{ comment.author }} a écrit à {{ comment.create_date }}
+					</div><br/>
+					<p> {{ comment.content }} </p> <br/>
+					<strong>
+					<a href="user.post.edit&id={{ comment.id }}&valid={{ comment.id }}" style="color:green;">Valider le commentaire</a>
+					<a href="user.post.edit&id={{ comment.id }}&delete={{ comment.id }}" style="color:red;">Supprimer le commentaire</a> <br/><br/>
+					</strong>
+				</div>
+			{% endfor %}
+		</div>
+		{% endif %}
+	{% endif %}
 </div>
 
 <br/><br/><br/><br/>

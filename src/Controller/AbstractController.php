@@ -12,6 +12,7 @@ abstract class AbstractController
     protected UserManager $userManager;
     protected CategoryManager $categoryManager;
     protected CommentManager $commentManager;
+    public $categories_header;
     protected $twig;
 
     public function __construct(PostManager $postManager, UserManager $userManager, CategoryManager $categoryManager, CommentManager $commentManager)
@@ -20,6 +21,7 @@ abstract class AbstractController
         $this->userManager = $userManager;
         $this->categoryManager = $categoryManager;
         $this->commentManager = $commentManager;
+        $this->categories_header = $this->categoryManager->getAll();
         $loader = new \Twig\Loader\FilesystemLoader('../template');
         $twig = new \Twig\Environment($loader, [
         'debug' => true

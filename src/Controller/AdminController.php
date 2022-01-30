@@ -28,7 +28,8 @@ class AdminController extends UserController
 
 	public function adminHome()
 	{
-		$categories_header = $this->categoryManager->getAll();
+		$adminPostDelete = $_POST['admin_post_delete'] ?? null;
+
 		if (isset($_GET['faker']))
 		{
 			$fake = new FakeData();
@@ -46,76 +47,80 @@ class AdminController extends UserController
 			}
 			header('Location:admin.home');
 		}
-		if(isset($_POST['admin_post_delete']))
+		if($adminPostDelete)
 	    {
-	        $this->postManager->delete($_POST['admin_post_delete']);
-	        $this->commentManager->deletePerPost($_POST['admin_post_delete']);
+	        $this->postManager->delete($adminPostDelete);
+	        $this->commentManager->deletePerPost($adminPostDelete);
 	    }
 	    $connect_id = $this->userManager->getUserId();
 	    $posts = $this->postManager->getAllAdmin();
 
 	    echo $this->twig->render('admin/home.twig', [
 			'posts' => $posts,
-			'categories_header' => $categories_header
+			'categories_header' => $this->categories_header
 				]);
 	}
 
 	public function manageUsers()
 	{
-		$categories_header = $this->categoryManager->getAll();
+		$adminUserDelete = $_POST['admin_user_delete'] ?? null;
+
 		if(!empty($_GET['valid']))
 		{
 			$this->userManager->valid(($_GET['valid']));
 		}
-		if(isset($_POST['admin_user_delete']))
+		if($adminUserDelete)
 		{
-			$this->userManager->delete($_POST['admin_user_delete']);
+			$this->userManager->delete($adminUserDelete);
 		}
 		$users = $this->userManager->getList();
 
 		echo $this->twig->render('admin/manage_user.twig', [
 			'users' => $users,
-			'categories_header' => $categories_header
+			'categories_header' => $this->categories_header
 				]);
 
 	}
 
 	public function manageCategories()
 	{
-		$categories_header = $this->categoryManager->getAll();
+		$categoryEdit = $_POST['categoryEdit'] ?? null;
+        $categoryCreate = $_POST['categoryCreate'] ?? null;
+        $adminCategoryDelete = $_POST['admin_category_delete'] ?? null;
+
 		if(empty($_POST))
 		{
 			$categories = $this->categoryManager->getAll();
 
 			echo $this->twig->render('admin/manage_category.twig', [
 			'categories' => $categories,
-			'categories_header' => $categories_header
+			'categories_header' => $this->categories_header
 				]);
-
 		}
+
 		else
 		{
 			switch($_POST)
 			{
-				case isset($_POST['categoryEdit']) : 
+				case $categoryEdit : 
 				$categorie = $this->categoryManager->getOne($_GET['id']);
-				$categorie->setName(htmlspecialchars($_POST['categoryEdit']));
+				$categorie->setName(htmlspecialchars($categoryEdit));
 				$this->categoryManager->edit($categorie);
 				break ;
 
-				case isset($_POST['categoryCreate']) :
+				case $categoryCreate :
 				$category = new Category([
-					'name'=> htmlspecialchars($_POST['categoryCreate'])
+					'name'=> htmlspecialchars($categoryCreate)
 					]);
 				$this->categoryManager->add($category);
 				break ; 
 
-				case isset($_POST['admin_category_delete']) :
-				$this->categoryManager->delete($_POST['admin_category_delete']);
+				case $adminCategoryDelete :
+				$this->categoryManager->delete($adminCategoryDelete);
 				break ; 
 			}
 			header('Location:admin.home');
 		}
 	}
-
 }
+

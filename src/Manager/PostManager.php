@@ -9,12 +9,13 @@ class PostManager extends Manager
 	
 	public function add(Post $post)
 	{
-		$q = $this->_db->prepare('INSERT INTO post(title, user_id, category_id, chapo, content, create_date) VALUES(:title,:user_id, :category_id, :chapo, :content, CURDATE())');
+		$q = $this->_db->prepare('INSERT INTO post(title, user_id, category_id, chapo, content, picture, create_date) VALUES(:title,:user_id, :category_id, :chapo, :content, :picture, CURDATE())');
 		$q->bindValue('title', $post->getTitle());
 		$q->bindValue('user_id', $post->getUser_id());
 		$q->bindValue('category_id', $post->getCategory_id());
 		$q->bindValue('chapo', $post->getChapo());
 		$q->bindValue('content', $post->getContent());
+		$q->bindValue('picture', 'DEFAULT_IMG_' . $post->getCategory_id() . '.jpg');
 		$q->execute();
 	}
 
@@ -61,7 +62,7 @@ class PostManager extends Manager
 
 	public function totalPages()
 	{
-		$post_per_page = 4 ;
+		$post_per_page = 5 ;
 		$q = $this->_db->query('SELECT id FROM post') ;
 		$post_total = $q->rowCount(); 
 		$total_pages = ceil($post_total/$post_per_page);
@@ -70,7 +71,7 @@ class PostManager extends Manager
 
 	public function totalPagesByCategory ($category_id)
 	{ 
-		$post_per_page = 4 ;
+		$post_per_page = 5 ;
 		$q = $this->_db->query('SELECT id FROM post WHERE category_id= "' .$category_id. '"') ;
 		$post_total = $q->rowCount(); 
 		$total_type_pages = ceil($post_total/$post_per_page);
@@ -80,7 +81,7 @@ class PostManager extends Manager
 	public function getAll($actual_page) 
 	{
 		$posts=[];
-		$post_per_page = 4 ;
+		$post_per_page = 5 ;
 		$start = ( $actual_page-1)*$post_per_page; 
 		$q = $this->_db->query('
 			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, 
@@ -127,7 +128,7 @@ class PostManager extends Manager
 	public function getWithCategory ($category_id, $actual_page)
 	{
 		$posts=[];
-		$post_per_page = 4 ;
+		$post_per_page = 5 ;
 		$start = ( $actual_page-1)*$post_per_page; 		
 		$q = $this->_db->query('
 			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, 

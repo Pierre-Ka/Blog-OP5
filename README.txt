@@ -4,8 +4,8 @@ Suite :
 1 - Debugage general : 
 4 - bug : edit profil :: le mot de passe change sans qu'on le souhaite
 5 - bug : la partie administrative est ouverte a tous les membres
-6 - bug : il me charge l'else lorsque les id sont incorrecte (sign_in.twig)
 2 - Changement : pour l'edition d'article il n'y a plus qu'un seul formulaire : il faut 		donc adapter le controller en fonction 
+3 - Trouver une solution pour generer les miniatures ( widget )
 
 En + = Reecriture des liens depuis le dossier racine et non plus depuis public/
 En + = correction de la fonction GetValidComment qui est très moche
@@ -18,7 +18,7 @@ En + = correction de la fonction GetValidComment qui est très moche
 
 9- option - reecriture des classes controller de manière plus coherente ( postcontroller, categorycontroller, usercontroller, commentcontroller) 
 
-
+10 - option - mail() failed to connect to mailserver at 'localhost' port 25. verify your SMTP and 'smtp_port' settings in php.ini or use ini_set() in HomeCOntroller on line 39.
 
 Le domaine home est de visibilité public : 
 Le domaine user est l'espace membre : 

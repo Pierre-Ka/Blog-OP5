@@ -60,11 +60,12 @@ class UserManager extends Manager
 
 	public function add(User $user)
 	{ 
-		$q = $this->_db->prepare('INSERT INTO user(email, password, name, description, inscription_date) VALUES (:email, :password, :name, :description, NOW())');
+		$q = $this->_db->prepare('INSERT INTO user(email, password, name, description, picture, inscription_date) VALUES (:email, :password, :name, :description, :picture, NOW())');
 		$q->bindValue('email', $user->getEmail());
 		$q->bindValue('password', sha1($user->getPassword()));
 		$q->bindValue('name', $user->getName());
 		$q->bindValue('description', $user->getDescription());
+		$q->bindValue('picture', 'USER_IMG.jpg');
 		$q->execute();
 	}
 

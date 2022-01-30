@@ -17,9 +17,11 @@
 			Identifiants incorrects ou champs non remplis !
 		</div>' : '' }}
 
-	{{ message ? '	<div class="alert alert-success">
-			<?= $message; ?>
-		</div>' : ''}}
+	{% autoescape false %}
+	{{ message ? '<div class="alert alert-success">'
+			~ message ~
+		'</div>' : '' }}
+	{% endautoescape %}
 
 
 <div class="text-center">
@@ -33,8 +35,8 @@
 	<div>
 
 		<form method="post" action="sign_in">
-					<label for="email"> Votre email : <input type="text" name="email" id="email"/></label><br/><br/>
-					<label for="password"> Votre mot de passe : <input type="password" name="password" id="password"/></label><br/><br/>
+					<label for="email"> Votre email : <input type="text" name="email" id="email" required/></label><br/><br/>
+					<label for="password"> Votre mot de passe : <input type="password" name="password" id="password" required/></label><br/><br/>
 				<input class="btn btn-primary" type="submit" value="Connexion"/>
 				
 		</form>
@@ -53,15 +55,15 @@
 		<br/><br/>
 		<form method="post" action="sign_in">
 				<label for="emailCreate"> Votre email </label><br/>
-				<input type="text" name="emailCreate" id="emailCreate"/><br/><br/>
+				<input type="text" name="emailCreate" id="emailCreate" required/><br/><br/>
 				<label for="nameCreate"> Votre nom </label><br/>
-				<input type="text" name="nameCreate" id="nameCreate"/><br/><br/>
+				<input type="text" name="nameCreate" id="nameCreate" required/><br/><br/>
 				<label for="passwordCreate"> Votre mot de passe</label><br/>
-				<input type="password" name="passwordCreate" id="passwordCreate"/><br/><br/>
+				<input type="password" name="passwordCreate" id="passwordCreate" required/><br/><br/>
 				<label for="passwordConfirm"> Confirmer votre mot de passe</label><br/>
-				<input type="password" name="passwordConfirm" id="passwordConfirm"/><br/><br/>
+				<input type="password" name="passwordConfirm" id="passwordConfirm" required/><br/><br/>
 				<label for="descriptionCreate"> Votre description </label><br/>
-				<input type="text" name="descriptionCreate" id="descriptionCreate"/><br/><br/>
+				<input type="text" name="descriptionCreate" id="descriptionCreate" required/><br/><br/>
 			<input class="btn btn-primary" type="submit" value="Creer mon compte"/>
 		</form>
 	</div>

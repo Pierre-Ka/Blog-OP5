@@ -50,51 +50,21 @@ Test
                             <div class="widget mb50">
                                 <h4 class="widget-title">Derniers Articles</h4>
                                 <div>
+
+                                {% for lastPost in last5Posts %}
+
                                     <div class="media">
                                         <div class="pull-left">
                                             <img class="widget-img" src="../assets/img/widget/widget1.jpg" alt="">
                                         </div>
                                         <div class="media-body">
-                                            <span class="media-heading"><a href="#">Panic In London</a></span>
+                                            <span class="media-heading"><a href="#">{{ lastPost.title }}</a></span>
                                             <small class="muted">Posted 14 April 2015</small>
                                         </div>
                                     </div>
-                                    <div class="media">
-                                        <div class="pull-left">
-                                            <img class="widget-img" src="../assets/img/widget/widget2.jpg" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <span class="media-heading"><a href="#">New iPhone News</a></span>
-                                            <small class="muted">Posted 14 April 2015</small>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="pull-left">
-                                            <img class="widget-img" src="../assets/img/widget/widget3.jpg" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <span class="media-heading"><a href="#">Our Year In Review</a></span>
-                                            <small class="muted">Posted 14 April 2015</small>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="pull-left">
-                                            <img class="widget-img" src="../assets/img/widget/widget4.jpg" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <span class="media-heading"><a href="#">jQuery Tutorial</a></span>
-                                            <small class="muted">Posted 14 April 2015</small>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="pull-left">
-                                            <img class="widget-img" src="../assets/img/widget/widget5.jpg" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <span class="media-heading"><a href="#">Sheen Interview</a></span>
-                                            <small class="muted">Posted 14 April 2015</small>
-                                        </div>
-                                    </div>
+
+                                {% endfor %}
+                                    
                                 </div>
                             </div>
                             <div class="widget mb50">
