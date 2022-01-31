@@ -9,7 +9,6 @@ use BlogApp\Manager\PostManager;
 use BlogApp\Manager\UserManager;
 use BlogApp\Manager\CategoryManager;
 
-
 class HomeController extends AbstractController
 {
 	public $last5Posts ; 

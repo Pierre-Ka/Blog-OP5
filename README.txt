@@ -1,23 +1,19 @@
 Suite : 
 28 janvier-31 janvier
 
-Debug : partie admin
+First : reecriture du texte-contenu : version finale
 
 En + = Reecriture des liens depuis le dossier racine et non plus depuis public/
 En + = correction de la fonction GetValidComment qui est très moche
 En + = lors de l'edition d'articles ; la categorie par défault est toujours la première et non celle définie
 En + = aléatoirement le chargement d'image nouvellement ajoutée se s'éffectue pas à cause de la mise en cache de l'image ( need to force refresh )
-
 En + = travailler sur les images
 
-1 fevrier  - 3 fevrier
+NEXT -  Validez la qualité du code via SymfonyInsight ou Codacy.
+NEXT - media queries passer le site au test
 
-3 - erreurs et message erreurs et redirection 404
-8 -  Validez la qualité du code via SymfonyInsight ou Codacy.
-
-9- option - reecriture des classes controller de manière plus coherente ( postcontroller, categorycontroller, usercontroller, commentcontroller) 
-
-10 - option - mail() failed to connect to mailserver at 'localhost' port 25. verify your SMTP and 'smtp_port' settings in php.ini or use ini_set() in HomeCOntroller on line 39.
+OPTION - reecriture des classes controller de manière plus coherente ( postcontroller, categorycontroller, usercontroller, commentcontroller) 
+OPTION - mail() failed to connect to mailserver at 'localhost' port 25. verify your SMTP and 'smtp_port' settings in php.ini or use ini_set() in HomeCOntroller on line 39.
 
 Le domaine home est de visibilité public : 
 Le domaine user est l'espace membre : 

@@ -54,12 +54,16 @@ Test
                                 {% for lastPost in last5Posts %}
 
                                     <div class="media">
+                                        
                                         <div class="pull-left">
-                                            <img class="widget-img" src="../assets/img/widget/widget1.jpg" alt="">
+                                        <a href="single&id={{lastPost.id}}">
+                                            <img class="widget-img" src="../var/media/post/MINI_{{lastPost.picture}}" alt="">
+                                        </a>
                                         </div>
                                         <div class="media-body">
-                                            <span class="media-heading"><a href="#">{{ lastPost.title }}</a></span>
-                                            <small class="muted">Posted 14 April 2015</small>
+                                            <span class="media-heading"><a href="single&id={{lastPost.id}}">{{ lastPost.title }}</a></span>
+                                            <small class="muted">Posté le {{ lastPost.create_date }}</small>
+                                        
                                         </div>
                                     </div>
 

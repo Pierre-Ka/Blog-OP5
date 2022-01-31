@@ -19,4 +19,9 @@ abstract class Manager
 	{
 		$this->_db = $db;
 	}
+
+	public function getLastInsertId()
+	{
+		return $this->_db->lastInsertId();
+	}
 }

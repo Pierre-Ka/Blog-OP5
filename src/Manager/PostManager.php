@@ -111,8 +111,11 @@ class PostManager extends Manager
 			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, 
 				DATE_FORMAT(p.create_date, \'%d/%m/%Y\') AS create_date,  
 				DATE_FORMAT(p.last_update, \'%d/%m/%Y\') AS last_update, 
+				u.name as user,
 				c.name as category  
 			FROM post AS p
+			INNER JOIN user AS u
+				ON p.user_id = u.id
 			INNER JOIN category AS c
 				ON p.category_id = c.id
 			ORDER BY DATE_FORMAT(create_date, \'%Y%m%d\') DESC'
@@ -170,10 +173,4 @@ class PostManager extends Manager
 		}
 		return $posts;
 	}
-
-	public function getLastInsertId()
-	{
-		return $this->_db->lastInsertId();
-	}
-
 }

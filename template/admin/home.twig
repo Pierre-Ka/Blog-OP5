@@ -42,6 +42,7 @@
 		<tr>
 			<td>ID</td>
 			<td>Titre</td>
+			<td>Author</td>
 			<td>Categorie</td>
 			<td>Dernière modification</td>
 			<td>Actions</td>
@@ -52,6 +53,7 @@
 			<tr>
 				<td>{{ post.id }}</td>
 				<td>{{ post.title }}</td>
+				<td>{{ post.user }}</td>
 				<td>{{ post.category }}</td>
 				<td>{{ post.last_update == null ? post.create_date : post.last_update }}</td>
 				<td>

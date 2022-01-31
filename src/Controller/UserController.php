@@ -62,7 +62,7 @@ class UserController extends AbstractController
 	            	$picture_name = 'USER_IMG_' . $user->getId() .'.'.$extension_upload ;
 	            	$pathPicture = '../var/media/user/'. $picture_name ;
 
-	            	$picture = $user->resizeImageWithCrop($_FILES['pictureUpdate']['tmp_name'], $pathPicture, 200, 200);
+	            	$picture = $user->resizeImageWithCrop($_FILES['pictureUpdate']['tmp_name'], $pathPicture, 150, 150);
 	   				//move_uploaded_file($_FILES['pictureUpdate']['tmp_name'], $pathPicture);	                
 	    			$user->setPicture($picture_name);
 	                $this->userManager->edit($user);
@@ -169,6 +169,10 @@ class UserController extends AbstractController
 	                $post->setPicture($picture_name);
 	                $this->postManager->edit($post);
 
+	                $widgetPath = '../var/media/post/MINI_POST_IMG_' . $_GET['id'] .'.'.$extension_upload ;
+	                $picturePath = '../var/media/post/POST_IMG_' . $_GET['id'] .'.'.$extension_upload ; 
+
+	                $picture = $post->resizeImageWithCrop($picturePath, $widgetPath, 60, 60);
 	                $message = 'L\'image a été modifié avec succès' ;
 	            }
 		         
@@ -246,8 +250,10 @@ class UserController extends AbstractController
 	                $post->setId($new_id);	// ON DOIT LUI ATTRIBUER L'ID RECUPERE
 	                $this->postManager->edit($post); // GRACE A CA, ON L'ENREGISTRE
 
-	                $widgetPath = '../var/media/post/MINI_IMG_' . $new_id .'.'.$extension_upload ;
-	                $picture = $post->resizeImage($picturePath, $widgetPath, 60, 60);
+	                $widgetPath = '../var/media/post/MINI_POST_IMG_' . $new_id .'.'.$extension_upload ;
+
+	                //$picture = $post->resizeImage($picturePath, $widgetPath, 60, 60);
+	                $picture = $post->resizeImageWithCrop($picturePath, $widgetPath, 60, 60);
 
 	                $message = ' L\'article et l\'image ont été ajouté avec succès ';
 

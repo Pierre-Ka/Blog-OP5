@@ -42,7 +42,7 @@
     </div>
 
 	<br/><br/>
-
+{% if comments %}
 	<h2> Commentaires : </h2> 
 	<br/>
 
@@ -63,6 +63,7 @@
 	</div>
 
 
+
 	<p> PAGE : 
 
 		{% for i in 1..max_page %}
@@ -75,6 +76,7 @@
 
 		{% endfor %}
 	</p><br/>
+{% endif %}
 
 	<h3>Ecrire un commentaire</h3>
 
