@@ -43,7 +43,9 @@ class UserManager extends Manager
 			$q = $this->_db->prepare('SELECT * FROM user WHERE id =:id AND is_admin=1');
 			$q->bindValue('id', $_SESSION['auth']);
 			$q->execute();
-			if(isset($q)) 
+			$data=$q->fetch();
+
+			if($data) 
 			{
 				return true;
 			}

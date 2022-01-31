@@ -6,6 +6,7 @@
 
 		{% block h1 %}
 		Administrer vos articles 
+		<h2>Bienvenue {{ user.name }} </h2>
 	{% endblock h1 %}
 
 {% block content %}
@@ -68,13 +69,15 @@
 <p> 
 	<a href="index.php?disconnect" class="btn-lg btn-success">Me deconnecter</a>
 </p>
-<br/><br/>
-<p> 
-	<a href="admin.home" class="btn btn-success">Connexion en tant qu'administrateur</a>
-</p>
-</div>
-
 <br/><br/><br/>
+{% if admin %}
+	<p> 
+		<a href="admin.home" class="btn btn-success">Connexion en tant qu'administrateur</a>
+	</p>
+	</div>
+
+	<br/><br/><br/>
+{% endif %}
 
 
 {% endblock content %}

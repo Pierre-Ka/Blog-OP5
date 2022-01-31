@@ -15,17 +15,16 @@
 {% block content %}
 	<br/><br/>
 
+<div class="text-center">
 	{% autoescape false %}
 	{{ message ? '<div class="alert alert-success">'
 			~ message ~
 		'</div>' : '' }}
 	{% endautoescape %}
-
-<div class="text-center">
 	<br/><br/>
 		<h1>
 		{% if post %}
-		  Edition de l'article : {{post.title}}
+		  Edition de l'article : <br/> {{post.title}}
 		{% else %} 
 			Ajouter un article
 		{% endif %}	
@@ -44,126 +43,108 @@
 			{% endif %}	
 </div>
 
-	<div class="text-center">
-		<form method="post" action=
-			
-				{% if post %}
-					"user.post.edit&id={{ post.id }}" 
-				{% else %} 
-						"user.post.add"
-				{% endif %} 
+<div class="text-center">
+	<form method="post" action=
+								{% if post %}
+									"user.post.edit&id={{ post.id }}" 
+								{% else %} 
+										"user.post.add"
+								{% endif %} 
+		enctype="multipart/form-data">
+		<label for="title">
+								{% if post %}
+							    	Changer le titre de l'article
+								{% else %} 
+									Titre de l'article
+								{% endif %}	
+		</label><br/>
+		<input type="text" name=
+								{% if post %}
+								    "titleChange"
+								{% else %} 
+									"title"
+								{% endif %}		
+		id="title" value="{{ post.title?: null }}"/>
+		<br/><br/>	
+		<label for="category"> Choisissez la categorie de l'article </label><br/>
+		<select name=
+								{% if post %}
+								    "categoryChange"
+								{% else %} 
+									"category"
+								{% endif %}				
+		id="category">
+			{% for categorie in categories %}
+				<option value="{{ categorie.id }};"/>{{ categorie.name }}</option>
+			{% endfor %} 
+		</select><br/><br/>
+		<label for="chapo">
+								{% if post %}
+								   Changer le Resumé de l'article
+								{% else %} 
+									Resumé de l'article
+								{% endif %}	
+		</label><br/>
+		<input type="text" name=
+								{% if post %}
+								    "chapoChange"
+								{% else %} 
+									"chapo"
+								{% endif %}		
+		id="chapo" value="{{ post.chapo?: null }}"/><br/><br/>
+		<label for="content">
+								{% if post %}
+								   Changer le Contenu de l'article
+								{% else %} 
+									Contenu de l'article
+								{% endif %}	
+		</label><br/>
+		<textarea name=
+								{% if post %}
+								    "contentChange"
+								{% else %} 
+									"content"
+								{% endif %}	
+		id="content" cols="100" rows="18">{{ post.content?: null }}</textarea><br/><br/>
 
-			enctype="multipart/form-data">
-			<label for="title">
+		{% if post %}
+			<div>
+				<p> <img src="{{ '../var/media/post/' ~ post.picture }}" alt="" style="max-height: 600px; max-width: 600px; margin-bottom:0px;"> </p> <br/><br/><br/><br/>
+			</div>
+		{% endif %}
 
-				{% if post %}
-			    	Changer le titre de l'article
-				{% else %} 
-					Titre de l'article
-				{% endif %}	
-
-			</label><br/>
-		<input type="text" 
-			name=
-			{% if post %}
-			    "titleChange"
-			{% else %} 
-				"title"
-			{% endif %}	
-				
-			id="title" 
-			value="{{ post.title?: null }}"/>
-			<br/><br/>
-		
-			<label for="category"> Choisissez la categorie de l'article </label><br/>
-			<select 
-			name=
-
-			{% if post %}
-			    "categoryChange"
-			{% else %} 
-				"category"
-			{% endif %}
-				
-			id="category">
-				{% for categorie in categories %}
-					<option value="{{ categorie.id }};"/>{{ categorie.name }}</option>
-				{% endfor %} 
-			</select><br/><br/>
-
-			<label for="chapo">
-			{% if post %}
-			   Changer le Resumé de l'article
-			{% else %} 
-				Resumé de l'article
-			{% endif %}	
-			</label><br/>
-			<input type="text" 
-			name=
-
-			{% if post %}
-			    "chapoChange"
-			{% else %} 
-				"chapo"
-			{% endif %}
-			
-			id="chapo" value="{{ post.chapo?: null }}"/><br/><br/>
-			<label for="content">
-			{% if post %}
-			   Changer le Contenu de l'article
-			{% else %} 
-				Contenu de l'article
-			{% endif %}	
-			</label><br/>
-			<textarea 
-			name=
-
-			{% if post %}
-			    "contentChange"
-			{% else %} 
-				"content"
-			{% endif %}
-			
-			id="content" cols="100" rows="18">{{ post.content?: null }}</textarea><br/><br/>
-
-	{% if post %}
-	<div>
-		<p> <img src="{{ '../var/media/post/' ~ post.picture }}" alt="" style="max-height: 600px; max-width: 600px; margin-bottom:0px;"> </p> <br/><br/><br/><br/>
-	</div>
-	{% endif %}
-
-
-				<label><h3>
-				{% if post %}
-				   Changer la photo de l'article : 
-				{% else %} 
-					Choisir la photo de l'article :
-				{% endif %}	
-				</h3> <br />
-				<p> Attention ! L'image doit être au format JPEG et ne pas excédée 4Mo !
-				{% if post %}
-				</p><br />
-				{% else %} 
-				<br />
-				L'image n'est pas obligatoire </p>
-				<br/>
-				{% endif %}	
-
-
-			<input type="file" 
-			name=
-
-			{% if post %}
-			    "pictureChange"
-			{% else %} 
-				"picture"
-			{% endif %}
-			
-			 /><br /> </label><br/>
-			<input class="btn btn-info" type="submit" value="Sauvegarder"/><br/><br/>
-		</form>
-
+		<label><h3>
+								{% if post %}
+								   Changer la photo de l'article : 
+								{% else %} 
+									Choisir la photo de l'article :
+								{% endif %}	
+		</h3> <br />
+		<p> Attention ! L'image doit être au format JPEG et ne pas excédée 4Mo !
+								{% if post %}
+								</p><br />
+								{% else %} 
+								<br />
+								L'image n'est pas obligatoire </p>
+								<br/>
+								{% endif %}	
+		<input type="file" name=
+								{% if post %}
+								    "pictureChange"
+								{% else %} 
+									"picture"
+								{% endif %}	
+		 /><br /> </label><br/>
+		<input class="btn btn-primary" type="submit" value=
+								{% if post %}
+								    "Sauvegarder les modifications"
+								{% else %} 
+									"Créer l'article"
+								{% endif %}	
+		/><br/><br/>
+	</form>
 	<br/><br/>
+
 	{% if post %}
 		{% if comments %}
 		<h2>Validation des commentaires</h2>
@@ -176,8 +157,8 @@
 					</div><br/>
 					<p> {{ comment.content }} </p> <br/>
 					<strong>
-					<a href="user.post.edit&id={{ comment.id }}&valid={{ comment.id }}" style="color:green;">Valider le commentaire</a>
-					<a href="user.post.edit&id={{ comment.id }}&delete={{ comment.id }}" style="color:red;">Supprimer le commentaire</a> <br/><br/>
+					<a href="user.post.edit&id={{ post.id }}&valid={{ comment.id }}" style="color:green;">Valider le commentaire</a>
+					<a href="user.post.edit&id={{ post.id }}&delete={{ comment.id }}" style="color:red;">Supprimer le commentaire</a> <br/><br/>
 					</strong>
 				</div>
 			{% endfor %}
@@ -186,6 +167,6 @@
 	{% endif %}
 </div>
 
-<br/><br/><br/><br/>
+	<br/><br/><br/><br/>
 
 {% endblock content %}

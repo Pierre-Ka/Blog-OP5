@@ -31,71 +31,91 @@ class UserController extends AbstractController
 	    }
 	    $connect_id = $this->userManager->getUserId();
 	    $posts = $this->postManager->getWithUserId($connect_id);
+	    $user = $this->userManager->getOne($connect_id);
+	    $admin = $this->userManager->isAdmin($connect_id);
 
 		echo $this->twig->render('user/home.twig', [
+			'user' => $user,
 			'posts' => $posts,
+			'admin' => $admin,
 			'categories_header' => $this->categories_header
 				]);
 	}
 
 	public function editUser()
 	{
-		$pictureUpdate = $_FILES['pictureUpdate'] ?? null;
         $nameUpdate = $_POST['nameUpdate'] ?? null;
         $passwordUpdate = $_POST['passwordUpdate'] ?? null;
         $passwordConfirm = $_POST['passwordConfirm'] ?? null;
         $descriptionUpdate = $_POST['descriptionUpdate'] ?? null;
-
 	    $user = $this->userManager->getOne($this->userManager->getUserId());
-	    if (isset($_FILES['pictureUpdate']) AND $_FILES['pictureUpdate']['error'] == 0)
-	    {
-	        if ($_FILES['pictureUpdate']['size'] <= 1000000)
-	        {
-	                $infosfichier = pathinfo($_FILES['pictureUpdate']['name']);
-	                $extension_upload = $infosfichier['extension'];
-	                $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
-	                if (in_array($extension_upload, $extensions_autorisees))
-	                {
-	                    move_uploaded_file($_FILES['pictureUpdate']['tmp_name'], '../var/media/user/USER_IMG_' . $user->getId() .'.'.$extension_upload);
-	            
-	                    $picture_name = 'USER_IMG_' . $user->getId() .'.'.$extension_upload ;
-	                    $user->setPicture($picture_name);
-	                    $this->userManager->edit($user);
 
-	                    $picture_name = $user->resize_image('../var/media/user/'.$picture_name, 300, 300);
-	                    $message = 'Votre profil a bien été modifié';
-	               		header('Location:user.home');
-	                }
-	         }
+	    if ($_FILES)
+	    {
+			if (isset($_FILES['pictureUpdate']) && ($_FILES['pictureUpdate']['error'] == 0) && ($_FILES['pictureUpdate']['size'] <= 5000000)) 
+			{
+	            $infosfichier = pathinfo($_FILES['pictureUpdate']['name']);
+	            $extension_upload = $infosfichier['extension'];
+	            $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
+	            if (in_array($extension_upload, $extensions_autorisees))
+	            {
+	            	$picture_name = 'USER_IMG_' . $user->getId() .'.'.$extension_upload ;
+	            	$pathPicture = '../var/media/user/'. $picture_name ;
+
+	            	$picture = $user->resizeImageWithCrop($_FILES['pictureUpdate']['tmp_name'], $pathPicture, 200, 200);
+	   				//move_uploaded_file($_FILES['pictureUpdate']['tmp_name'], $pathPicture);	                
+	    			$user->setPicture($picture_name);
+	                $this->userManager->edit($user);
+	                $message = 'Votre image de profil a bien été modifié';
+	           	    echo $this->twig->render('user/edit.twig', [
+					'user' => $user,
+					'message' => $message,
+					'categories_header' => $this->categories_header
+						]);
+	            }   
+		    }
+		}
+		if ($_POST) 
+		{
+			if ($nameUpdate)
+			{
+				$user->setName(htmlspecialchars($nameUpdate));
+			}
+			if ($passwordUpdate && $passwordConfirm) 
+			{
+				if ($passwordUpdate !== $passwordConfirm) 
+                {
+					$message = 'Les mots de passe ne correspondent pas';
+                }
+                else
+                {
+                	$user->setPassword(sha1(htmlspecialchars($passwordConfirm)));
+                }
+			}
+	        if($descriptionUpdate)
+			{  
+	            $user->setDescription(htmlspecialchars($descriptionUpdate));
+	        }
+	        $this->userManager->edit($user);
+	        if(!isset($message))
+	        {
+	        	$message = 'Votre profil a bien été modifié';
+	        }
+	        echo $this->twig->render('user/edit.twig', [
+				'user' => $user,
+				'message' => $message,
+				'categories_header' => $this->categories_header
+					]);
+	        
 	    }
-	    if(empty($_POST))
+
+	    else
 	    {
 	        echo $this->twig->render('user/edit.twig', [
 				'user' => $user,
 				'categories_header' => $this->categories_header
 					]);
 	    }
-	    else
-	    {
-	        switch ($_POST)
-	        {
-	                case !empty($nameUpdate) :
-	            	$user->setName(htmlspecialchars($nameUpdate));
-	            	
-	                case !empty($passwordUpdate) AND !empty($passwordConfirm)
-	                    AND ($passwordUpdate === $passwordConfirm) : 
-	                $password=htmlspecialchars($passwordConfirm);
-	                $user->setPassword(sha1($password));
-	                
-	                case !empty($descriptionUpdate) :  
-	            	$user->setDescription(htmlspecialchars($descriptionUpdate));
-
-	        }
-	        $this->userManager->edit($user);
-	        $message = 'Votre profil a bien été modifié';
-	        header('Location:user.home');
-	    }
-
 	}
 
 	public function editPost()
@@ -109,31 +129,7 @@ class UserController extends AbstractController
 	    $comments = $this->commentManager->getNotYetValid($_GET['id']);
 	    $categories = $this->categoryManager->getAll();
 
-	    if (isset($_FILES['pictureChange']) && ($_FILES['pictureChange']['error'] == 0) && ($_FILES['pictureChange']['size'] <= 5000000)) 
-	    { 
-            $infosfichier = pathinfo($_FILES['pictureChange']['name']);
-            $extension_upload = $infosfichier['extension'];
-            $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
-            if (in_array($extension_upload, $extensions_autorisees))
-            {
-                move_uploaded_file($_FILES['pictureChange']['tmp_name'], '../var/media/post/POST_IMG_' . $_GET['id'] .'.'.$extension_upload);
-        
-                $picture_name = 'POST_IMG_' . $_GET['id'] .'.'.$extension_upload ;
-                $post->setPicture($picture_name);
-                $this->postManager->edit($post);
-
-                $message = 'L\'image a été modifié avec succès' ;
-                echo $this->twig->render('user/post_edit.twig', [
-                	'message' => $message,
-					'post' => $post,
-					'comments' => $comments,
-					'categories' => $categories,
-					'categories_header' => $this->categories_header
-						]);
-            }
-	         
-	    }
-	    if(empty($_POST))
+	    if(!($_POST) && !($_FILES))
 	    {
 	        if(!empty($_GET['valid']) || !empty($_GET['delete']))
 	        {
@@ -147,6 +143,7 @@ class UserController extends AbstractController
 	                break ;
 	            }
 	        }
+	        $comments = $this->commentManager->getNotYetValid($_GET['id']);
 	        
 	        echo $this->twig->render('user/post_edit.twig', [
 				'post' => $post,
@@ -156,32 +153,53 @@ class UserController extends AbstractController
 					]);
 	        
 	    }
+
 	    else
 	    {
-	        switch ($_POST)
-	        {
-	                case !empty($titleChange) :
-	            $post->setTitle(htmlspecialchars($titleChange)); 
+		    if (isset($_FILES['pictureChange']) && ($_FILES['pictureChange']['error'] == 0) && ($_FILES['pictureChange']['size'] <= 5000000)) 
+		    { 
+	            $infosfichier = pathinfo($_FILES['pictureChange']['name']);
+	            $extension_upload = $infosfichier['extension'];
+	            $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
+	            if (in_array($extension_upload, $extensions_autorisees))
+	            {
+	                move_uploaded_file($_FILES['pictureChange']['tmp_name'], '../var/media/post/POST_IMG_' . $_GET['id'] .'.'.$extension_upload);
+	        
+	                $picture_name = 'POST_IMG_' . $_GET['id'] .'.'.$extension_upload ;
+	                $post->setPicture($picture_name);
+	                $this->postManager->edit($post);
 
-	                case !empty($categoryChange) :
-	            $post->setCategory_id($categoryChange);
+	                $message = 'L\'image a été modifié avec succès' ;
+	            }
+		         
+		    }
+		    if ($_POST)
+		    {
+		        $post->setTitle(htmlspecialchars($titleChange)); 
+		        $post->setCategory_id($categoryChange); 
+		        $post->setChapo(htmlspecialchars($chapoChange)); 
+		        $post->setContent(htmlspecialchars($contentChange));
 
-	                case !empty($chapoChange) :    
-	            $post->setChapo(htmlspecialchars($chapoChange)); 
+		        $this->postManager->edit($post);
+		        if (isset($message))
+		        {
+		        	$message .= '<br/>Le post a été modifié avec succès' ;
+		    	}
+		    	else
+		    	{
+		    		$message = 'Le post a été modifié avec succès' ;
+		    	}
 
-	                case !empty($contentChange) :
-	            $post->setContent(htmlspecialchars($contentChange));
-	        }
-	        $this->postManager->edit($post);
-	        $message = 'Le post a été modifié avec succès' ;
-                echo $this->twig->render('user/post_edit.twig', [
-                	'message' => $message,
-					'post' => $post,
-					'comments' => $comments,
-					'categories' => $categories,
-					'categories_header' => $this->categories_header
-						]);
-	    }
+		    }
+	        echo $this->twig->render('user/post_edit.twig', [
+	            'message' => $message,
+			 	'post' => $post,
+				'comments' => $comments,
+				'categories' => $categories,
+				'categories_header' => $this->categories_header
+					]);
+		    
+		}
 	}
 
 	public function addPost()
@@ -213,37 +231,32 @@ class UserController extends AbstractController
 	        $this->postManager->add($post);
 	        $new_id = $this->postManager->getLastInsertId();
 
-        	if($_FILES['picture']['error'] == 0 && ($_FILES['picture']['size'] <= 5000000))
-        	{
-        		$infosfichier = pathinfo($_FILES['picture']['name']);
-                $extension_upload = $infosfichier['extension'];
-                $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
-                if (in_array($extension_upload, $extensions_autorisees))
-                {
-                	$picture_name = 'POST_IMG_' . $new_id .'.'.$extension_upload ;
-                	$resizePath = '../var/media/post/POST_IMG_' . $new_id .'.'.$extension_upload ;
-                	$widgetPath = '../var/media/post/MINI_IMG_' . $new_id .'.'.$extension_upload ;
-    // J'enregistre l'image resizé uniquement
-                	$picture = $post->resizeImage($_FILES['picture']['tmp_name'], $resizePath, 550, 400);
+	        if (isset($_FILES['picture']) && ($_FILES['picture']['error'] == 0) && ($_FILES['picture']['size'] <= 5000000)) 
+		    { 
+	            $infosfichier = pathinfo($_FILES['picture']['name']);
+	            $extension_upload = $infosfichier['extension'];
+	            $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
+	            if (in_array($extension_upload, $extensions_autorisees))
+	            {
+	            	$picture_name = 'POST_IMG_' . $new_id .'.'.$extension_upload ;
+	                $picturePath = '../var/media/post/' .  $picture_name;
+	                move_uploaded_file($_FILES['picture']['tmp_name'], $picturePath);
 
-    //move_uploaded_file($_FILES['picture']['tmp_name'], $resizePath); NO NEED
-    // $widget = $post->resizeImage($_FILES['picture']['tmp_name'], $widgetPath, 60, 60);		// $widgetPath NOT FIND 
-    //$widget = $post->resizeImage($resizePath, $widgetPath, 60, 60);
-                  // $widgetPath NOT FIND
-    ////$widget = $post->resizeImage($resizePath, $resizePath, 60, 60); 
-                  // Ca marche mais il m'ecrase l'image resize au profit de la miniature
-					
-                    $post->setPicture($picture_name);
-                    $post->setId($new_id);
-// Nous sommes obligé de donner un id ( avec get lastInsertId pour pouvoir editer de nouveau notre objet Post : sinon il ne sait pas lequel éditer )
-                    $this->postManager->edit($post);
-                    $message = ' L\'article et l\'image ont été ajouté avec succès ';
-                    echo $this->twig->render('user/post_edit.twig', [
+	                $post->setPicture($picture_name);
+	                $post->setId($new_id);	// ON DOIT LUI ATTRIBUER L'ID RECUPERE
+	                $this->postManager->edit($post); // GRACE A CA, ON L'ENREGISTRE
+
+	                $widgetPath = '../var/media/post/MINI_IMG_' . $new_id .'.'.$extension_upload ;
+	                $picture = $post->resizeImage($picturePath, $widgetPath, 60, 60);
+
+	                $message = ' L\'article et l\'image ont été ajouté avec succès ';
+
+	                echo $this->twig->render('user/post_edit.twig', [
 						'categories' => $categories,
 						'message' => $message,
 						'categories_header' => $this->categories_header
 							]);
-                }
+	            }
                 else
                 {
                 	$message = ' L\'article a été rajouté avec succès ';

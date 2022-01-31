@@ -24,9 +24,9 @@ abstract class Entity
 	}
 
 
-	/*public function resizeImage($file, $fullNameDestination, $w, $h, $crop=FALSE)
+	public function resizeImageWithCrop($fullNameSource, $fullNameDestination, $w, $h, $crop=TRUE)
 	{
-		list($width, $height) = getimagesize($file);
+		list($width, $height) = getimagesize($fullNameSource);
 		$r = $width / $height ;
 		if ($crop)
 		{
@@ -54,13 +54,13 @@ abstract class Entity
 				$newwidth = $w;
 			}
 		}
-		$src = imagecreatefromjpeg($file);
-		$dst = imagecreatetruecolor($newwidth, $newheight);
-		imagecopyresampled($dst, $src, 0,0,0,0, $newwidth, $newheight, $width, $height);
+		$source = imagecreatefromjpeg($fullNameSource);
+		$destination = imagecreatetruecolor($newwidth, $newheight);
+		imagecopyresampled($destination, $source, 0,0,0,0, $newwidth, $newheight, $width, $height);
 		
-		imagejpeg($dst, $fullNameDestination);
-		imagedestroy($dst);
-	}*/
+		imagejpeg($destination, $fullNameDestination);
+		imagedestroy($destination);
+	}
 
 
 	public function resizeImage ( $fullNameSource, $fullNameDestination, $width, $height )
