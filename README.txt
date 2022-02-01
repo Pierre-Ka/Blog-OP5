@@ -5,6 +5,8 @@ En + = Reecriture des liens depuis le dossier racine et non plus depuis public/
 En + = correction de la fonction GetValidComment qui est très moche
 En + = lors de l'edition d'articles ; la categorie par défault est toujours la première et non celle définie
 
+Important : Vous vous assurerez qu’il n’y a pas de failles de sécurité (XSS, CSRF, SQL Injection, session hijacking, upload possible de script PHP…).
+
 NEXT - SOUTENANCE
 
 /*
