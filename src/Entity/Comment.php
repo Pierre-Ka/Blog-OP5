@@ -75,7 +75,7 @@ class Comment extends Entity
 	public function setIs_valid($is_valid)
 	{
 		$is_valid= (int) $is_valid;
-		if ($id_post>=0 AND $id_post<2)
+		if ($id_post>=0 && $id_post<2)
 		{
 			$this->is_valid = $is_valid;
 		}

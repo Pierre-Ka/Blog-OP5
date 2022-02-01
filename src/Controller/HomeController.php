@@ -24,7 +24,7 @@ class HomeController extends AbstractController
 		$message = $_POST['message'] ?? null;
         $messageEmail = $_POST['message-email'] ?? null;
 
-		if ($message AND $messageEmail)  
+		if ($message && $messageEmail)  
 		{
             $entete  = 'MIME-Version: 1.0' . "\r\n";
             $entete .= 'Content-type: text/html; charset=utf-8' . "\r\n";
@@ -94,7 +94,7 @@ class HomeController extends AbstractController
         $contentCom = $_POST['com'] ?? null;
 
 		$post_id= $_GET['id'];
-		if ($authorCom AND $contentCom)
+		if ($authorCom && $contentCom)
 		{
 			$comment= new Comment ([
 			'post_id'=> $post_id,

@@ -104,7 +104,7 @@ class User extends Entity
 	public function setIs_valid($is_valid)
 	{
 		$is_valid= (int) $is_valid;
-		if ($is_valid>=0 AND $is_valid<2)
+		if ($is_valid>=0 && $is_valid<2)
 		{
 			$this->is_valid = $is_valid;
 		}

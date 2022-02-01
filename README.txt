@@ -1,4 +1,5 @@
 NEXT - Validez la qualité du code via SymfonyInsight ou Codacy.
+
 NEXT - media queries passer le site au test
 
 En + = Reecriture des liens depuis le dossier racine et non plus depuis public/
