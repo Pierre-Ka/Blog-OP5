@@ -5,7 +5,7 @@ use BlogApp\Entity\Comment ;
 
 class CommentManager extends Manager
 {
-	// OPERATION EN BDD : add - valid - delete - totalPages - get - getNotYetValid - countNotYetValid
+	// OPERATION EN BDD : add - valid - delete - deletePerPost - totalPages - get - getNotYetValid - countNotYetValid
 
 	public function add(Comment $comment)
 	{

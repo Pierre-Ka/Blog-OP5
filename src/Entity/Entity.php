@@ -3,7 +3,6 @@ namespace BlogApp\Entity;
 
 abstract class Entity
 {
-
 	// Hydratation de la classe
 	public function __construct(array $donnees)
 	{
@@ -22,7 +21,6 @@ abstract class Entity
 			}
 		}
 	}
-
 
 	public function resizeImageWithCrop($fullNameSource, $fullNameDestination, $w, $h, $crop=TRUE)
 	{
@@ -81,6 +79,4 @@ abstract class Entity
 		imagejpeg($destination, $fullNameDestination);
 		imagedestroy($destination);
 	}
-
-
 }

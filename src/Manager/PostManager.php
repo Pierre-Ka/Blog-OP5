@@ -5,7 +5,7 @@ use BlogApp\Entity\Post ;
 
 class PostManager extends Manager
 {
-	// OPERATION EN BDD :  add  edit   getOne   delete   totalPages   totalPagesByCategory  GetAll   GetAllAdmin   getWithCategory   getWithUserId   getLastInsertId()
+	// OPERATION EN BDD :  add  edit   getOne   delete   totalPages   totalPagesByCategory  getAll   getAllAdmin   getWithCategory   getWithUserId  
 	
 	public function add(Post $post)
 	{

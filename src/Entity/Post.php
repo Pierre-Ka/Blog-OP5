@@ -18,11 +18,9 @@ class Post extends Entity
 	private string $category;
 	private string $user;
 
-
-
 	//GETTERS//
 
-	public function getId()
+	public function getId() 
 	{
 		return $this->id;
 	}
@@ -61,7 +59,7 @@ class Post extends Entity
 
 	//SETTERS//
 
-	public function setId($id)
+	public function setId($id) // setId(int $id) : void
 	{
 		if(ctype_digit($id))
 		{
@@ -165,6 +163,4 @@ class Post extends Entity
 		$count = $comment_manager->countNotYetValid($this->id) ;
           return $count ;
 	}
-
-
 }

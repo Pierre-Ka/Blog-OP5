@@ -1,19 +1,23 @@
 <?php
 namespace BlogApp\Faker;
 
-require_once 'vendor/autoload.php';
+require_once '../../vendor/autoload.php';
 
 class FakeData
 {
 	private $faker ;
+	private $db ;
 
 	public function __construct()
 	{
-		$faker = Faker\Factory::create();
+		$db = new \PDO('mysql:host=localhost;dbname=project5_blog;charset=utf8', 'root', 'root');
+		$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
+		$this->db = $db ;
+		$faker = \Faker\Factory::create();
 		$this->faker = $faker ;
 	}
 
-	public function fakeCategory()
+/*	public function fakeCategory()
 	{
 		foreach(range(1, 3) as $id)
 		{
@@ -21,50 +25,76 @@ class FakeData
 		}
 		$message = '3 fausses categories crées';
 		return $message ;
-	}
+	}*/
 
-	public function fakeComment()
+
+	public function fakeComment(int $startNumber, int $endNumber, int $numberOfPost = null)
 	{
-		foreach(range(0, 1000) as $id)
+		foreach(range($startNumber, $endNumber) as $id)
 		{
-			$db->query("
-				INSERT INTO comments 
+			$this->db->query("
+				INSERT INTO comment 
 				(id, post_id, author, content, is_valid, create_date) 
 				VALUES
-				('" . $id . "',
-				'{$faker->numberBetween(1, 100)}',
-				'{$faker->name()}',
-				'{$faker->sentence(15)}',
-				'1',
-				'{$faker->date()}')
+				(
+				'" . $id . "',
+				'{$this->faker->numberBetween(1, 110)}',
+				'{$this->faker->name()}',
+				'{$this->faker->sentence(15)}',
+				'{$this->faker->numberBetween(0,1)}',
+				'{$this->faker->date()}'
+				)
 				") ;
 		}
-		$message = '1000 Faux commentaires crées';
+		$number = $endNumber - $startNumber ; 
+		$message = $number . ' Faux commentaires crées';
 		return $message ;
 	}
 
-	public function fakeUser()
+	public function fakeUser(int $startNumber,int  $endNumber)
 	{
-		foreach(range(2,8) as $id)
+		foreach(range($startNumber, $endNumber) as $id)
 		{
-			$db->query("INSERT INTO users (id,email, password, name, picture, description, inscription_date, is_valid ) VALUES('" . $id . "','{$faker->email()}','{$faker->password()}','{$faker->name()}','POST_IMG_{$faker->randomDigit()}','{$faker->sentence(15)}','{$faker->date()}','0')") ;
+			$db->query("
+				INSERT INTO user
+				(id,email, password, name, picture, description, inscription_date, is_valid ) 
+				VALUES
+				('" . $id . "',
+				'{$faker->email()}',
+				'{$faker->password()}',
+				'{$faker->name()}',
+				'USER_IMG.jpg',
+				'{$faker->sentence(15)}',
+				'{$faker->date()}',
+				'1')
+				") ;
 		}
-		$message = '7 Faux membres (id 2 à 8 ) créés ';
+		$number = $endNumber - $startNumber ; 
+		$message = $number . 'Faux membres créés ';
 		return $message ;
 	}
 
-	public function fakePost()
+	public function fakePost(int $startNumber,int  $endNumber, int $lastUserId = null, int $lastCategoryId = null)
 	{
-		foreach(range(1, 100) as $id)
+		foreach(range($startNumber, $endNumber) as $id)
 		{
-			$body= '<p>' . implode('</p><p>', $faker->paragraphs(20)) . '</p>';
+			$body= '<p>' . implode('</p><p>', $this->faker->paragraphs(20)) . '</p>';
 
-			$db->query("INSERT INTO posts (id, title, user_id, category_id, chapo, content, picture, create_date) VALUES('" . $id . "','{$faker->sentence(6)}','{$faker->numberBetween(1, 8)}','{$faker->numberBetween(1, 3)}','{$faker->sentence(15)}','$body','POST_IMG_{$faker->randomDigit()}','{$faker->date()}')") ;
+			$this->db->query("
+				INSERT INTO post 
+				(id, title, user_id, category_id, chapo, content, create_date) 
+				VALUES
+				('" . $id . "',
+				'{$this->faker->sentence(6)}',
+				'{$this->faker->numberBetween(1,8)}', 
+				'{$this->faker->numberBetween(1,5)}',
+				'{$this->faker->sentence(15)}',
+				'$body',
+				'{$this->faker->date()}')
+				") ;
 		}
-		$message = '100 Faux posts crées';
+		$number = $endNumber - $startNumber ; 
+		$message = $number . 'Faux posts créés ';
 		return $message ;
 	}
 }
-
-
-

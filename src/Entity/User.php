@@ -48,7 +48,7 @@ class User extends Entity
 
 	//SETTERS//
 
-	public function setId($id)
+	public function setId($id) // setId(int $id) : void
 	{
 		if(ctype_digit($id))
 		{
@@ -109,5 +109,4 @@ class User extends Entity
 			$this->is_valid = $is_valid;
 		}
 	}
-
 }

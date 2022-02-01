@@ -85,8 +85,6 @@ class UserManager extends Manager
 		return $data['name'];
 	}
 
-
-
 	public function edit(User $user)
 	{
 		$q = $this->_db->prepare('UPDATE user SET password = :password, name = :name, picture = :picture, description = :description WHERE id = :id');
@@ -123,7 +121,6 @@ class UserManager extends Manager
 		}
 	}
 
-
 	public function getList()
 	{
 		$users=[];
@@ -136,5 +133,4 @@ class UserManager extends Manager
 
 		return $users;
 	}
-
 }

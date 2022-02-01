@@ -44,19 +44,14 @@ class HomeController extends AbstractController
 				]);				
 	}
 
-
 	public function post()
 	{
 		$max_page=$this->postManager->totalPages();
-
-		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<= $max_page)
-		{
-			$actual_page =intval($_GET['page']);
-		}
-		else 
-		{
-			$actual_page = 1 ;
-		}
+		$actual_page = $_GET['page'] ?? 1;
+        if (0 > $actual_page || $max_page < $actual_page) 
+        {
+            $actual_page = 1;
+        }
 		$posts=$this->postManager->getAll($actual_page);
 		
 		echo $this->twig->render('home/list.twig', [
@@ -66,7 +61,6 @@ class HomeController extends AbstractController
 			'categories_header' => $this->categories_header,
 			'last5Posts' => $this->last5Posts
 				]);
-
 	}	
 
 	public function category()
@@ -75,14 +69,13 @@ class HomeController extends AbstractController
 		$category = $this->categoryManager->getOne($category_id);
 		$max_page=$this->postManager->totalPagesByCategory($category_id);
 			
-		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$max_page)
-			{
-				$actual_page =intval($_GET['page']);
-			}
-		else 
-			{
-				$actual_page = 1 ;
-			}
+		$actual_page = $_GET['page'] ?? 1;
+
+        if (0 > $actual_page || $max_page < $actual_page) 
+        {
+            $actual_page = 1;
+        }
+
 		$posts=$this->postManager->getWithCategory($category_id,$actual_page);
 		
 		echo $this->twig->render('home/list.twig', [
@@ -117,14 +110,13 @@ class HomeController extends AbstractController
 
 		$max_page=$this->commentManager->totalPages($post_id);
 
-		if ((isset($_GET['page'])) AND !empty($_GET['page']) AND ($_GET['page'])>0 AND ($_GET['page'])<=$max_page)
-		{
-			$actual_page =intval($_GET['page']);
-		}
-		else 
-		{
-			$actual_page = 1 ;
-		}
+		$actual_page = $_GET['page'] ?? 1;
+
+        if (0 > $actual_page || $max_page < $actual_page) 
+        {
+            $actual_page = 1;
+        }
+        
 		$comments = $this->commentManager->get($post_id,$actual_page);
 		
 		echo $this->twig->render('home/single.twig', [
@@ -137,7 +129,6 @@ class HomeController extends AbstractController
 			'last5Posts' => $this->last5Posts
 		]);
 	}	
-
 
 	public function signIn()
 	{
@@ -206,5 +197,3 @@ class HomeController extends AbstractController
 		}
 	}
 }
-
-

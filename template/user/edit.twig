@@ -43,7 +43,8 @@
 		<br/><br/><br/>
 	</div>
 	<h3>Editer votre photo de profil </h3>
-	<p> Attention ! L'image doit être au format JPEG et ne pas excédée 4Mo ! </p><br/><br/><br/>
+	<p> Attention ! L'image doit être au format JPEG et ne pas excédée 4Mo ! </p>
+	<p> Pour un meilleur rendu, choisissez une image carré ou verticale mais évitez les images horizontales </p><br/><br/><br/><br/>
 	<label for="pictureUpdate">
 	<p> <img src="{{ '../var/media/user/' ~ user.picture }}" alt=""style=" border-radius : 50%;" /> </p>
 		<form method="post" action="user.edit&id={{ user.id }}" enctype="multipart/form-data">

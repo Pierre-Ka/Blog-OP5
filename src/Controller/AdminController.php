@@ -27,20 +27,7 @@ class AdminController extends UserController
 
 		if (isset($_GET['faker']))
 		{
-			$fake = new FakeData();
-			switch($_GET['faker'])
-			{
-				case $_GET['faker']==="comment" : 
-				$fake->fakeComment();
-				break;
-				case $_GET['faker']==="user" : 
-				$fake->fakeUser();
-				break;
-				case $_GET['faker']==="post" : 
-				$fake->fakePost();
-				break;
-			}
-			header('Location:admin.home');
+			header('Location: ../template/admin/faker.php');
 		}
 		if($adminPostDelete)
 	    {
@@ -74,7 +61,6 @@ class AdminController extends UserController
 			'users' => $users,
 			'categories_header' => $this->categories_header
 				]);
-
 	}
 
 	public function manageCategories()
@@ -113,7 +99,8 @@ class AdminController extends UserController
 		   				move_uploaded_file($_FILES['categoryPicture']['tmp_name'], $picturePath);	
 
 		                $widgetPath = '../var/media/post/MINI_DEFAULT_IMG_'. $new_id .'.jpg' ;
-		                $picture = $category->resizeImageWithCrop($picturePath, $widgetPath, 60, 60);
+		                //resizeImageWithCrop
+		                $picture = $category->resizeImage($picturePath, $widgetPath, 60, 60);
 		                $message = 'La categorie a bien été ajoutée';
 		            }
 		        }
@@ -123,10 +110,10 @@ class AdminController extends UserController
 				if (!$message) { $message = 'Erreur' ;}
 
 	        	echo $this->twig->render('admin/manage_category.twig', [
-	        	'message' => $message,
-				'categories' => $categories,
-				'categories_header' => $categories_header
-					]);    
+		        	'message' => $message,
+					'categories' => $categories,
+					'categories_header' => $categories_header
+						]);    
 			}
 			if($categoryEdit)
 			{ 
@@ -134,11 +121,13 @@ class AdminController extends UserController
 				$categorie = $this->categoryManager->getOne($_GET['id']);
 				$categorie->setName(htmlspecialchars($categoryEdit));
 				$this->categoryManager->edit($categorie);
+				$message = 'La categorie a bien été modifiée';
 
 				$categories = $this->categoryManager->getAll();
 				$categories_header = $this->categoryManager->getAll();
 
-				echo $this->twig->render('admin/manage_category.twig', [
+			    echo $this->twig->render('admin/manage_category.twig', [
+		        	'message' => $message,
 					'categories' => $categories,
 					'categories_header' => $categories_header
 						]);   
@@ -146,12 +135,15 @@ class AdminController extends UserController
 			if($adminCategoryDelete)
 			{
 				$this->categoryManager->delete($_GET['id']);
-				/*		if (file_exists($filename)) {
+				$message = 'La categorie a bien été supprimée';
+				/*		Optionnelement créer un systeme de suppression des photos des categories suprrimées : 
+				if (file_exists($filename)) {
     					unlink($filename);	}			*/
 				$categories = $this->categoryManager->getAll();
 				$categories_header = $this->categoryManager->getAll(); 
 
-				echo $this->twig->render('admin/manage_category.twig', [
+	        	echo $this->twig->render('admin/manage_category.twig', [
+		        	'message' => $message,
 					'categories' => $categories,
 					'categories_header' => $categories_header
 						]); 
@@ -159,4 +151,3 @@ class AdminController extends UserController
 		}
 	}
 }
-

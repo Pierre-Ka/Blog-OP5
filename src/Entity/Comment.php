@@ -10,10 +10,9 @@ class Comment extends Entity
 	private bool $isValid;
 	private datetime $createDate;
 
-
 	//GETTERS//
 
-	public function getId()
+	public function getId() 
 	{
 		return $this->id;
 	}
@@ -40,7 +39,7 @@ class Comment extends Entity
 
 	//SETTERS//
 
-	public function setId($id)
+	public function setId($id) // setId(int $id) : void
 	{
 		if(ctype_digit($id))
 		{

@@ -7,7 +7,7 @@ abstract class Manager
 	protected $uniqid;
 	protected $instance;
 
-	public function __construct($db)
+	public function __construct($db) // __construct(\PDO $db) : void
 	{
 		$this->setDb($db);
 		$this->uniqid = uniqid();

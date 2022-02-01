@@ -15,7 +15,7 @@ class Category extends Entity
 		return $this->name;
 	}
 
-	public function setId($id)
+	public function setId($id) // setId(int $id) : void
 	{
 		if(ctype_digit($id))
 		{
@@ -30,5 +30,4 @@ class Category extends Entity
 			$this->name= $name;
 		}
 	}
-
 }

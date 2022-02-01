@@ -17,7 +17,6 @@ class UserController extends AbstractController
 		{
 			$this->forbidden();
 		}
-
     }
 
 	public function userHome()
@@ -44,75 +43,72 @@ class UserController extends AbstractController
 
 	public function editUser()
 	{
-        $nameUpdate = $_POST['nameUpdate'] ?? null;
-        $passwordUpdate = $_POST['passwordUpdate'] ?? null;
-        $passwordConfirm = $_POST['passwordConfirm'] ?? null;
-        $descriptionUpdate = $_POST['descriptionUpdate'] ?? null;
 	    $user = $this->userManager->getOne($this->userManager->getUserId());
-
-	    if ($_FILES)
+	    if (!$_POST && !$_FILES)
 	    {
-			if (isset($_FILES['pictureUpdate']) && ($_FILES['pictureUpdate']['error'] == 0) && ($_FILES['pictureUpdate']['size'] <= 5000000)) 
-			{
-	            $infosfichier = pathinfo($_FILES['pictureUpdate']['name']);
-	            $extension_upload = $infosfichier['extension'];
-	            $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
-	            if (in_array($extension_upload, $extensions_autorisees))
-	            {
-	            	$picture_name = 'USER_IMG_' . $user->getId() .'.'.$extension_upload ;
-	            	$pathPicture = '../var/media/user/'. $picture_name ;
-
-	            	$picture = $user->resizeImageWithCrop($_FILES['pictureUpdate']['tmp_name'], $pathPicture, 150, 150);
-	   				//move_uploaded_file($_FILES['pictureUpdate']['tmp_name'], $pathPicture);	                
-	    			$user->setPicture($picture_name);
-	                $this->userManager->edit($user);
-	                $message = 'Votre image de profil a bien été modifié';
-	           	    echo $this->twig->render('user/edit.twig', [
-					'user' => $user,
-					'message' => $message,
-					'categories_header' => $this->categories_header
-						]);
-	            }   
-		    }
-		}
-		if ($_POST) 
-		{
-			if ($nameUpdate)
-			{
-				$user->setName(htmlspecialchars($nameUpdate));
-			}
-			if ($passwordUpdate && $passwordConfirm) 
-			{
-				if ($passwordUpdate !== $passwordConfirm) 
-                {
-					$message = 'Les mots de passe ne correspondent pas';
-                }
-                else
-                {
-                	$user->setPassword(sha1(htmlspecialchars($passwordConfirm)));
-                }
-			}
-	        if($descriptionUpdate)
-			{  
-	            $user->setDescription(htmlspecialchars($descriptionUpdate));
-	        }
-	        $this->userManager->edit($user);
-	        if(!isset($message))
-	        {
-	        	$message = 'Votre profil a bien été modifié';
-	        }
 	        echo $this->twig->render('user/edit.twig', [
 				'user' => $user,
-				'message' => $message,
 				'categories_header' => $this->categories_header
 					]);
-	        
 	    }
 
 	    else
 	    {
-	        echo $this->twig->render('user/edit.twig', [
+	    	$nameUpdate = $_POST['nameUpdate'] ?? null;
+	        $passwordUpdate = $_POST['passwordUpdate'] ?? null;
+	        $passwordConfirm = $_POST['passwordConfirm'] ?? null;
+	        $descriptionUpdate = $_POST['descriptionUpdate'] ?? null;
+
+		    if ($_FILES)
+		    {
+				if (isset($_FILES['pictureUpdate']) && ($_FILES['pictureUpdate']['error'] == 0) && ($_FILES['pictureUpdate']['size'] <= 5000000)) 
+				{
+		            $infosfichier = pathinfo($_FILES['pictureUpdate']['name']);
+		            $extension_upload = $infosfichier['extension'];
+		            $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
+		            if (in_array($extension_upload, $extensions_autorisees))
+		            {
+		            	$picture_name = 'USER_IMG_' . $user->getId() .'.'.$extension_upload ;
+		            	$pathPicture = '../var/media/user/'. $picture_name ;
+		            	// resizeImageWithCrop ou resizeImage ??
+		            	$picture = $user->resizeImageWithCrop($_FILES['pictureUpdate']['tmp_name'], $pathPicture, 150, 150);
+		   				//move_uploaded_file($_FILES['pictureUpdate']['tmp_name'], $pathPicture);	                
+		    			$user->setPicture($picture_name);
+		                $this->userManager->edit($user);
+		                $message = 'Votre image de profil a bien été modifié';
+		            }   
+			    }
+			}
+			if ($_POST) 
+			{
+				if ($nameUpdate)
+				{
+					$user->setName(htmlspecialchars($nameUpdate));
+				}
+				if ($passwordUpdate && $passwordConfirm) 
+				{
+					if ($passwordUpdate !== $passwordConfirm) 
+	                {
+						$message = 'Les mots de passe ne correspondent pas';
+	                }
+	                else
+	                {
+	                	$user->setPassword(sha1(htmlspecialchars($passwordConfirm)));
+	                }
+				}
+		        if($descriptionUpdate)
+				{  
+		            $user->setDescription(htmlspecialchars($descriptionUpdate));
+		        }
+		        $this->userManager->edit($user);
+		        if(!isset($message))
+		        {
+		        	$message = 'Votre profil a bien été modifié';
+		        }
+		    }
+		    echo $this->twig->render('user/edit.twig', [
 				'user' => $user,
+				'message' => $message,
 				'categories_header' => $this->categories_header
 					]);
 	    }
@@ -171,8 +167,8 @@ class UserController extends AbstractController
 
 	                $widgetPath = '../var/media/post/MINI_POST_IMG_' . $_GET['id'] .'.'.$extension_upload ;
 	                $picturePath = '../var/media/post/POST_IMG_' . $_GET['id'] .'.'.$extension_upload ; 
-
-	                $picture = $post->resizeImageWithCrop($picturePath, $widgetPath, 60, 60);
+	                // resizeImageWithCrop
+	                $picture = $post->resizeImage($picturePath, $widgetPath, 60, 60);
 	                $message = 'L\'image a été modifié avec succès' ;
 	            }
 		         
@@ -252,8 +248,8 @@ class UserController extends AbstractController
 
 	                $widgetPath = '../var/media/post/MINI_POST_IMG_' . $new_id .'.'.$extension_upload ;
 
-	                //$picture = $post->resizeImage($picturePath, $widgetPath, 60, 60);
-	                $picture = $post->resizeImageWithCrop($picturePath, $widgetPath, 60, 60);
+	                // resizeImageWithCrop
+	                $picture = $post->resizeImage($picturePath, $widgetPath, 60, 60);
 
 	                $message = ' L\'article et l\'image ont été ajouté avec succès ';
 
@@ -287,5 +283,3 @@ class UserController extends AbstractController
 		}
 	}
 }
-
-
