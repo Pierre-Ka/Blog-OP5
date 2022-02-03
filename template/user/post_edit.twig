@@ -43,7 +43,7 @@
 			{% endif %}	
 </div>
 
-<div class="text-center">
+<div class="text-center container">
 	<form method="post" action=
 								{% if post %}
 									"user.post.edit&id={{ post.id }}" 
@@ -75,7 +75,12 @@
 								{% endif %}				
 		id="category">
 			{% for categorie in categories %}
-				<option value="{{ categorie.id }};"/>{{ categorie.name }}</option>
+				<option value="{{ categorie.id }};" 
+				{% if (categorie.name == post.category) %}
+				{{ 'selected' }}
+				{% endif %}
+				>
+				{{ categorie.name }}</option>
 			{% endfor %} 
 		</select><br/><br/>
 		<label for="chapo">
@@ -109,7 +114,7 @@
 
 		{% if post %}
 			<div>
-				<p> <img src="{{ '../var/media/post/' ~ post.picture }}" alt="" style="max-height: 600px; max-width: 600px; margin-bottom:0px;"> </p> <br/><br/><br/><br/>
+				<p> <img src="{{ '../var/media/post/' ~ post.picture }}" class="edit_post_picture" alt=""> </p> <br/><br/><br/><br/>
 			</div>
 		{% endif %}
 

@@ -1,28 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="utf-8">
-    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="flavicon/favicon.ico">
-    <link rel="apple-touch-icon" sizes="144x144" href="../assets/img/ico/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="../assets/img/ico/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="../assets/img/ico/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" href="../assets/img/ico/apple-touch-icon-57x57.png">
-
     <title>{% block title%}{% endblock %}</title>
-
-    <!-- Bootstrap Core CSS -->
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/css/animate.css" rel="stylesheet">
     <link href="../assets/css/plugins.css" rel="stylesheet">
-
     <!-- Custom CSS -->
     <link href="../assets/css/style.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="../assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="../assets/css/pe-icons.css" rel="stylesheet">
@@ -98,21 +87,19 @@
                     <ul class="nav navbar-nav navbar-right">
                         
                         <li class="nav-item">
-                            <a href="home" class="nav-link" >Accueil</a>
-                        </li>
-                        <li class="nav-item">
+                            <a href="home" class="nav-link" >Home</a>
+                        </li>    
+            <!--            <li class="nav-item">
                             <a href="post" class="nav-link" >Reviews </a>
-                        </li>
-
+                        </li>   -->                
                     {% block nav %}
                     {% for categorie in categories_header %}
-                        
                         <li class="nav-item">
                             <a class="nav-link" href="category&id={{ categorie.id }}"> {{ categorie.name | capitalize }} </a>
                         </li>
-
                     {% endfor %}
                     {% endblock nav %}
+
 
                     </ul>
                 </div>
@@ -143,7 +130,7 @@
                 </div>
             </div>
         </section>
-
+        
 {% block content %}
 {% endblock %}        
 
@@ -190,9 +177,7 @@
                         
                         <a href="category&id={{ categorie.id }}" class="tag-link btn btn-theme btn-white btn-xs smoothie" title="3 topics">{{ categorie.name}} </a>
                     
-
                     {% endfor %}
-
                                 </div>
                             </div>
                         </div>
@@ -237,82 +222,6 @@
         </footer>
 
     </div>
-<!--
-    <div class="flexpanel">
-        <div class="viewport-wrap">
-            <div class="viewport">
-                <div class="widget mb50">
-                    <h4 class="widget-title">Déjà Membre ?</h4>
-                    <div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img class="widget-img" src="../assets/img/widget/widget1.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <span class="media-heading"><a href="#">Panic In London</a></span>
-                                <small class="muted">Posted 14 April 2015</small>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img class="widget-img" src="../assets/img/widget/widget2.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <span class="media-heading"><a href="#">New iPhone News</a></span>
-                                <small class="muted">Posted 14 April 2015</small>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img class="widget-img" src="../assets/img/widget/widget3.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <span class="media-heading"><a href="#">Our Year In Review</a></span>
-                                <small class="muted">Posted 14 April 2015</small>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img class="widget-img" src="../assets/img/widget/widget4.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <span class="media-heading"><a href="#">jQuery Tutorial</a></span>
-                                <small class="muted">Posted 14 April 2015</small>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img class="widget-img" src="../assets/img/widget/widget5.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <span class="media-heading"><a href="#">Sheen Interview</a></span>
-                                <small class="muted">Posted 14 April 2015</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="widget mb50">
-                    <h4 class="widget-title"><strong>Differents</strong> Sports</h4>
-                    <div class="tagcloud">
-
-
-                    {% for categorie in categories_header %}
-                        
-                         <a href="index.php?p=category&id={{ categorie.id }}" class="tag-link btn btn-theme btn-xs" title="3 topics">{{ categorie.name | capitalize }}</a>
-
-                    {% endfor %}
-
-                       
-                    </div>
-                </div>
-                <div class="widget about-us-widget mb50">
-                    <h4 class="widget-title">A notre sujet</h4>
-                    <p>Professionally monetize team building materials for 24/7 results. Holisticly transition corporate platforms vis-a-vis cutting-edge experiences. Dynamically strategize ubiquitous applications for premier initiatives. Interactively seize resource sucking niche markets.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-!-->
     <script src="../assets/js/jquery.js"></script>
     <script src="../assets/js/bootstrap.min.js"></script>
     <script src="../assets/js/plugins.js"></script>

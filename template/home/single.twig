@@ -11,88 +11,74 @@
 {% block main %}
 
 <div class="col-sm-12 blog-item mb100 wow match-height">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="hover-item mb30">
-            <!-- Retrait du .jpg au moment final !-->
-                    <img src="{{ '../var/media/post/' ~ post.picture }}" class="img-responsive smoothie" alt="title">
-                    <div class="overlay-item-caption smoothie"></div>
-                    <div class="">
-                        <h3 class="vertical-center smoothie"></h3>
-                    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="hover-item mb30">
+                <img src="{{ '../var/media/post/' ~ post.picture }}" class="img-responsive smoothie" alt="title">
+                <div class="overlay-item-caption smoothie"></div>
+                <div class="">
+                    <h3 class="vertical-center smoothie"></h3>
                 </div>
-                <h2 class="post-title">{{ post.title }}</h2>
-                <div class="item-metas text-muted mb30">
-                    <span class="meta-item"><i class="pe-icon pe-7s-folder"></i> POSTER DANS <span>{{ post.category }} </span></span>
-                    <span class="meta-item"><i class="pe-icon pe-7s-user"></i> AUTEUR <span>{{ post.user }}</span></span> LE {{ post.create_date }}
-                </div>
-                <p>{{ post.content }}</p>
-                <br/><br/><br/>
-                <div>
-                <img src="{{ '../var/media/user/' ~ author.picture }}" alt="" style=" border-radius : 50%; float : left;" />
+            </div>
+            <h2 class="post-title">{{ post.title }}</h2>
+            <div class="item-metas text-muted mb30">
+                <span class="meta-item"><i class="pe-icon pe-7s-folder"></i> POSTER DANS <span>{{ post.category }} </span></span>
+                <span class="meta-item"><i class="pe-icon pe-7s-user"></i> AUTEUR <span>{{ post.user }}</span></span> LE {{ post.create_date }}
+            </div>
+            <p>{{ post.content }}</p>
+            <br/><br/><br/>
 
-	                <div style="padding-left : 20%; "> 
+            <div class="container">
+	            <div class="row">
+		            <div class="author_picture text-center">
+			            <img src="{{ '../var/media/user/' ~ author.picture }}" class="author_picture_item" alt="" style=" border-radius : 50%; margin-bottom : 25px; " />
+			        </div>
+	                <div class="author_description"> 
 		                <h4> ECRIT PAR : {{ author.name }} </h4>
 		                <p> {{ author.description }} </p>
-		             </div>   
-                </div>
-                
-            </div>
+		             </div>
+		        </div> 
+		    </div>
+            
         </div>
     </div>
 
 	<br/><br/>
-{% if comments %}
-	<h2> Commentaires : </h2> 
-	<br/>
 
-	<div>
-		{% for comment in comments %}
-			<div>
+	{% if comments %}
+		<h3> Commentaires : </h3> <br/>
+		<div>
+			{% for comment in comments %}
 				<div>
-					{{ comment.author }} a écrit à
-					{{ comment.create_date }}
+					<div>
+						{{ comment.author }} a écrit à
+						{{ comment.create_date }}
+					</div>
+					<br/>
+					<p>		{{ comment.content}}	</p>	<br/>
 				</div>
-				<br/>
-				<p>
-					{{ comment.content}}
-				</p>
-				<br/>
-			</div>
-		{% endfor %}
-	</div>
-
-
-
-	<p> PAGE : 
-
-		{% for i in 1..max_page %}
-
-			{% if i == actual_page %}
-				{{i}} 
-			{% else %}
-				<a style="color :red;" href="single&id={{ post.id }}&page={{i}}">  {{i}}  </a>
-			{% endif %}
-
-		{% endfor %}
-	</p><br/>
-{% endif %}
+			{% endfor %}
+		</div>
+		<p> PAGE : 
+			{% for i in 1..max_page %}
+				{% if i == actual_page %}
+								{{i}} 
+				{% else %}
+								<a style="color :red;" href="single&id={{ post.id }}&page={{i}}">  {{i}}  </a>
+				{% endif %}
+			{% endfor %}	</p><br/>
+	{% endif %}
 
 	<h3>Ecrire un commentaire</h3>
-
-
 	<form method="post" action="single&id={{ post.id }}">
-
-	<p><label for="author_com">Votre pseudo : </label> <input type="text" name="author_com" id="author_com"/></p>
-
-	<p><textarea name="com" value="votre commentaire ici" rows="5" cols="50"></textarea></p>
-	<input type="submit" value="Envoyer"/>
+		<p><label for="author_com">Votre pseudo : </label> <input type="text" name="author_com" id="author_com"/></p>
+		<p><textarea name="com" value="votre commentaire ici" rows="5" cols="50" id="com"></textarea></p>
+		<input type="submit" value="Envoyer"/>
 	</form>
+</div>
 
 {% endblock main %}
 
 {% block paging %}
-
-	<p> </p> 
 
 {% endblock paging %}

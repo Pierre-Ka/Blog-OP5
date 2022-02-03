@@ -14,6 +14,11 @@ abstract class Manager
 		//$this->instance = static::CLASS_NAME ;
 		//$this->instance = get_class($this);
 	}
+	/*
+			$this->db = new \PDO('mysql:host=localhost;dbname=project5_dev;charset=utf8', 'root', 'root');
+		$this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
+		// If $instance
+	*/
 
 	public function setDb(\PDO $db)
 	{

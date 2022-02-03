@@ -1,3 +1,5 @@
+/* LIGNE 2160 MODIFICATIONS DES MEDIAS QUERIES */
+
 /* ==================================================
 //  ____  _     _   _            _   _          _____ _                              
 // |  _ \(_)___| |_(_)_ __   ___| |_(_)_   ____|_   _| |__   ___ _ __ ___   ___  ___ 
@@ -833,7 +835,7 @@ header .intro-text .intro-heading {
     display: block;
 }
 
-@media all and (min-width: 769px) {
+@media all and (min-width: 769px) { 
     .header-6.navbar-default .navbar-collapse,
     .header-6 .navbar-nav {
         width: 100%;
@@ -2028,6 +2030,7 @@ footer.white-wrapper .social-links li a {
     }
 }
 
+
 @media(min-width:768px) {
     .pad-sides-120 {
         padding-left: 120px !important;
@@ -2153,6 +2156,52 @@ footer.white-wrapper .social-links li a {
 }
 
 
+
+/*  @media(min-width:991px) {  EST MA CREATION ///////////////////////////////////*/
+@media(max-width:991px) {
+    .widget-title {
+        padding-top: 10px;
+    }
+    #content
+    {
+        width : 100% ;
+    }
+}
+@media(min-width:767px) {
+    .comment_bloc_single {
+       width : 100% ;
+    }
+    .edit_post_picture {
+        max-height: 600px; 
+        max-width: 600px; 
+        margin-bottom:0px;
+    }
+}
+@media(max-width:767px) {}
+    .edit_post_picture {
+        width : 100%;
+    }
+}
+
+@media(max-width:460px) {
+    #message, #com {
+        width : 100% ;
+    }
+    .author_picture_item {
+        float:none;
+    }
+    .author_picture {
+        width : 100%;
+    }
+}
+@media(min-width:460px) {
+    .author_picture_item {
+        float:left;
+    }
+    .author_description {
+        padding-left : 10%;
+    }
+}
 /*-----------------------------------------------------------------------------------*/
 
 

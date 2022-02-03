@@ -37,6 +37,8 @@ abstract class AbstractController
         die('Acces interdit');
     }
 
+   // $_POST[$truc] = $truc()
+
     public function notFound()
     {
         header('HTTP/1.0 404 Not Found');

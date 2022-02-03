@@ -6,7 +6,7 @@ use BlogApp\Controller\AdminController;
 
 require dirname(__DIR__).'/vendor/autoload.php';
 
-$db = new \PDO('mysql:host=localhost;dbname=project5_blog;charset=utf8', 'root', 'root');
+$db = new \PDO('mysql:host=localhost;dbname=project5_dev;charset=utf8', 'root', 'root');
 $db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
 
 //Instanciation de nos classes manager 

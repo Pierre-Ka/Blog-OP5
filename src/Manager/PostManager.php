@@ -165,6 +165,7 @@ class PostManager extends Manager
 			FROM post AS p
 			INNER JOIN category AS c
 				ON p.category_id = c.id 
+
 			WHERE p.user_id= "' .$connect_id. '" 
 			ORDER BY DATE_FORMAT(p.create_date, \'%Y%m%d\') DESC');
 		while($data=$q->fetch(\PDO::FETCH_ASSOC))
@@ -173,4 +174,27 @@ class PostManager extends Manager
 		}
 		return $posts;
 	}
+	/*
+		public function getWithUserId ($connect_id)
+	{
+		$posts=[];		
+		$q = $this->_db->query('
+			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, COUNT(com.id) AS total_comments,
+				DATE_FORMAT(p.create_date, \'%d/%m/%Y\') AS create_date,  
+				DATE_FORMAT(p.last_update, \'%d/%m/%Y\') AS last_update,
+				c.name as category
+			FROM post AS p
+			INNER JOIN category AS c
+				ON p.category_id = c.id 
+			INNER JOIN comment AS com
+				ON p.id = com.post_id 
+			WHERE p.user_id= "' .$connect_id. '" 
+			GROUP BY p.id
+			ORDER BY DATE_FORMAT(p.create_date, \'%Y%m%d\') DESC');
+		while($data=$q->fetch(\PDO::FETCH_ASSOC))
+		{
+			$posts[]= new Post ($data) ;
+		}
+		return $posts;
+	}*/
 }

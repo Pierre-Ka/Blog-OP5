@@ -71,7 +71,7 @@ class UserController extends AbstractController
 		            	$picture_name = 'USER_IMG_' . $user->getId() .'.'.$extension_upload ;
 		            	$pathPicture = '../var/media/user/'. $picture_name ;
 		            	// resizeImageWithCrop ou resizeImage ??
-		            	$picture = $user->resizeImageWithCrop($_FILES['pictureUpdate']['tmp_name'], $pathPicture, 150, 150);
+		            	$picture = $user->resizeImageWithCrop($_FILES['pictureUpdate']['tmp_name'], $pathPicture, 100, 100);
 		   				//move_uploaded_file($_FILES['pictureUpdate']['tmp_name'], $pathPicture);	                
 		    			$user->setPicture($picture_name);
 		                $this->userManager->edit($user);
