@@ -4,25 +4,22 @@ namespace BlogApp\Manager;
 abstract class Manager
 {
 	protected $_db;
-	protected $uniqid;
+	public $uniqid;
 	protected $instance;
 
-	public function __construct($db) // __construct(\PDO $db) : void
+	public function __construct() // __construct(\PDO $db) : void
 	{
-		$this->setDb($db);
-		$this->uniqid = uniqid();
-		//$this->instance = static::CLASS_NAME ;
-		//$this->instance = get_class($this);
-	}
-	/*
-			$this->db = new \PDO('mysql:host=localhost;dbname=project5_dev;charset=utf8', 'root', 'root');
-		$this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
-		// If $instance
-	*/
-
-	public function setDb(\PDO $db)
-	{
-		$this->_db = $db;
+		if (empty($this->instance))
+		{
+			$this->_db = new \PDO('mysql:host=localhost;dbname=project5_dev;charset=utf8', 'root', 'root');
+			$this->_db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
+			$this->instance = $this->_db;
+			$this->uniqid = uniqid();
+		}
+		else
+		{
+			$this->_db = $this->instance ;
+		}
 	}
 
 	public function getLastInsertId()

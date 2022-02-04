@@ -14,6 +14,7 @@ abstract class AbstractController
     protected CommentManager $commentManager;
     public $categories_header;
     protected $twig;
+    protected $instance;
 
     public function __construct(PostManager $postManager, UserManager $userManager, CategoryManager $categoryManager, CommentManager $commentManager)
     {
@@ -24,9 +25,9 @@ abstract class AbstractController
         $this->categories_header = $this->categoryManager->getAll();
         $loader = new \Twig\Loader\FilesystemLoader('../template');
         $twig = new \Twig\Environment($loader, [
-        'debug' => true
-        //'cache' => '/path/to/cache',
-         ]);
+            'debug' => true
+            //'cache' => '/path/to/cache',
+                ]);
         $twig->addExtension(new \Twig\Extension\DebugExtension());
         $this->twig = $twig ;
     }

@@ -1,4 +1,5 @@
 En + = mail() failed to connect to mailserver at 'localhost' port 25. verify your SMTP and 'smtp_port' settings in php.ini or use ini_set() in HomeCOntroller on line 39.
+UPDATE : en updatant SMTP et smtp_port pour outlook, l'erreur change est maintenant dit : SMTP server response : 451 5.7.3 STARTTLS is required to send mail
 
 En + = correction de la fonction GetValidComment qui est très moche
 En + = Note SymfonyInsight : 22/100 % ??

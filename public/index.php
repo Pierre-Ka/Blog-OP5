@@ -1,19 +1,14 @@
 <?php
-
 use BlogApp\Controller\HomeController;
 use BlogApp\Controller\UserController;
 use BlogApp\Controller\AdminController;
 
 require dirname(__DIR__).'/vendor/autoload.php';
 
-$db = new \PDO('mysql:host=localhost;dbname=project5_dev;charset=utf8', 'root', 'root');
-$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
-
-//Instanciation de nos classes manager 
-$commentManager= new BlogApp\Manager\CommentManager($db);
-$postManager= new BlogApp\Manager\PostManager($db);
-$userManager= new BlogApp\Manager\UserManager($db);
-$categoryManager= new BlogApp\Manager\CategoryManager($db);
+$commentManager= new BlogApp\Manager\CommentManager();
+$postManager= new BlogApp\Manager\PostManager();
+$userManager= new BlogApp\Manager\UserManager();
+$categoryManager= new BlogApp\Manager\CategoryManager();
 
 session_start();
 
