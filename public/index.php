@@ -1,6 +1,6 @@
 <?php
-use BlogApp\Controller\HomeController;
-use BlogApp\Controller\UserController;
+use BlogApp\Controller\FrontController;
+use BlogApp\Controller\BackController;
 use BlogApp\Controller\AdminController;
 
 require dirname(__DIR__).'/vendor/autoload.php';
@@ -29,27 +29,27 @@ else
 		
 if (!isset($_SESSION['auth']))
 { 
-	$homeController = new HomeController($postManager, $userManager, $categoryManager, $commentManager) ;
+	$frontController = new FrontController($postManager, $userManager, $categoryManager, $commentManager) ;
 	switch ($page) 
 	{ 
 		case $page==='home' : 
-		$homeController->home();
+		$frontController->home();
 		break ;
 
 		case $page==='post' : 
-		$homeController->post();
+		$frontController->post();
 		break ;
 
 		case $page==='single' : 
-		$homeController->single();
+		$frontController->single();
 		break ;
 
 		case $page==='category' : 
-		$homeController->category();
+		$frontController->category();
 		break ;
 
 		case $page==='sign_in' : 
-		$homeController->signIn();
+		$frontController->signIn();
 		break ;
 
 		default : header('Location:index.php?p=home'); break ;
@@ -57,23 +57,23 @@ if (!isset($_SESSION['auth']))
 }
 else
 {
-	$userController = new UserController($postManager, $userManager, $categoryManager, $commentManager) ;
+	$backController = new BackController($postManager, $userManager, $categoryManager, $commentManager) ;
 	switch ($page) 
 	{ 
 		case $page==='user.home' : 
-		$userController->userHome();
+		$backController->userHome();
 		break ;
 
 		case $page==='user.edit' : 
-		$userController->editUser();
+		$backController->editUser();
 		break ;
 
 		case $page==='user.post.edit' : 
-		$userController->editPost();
+		$backController->editPost();
 		break ;
 
 		case $page==='user.post.add' : 
-		$userController->addPost();
+		$backController->addPost();
 		break ;
 
 		case $page==='admin.home' : 
@@ -94,11 +94,4 @@ else
 		default : header('Location:index.php?disconnect');  break ;
 	}
 }
-
-
-
-
-
-
-
 

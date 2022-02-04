@@ -8,7 +8,7 @@ use BlogApp\Manager\PostManager;
 use BlogApp\Manager\UserManager;
 use BlogApp\Manager\CategoryManager;
 
-class UserController extends AbstractController
+class BackController extends AbstractController
 {
     public function __construct(PostManager $postManager, UserManager $userManager, CategoryManager $categoryManager, CommentManager $commentManager)
     {

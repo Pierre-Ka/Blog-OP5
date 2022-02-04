@@ -9,7 +9,7 @@ use BlogApp\Manager\PostManager;
 use BlogApp\Manager\UserManager;
 use BlogApp\Manager\CategoryManager;
 
-class AdminController extends UserController
+class AdminController extends BackController
 {
 
 	public function __construct(PostManager $postManager, UserManager $userManager, CategoryManager $categoryManager, CommentManager $commentManager)
@@ -34,7 +34,6 @@ class AdminController extends UserController
 	        $this->postManager->delete($adminPostDelete);
 	        $this->commentManager->deletePerPost($adminPostDelete);
 	    }
-	    // $connect_id = $this->userManager->getUserId();
 	    $posts = $this->postManager->getAllAdmin();
 
 	    echo $this->twig->render('admin/home.twig', [
