@@ -28,16 +28,16 @@ class BackController extends AbstractController
 	        $this->postManager->delete($idPostDelete);
 	        $this->commentManager->deletePerPost($idPostDelete);
 	    }
-	    $connect_id = $this->userManager->getUserId();
-	    $posts = $this->postManager->getWithUserId($connect_id);
-	    $user = $this->userManager->getOne($connect_id);
-	    $admin = $this->userManager->isAdmin($connect_id);
+	    $connectId = $this->userManager->getUserId();
+	    $posts = $this->postManager->getWithUserId($connectId);
+	    $user = $this->userManager->getOne($connectId);
+	    $admin = $this->userManager->isAdmin($connectId);
 
 		echo $this->twig->render('user/home.twig', [
 			'user' => $user,
 			'posts' => $posts,
 			'admin' => $admin,
-			'categories_header' => $this->categories_header
+			'categories_header' => $this->categoriesHeader
 				]);
 	}
 
@@ -48,7 +48,7 @@ class BackController extends AbstractController
 	    {
 	        echo $this->twig->render('user/edit.twig', [
 				'user' => $user,
-				'categories_header' => $this->categories_header
+				'categories_header' => $this->categoriesHeader
 					]);
 	    }
 
@@ -64,16 +64,16 @@ class BackController extends AbstractController
 				if (isset($_FILES['pictureUpdate']) && ($_FILES['pictureUpdate']['error'] == 0) && ($_FILES['pictureUpdate']['size'] <= 5000000)) 
 				{
 		            $infosfichier = pathinfo($_FILES['pictureUpdate']['name']);
-		            $extension_upload = $infosfichier['extension'];
-		            $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
-		            if (in_array($extension_upload, $extensions_autorisees))
+		            $extensionUpload = $infosfichier['extension'];
+		            $extensionsAutorisees = array('jpg', 'jpeg', 'gif', 'png');
+		            if (in_array($extensionUpload, $extensionsAutorisees))
 		            {
-		            	$picture_name = 'USER_IMG_' . $user->getId() .'.'.$extension_upload ;
-		            	$pathPicture = '../var/media/user/'. $picture_name ;
+		            	$pictureName = 'USER_IMG_' . $user->getId() .'.'.$extensionUpload ;
+		            	$pathPicture = '../var/media/user/'. $pictureName ;
 		            	// resizeImageWithCrop ou resizeImage ??
 		            	$picture = $user->resizeImageWithCrop($_FILES['pictureUpdate']['tmp_name'], $pathPicture, 100, 100);
 		   				//move_uploaded_file($_FILES['pictureUpdate']['tmp_name'], $pathPicture);	                
-		    			$user->setPicture($picture_name);
+		    			$user->setPicture($pictureName);
 		                $this->userManager->edit($user);
 		                $message = 'Votre image de profil a bien été modifié';
 		            }   
@@ -109,7 +109,7 @@ class BackController extends AbstractController
 		    echo $this->twig->render('user/edit.twig', [
 				'user' => $user,
 				'message' => $message,
-				'categories_header' => $this->categories_header
+				'categories_header' => $this->categoriesHeader
 					]);
 	    }
 	}
@@ -145,7 +145,7 @@ class BackController extends AbstractController
 				'post' => $post,
 				'comments' => $comments,
 				'categories' => $categories,
-				'categories_header' => $this->categories_header
+				'categories_header' => $this->categoriesHeader
 					]);
 	        
 	    }
@@ -155,18 +155,18 @@ class BackController extends AbstractController
 		    if (isset($_FILES['pictureChange']) && ($_FILES['pictureChange']['error'] == 0) && ($_FILES['pictureChange']['size'] <= 5000000)) 
 		    { 
 	            $infosfichier = pathinfo($_FILES['pictureChange']['name']);
-	            $extension_upload = $infosfichier['extension'];
-	            $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
-	            if (in_array($extension_upload, $extensions_autorisees))
+	            $extensionUpload = $infosfichier['extension'];
+	            $extensionsAutorisees = array('jpg', 'jpeg', 'gif', 'png');
+	            if (in_array($extensionUpload, $extensionsAutorisees))
 	            {
-	                move_uploaded_file($_FILES['pictureChange']['tmp_name'], '../var/media/post/POST_IMG_' . $_GET['id'] .'.'.$extension_upload);
+	                move_uploaded_file($_FILES['pictureChange']['tmp_name'], '../var/media/post/POST_IMG_' . $_GET['id'] .'.'.$extensionUpload);
 	        
-	                $picture_name = 'POST_IMG_' . $_GET['id'] .'.'.$extension_upload ;
-	                $post->setPicture($picture_name);
+	                $pictureName = 'POST_IMG_' . $_GET['id'] .'.'.$extensionUpload ;
+	                $post->setPicture($pictureName);
 	                $this->postManager->edit($post);
 
-	                $widgetPath = '../var/media/post/MINI_POST_IMG_' . $_GET['id'] .'.'.$extension_upload ;
-	                $picturePath = '../var/media/post/POST_IMG_' . $_GET['id'] .'.'.$extension_upload ; 
+	                $widgetPath = '../var/media/post/MINI_POST_IMG_' . $_GET['id'] .'.'.$extensionUpload ;
+	                $picturePath = '../var/media/post/POST_IMG_' . $_GET['id'] .'.'.$extensionUpload ; 
 	                // resizeImageWithCrop
 	                $picture = $post->resizeImage($picturePath, $widgetPath, 60, 60);
 	                $message = 'L\'image a été modifié avec succès' ;
@@ -196,7 +196,7 @@ class BackController extends AbstractController
 			 	'post' => $post,
 				'comments' => $comments,
 				'categories' => $categories,
-				'categories_header' => $this->categories_header
+				'categories_header' => $this->categoriesHeader
 					]);
 		    
 		}
@@ -214,7 +214,7 @@ class BackController extends AbstractController
         {
         	echo $this->twig->render('user/post_edit.twig', [
 				'categories' => $categories,
-				'categories_header' => $this->categories_header
+				'categories_header' => $this->categoriesHeader
 					]);
 		}
 
@@ -229,24 +229,24 @@ class BackController extends AbstractController
 	               ]);
 
 	        $this->postManager->add($post);
-	        $new_id = $this->postManager->getLastInsertId();
+	        $newId = $this->postManager->getLastInsertId();
 
 	        if (isset($_FILES['picture']) && ($_FILES['picture']['error'] == 0) && ($_FILES['picture']['size'] <= 5000000)) 
 		    { 
 	            $infosfichier = pathinfo($_FILES['picture']['name']);
-	            $extension_upload = $infosfichier['extension'];
-	            $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
-	            if (in_array($extension_upload, $extensions_autorisees))
+	            $extensionUpload = $infosfichier['extension'];
+	            $extensionsAutorisees = array('jpg', 'jpeg', 'gif', 'png');
+	            if (in_array($extensionUpload, $extensionsAutorisees))
 	            {
-	            	$picture_name = 'POST_IMG_' . $new_id .'.'.$extension_upload ;
-	                $picturePath = '../var/media/post/' .  $picture_name;
+	            	$pictureName = 'POST_IMG_' . $newId .'.'.$extensionUpload ;
+	                $picturePath = '../var/media/post/' .  $pictureName;
 	                move_uploaded_file($_FILES['picture']['tmp_name'], $picturePath);
 
-	                $post->setPicture($picture_name);
-	                $post->setId($new_id);	// ON DOIT LUI ATTRIBUER L'ID RECUPERE
+	                $post->setPicture($pictureName);
+	                $post->setId($newId);	// ON DOIT LUI ATTRIBUER L'ID RECUPERE
 	                $this->postManager->edit($post); // GRACE A CA, ON L'ENREGISTRE
 
-	                $widgetPath = '../var/media/post/MINI_POST_IMG_' . $new_id .'.'.$extension_upload ;
+	                $widgetPath = '../var/media/post/MINI_POST_IMG_' . $newId .'.'.$extensionUpload ;
 
 	                // resizeImageWithCrop
 	                $picture = $post->resizeImage($picturePath, $widgetPath, 60, 60);
@@ -256,7 +256,7 @@ class BackController extends AbstractController
 	                echo $this->twig->render('user/post_edit.twig', [
 						'categories' => $categories,
 						'message' => $message,
-						'categories_header' => $this->categories_header
+						'categories_header' => $this->categoriesHeader
 							]);
 	            }
                 else
@@ -265,7 +265,7 @@ class BackController extends AbstractController
 			    	echo $this->twig->render('user/post_edit.twig', [
 						'categories' => $categories,
 						'message' => $message,
-						'categories_header' => $this->categories_header
+						'categories_header' => $this->categoriesHeader
 							]);
 
                 }
@@ -276,7 +276,7 @@ class BackController extends AbstractController
 		    	echo $this->twig->render('user/post_edit.twig', [
 					'categories' => $categories,
 					'message' => $message,
-					'categories_header' => $this->categories_header
+					'categories_header' => $this->categoriesHeader
 						]);
 			
 	        }

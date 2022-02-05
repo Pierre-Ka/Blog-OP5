@@ -38,7 +38,7 @@ class AdminController extends BackController
 
 	    echo $this->twig->render('admin/home.twig', [
 			'posts' => $posts,
-			'categories_header' => $this->categories_header
+			'categories_header' => $this->categoriesHeader
 				]);
 	}
 
@@ -58,7 +58,7 @@ class AdminController extends BackController
 
 		echo $this->twig->render('admin/manage_user.twig', [
 			'users' => $users,
-			'categories_header' => $this->categories_header
+			'categories_header' => $this->categoriesHeader
 				]);
 	}
 
@@ -73,7 +73,7 @@ class AdminController extends BackController
 			$categories = $this->categoryManager->getAll();
 			echo $this->twig->render('admin/manage_category.twig', [
 			'categories' => $categories,
-			'categories_header' => $this->categories_header
+			'categories_header' => $this->categoriesHeader
 				]);
 		}
 		else
@@ -84,20 +84,20 @@ class AdminController extends BackController
 					'name'=> htmlspecialchars($categoryCreate)
 						]);
 				$this->categoryManager->add($category);
-				$new_id = $this->categoryManager->getLastInsertId();
+				$newId = $this->categoryManager->getLastInsertId();
 
 				if (($_FILES['categoryPicture']['error'] == 0) && ($_FILES['categoryPicture']['size'] <= 5000000)) 
 				{
 		            $infosfichier = pathinfo($_FILES['categoryPicture']['name']);
-		            $extension_upload = $infosfichier['extension'];
-		            $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
-		            if (in_array($extension_upload, $extensions_autorisees))
+		            $extensionUpload = $infosfichier['extension'];
+		            $extensionsAutorisees = array('jpg', 'jpeg', 'gif', 'png');
+		            if (in_array($extensionUpload, $extensionsAutorisees))
 		            {
-		            	$picture_name = 'DEFAULT_IMG_'. $new_id .'.jpg';
-		            	$picturePath = '../var/media/post/'. $picture_name ;
+		            	$pictureName = 'DEFAULT_IMG_'. $newId .'.jpg';
+		            	$picturePath = '../var/media/post/'. $pictureName ;
 		   				move_uploaded_file($_FILES['categoryPicture']['tmp_name'], $picturePath);	
 
-		                $widgetPath = '../var/media/post/MINI_DEFAULT_IMG_'. $new_id .'.jpg' ;
+		                $widgetPath = '../var/media/post/MINI_DEFAULT_IMG_'. $newId .'.jpg' ;
 		                //resizeImageWithCrop
 		                $picture = $category->resizeImage($picturePath, $widgetPath, 60, 60);
 		                $message = 'La categorie a bien été ajoutée';
@@ -105,13 +105,13 @@ class AdminController extends BackController
 		        }
 
 				$categories = $this->categoryManager->getAll();
-				$categories_header = $this->categoryManager->getAll();
+				$categoriesHeader = $this->categoryManager->getAll();
 				if (!$message) { $message = 'Erreur' ;}
 
 	        	echo $this->twig->render('admin/manage_category.twig', [
 		        	'message' => $message,
 					'categories' => $categories,
-					'categories_header' => $categories_header
+					'categories_header' => $categoriesHeader
 						]);    
 			}
 			if($categoryEdit)
@@ -123,12 +123,12 @@ class AdminController extends BackController
 				$message = 'La categorie a bien été modifiée';
 
 				$categories = $this->categoryManager->getAll();
-				$categories_header = $this->categoryManager->getAll();
+				$categoriesHeader = $this->categoryManager->getAll();
 
 			    echo $this->twig->render('admin/manage_category.twig', [
 		        	'message' => $message,
 					'categories' => $categories,
-					'categories_header' => $categories_header
+					'categories_header' => $categoriesHeader
 						]);   
 			}
 			if($adminCategoryDelete)
@@ -139,12 +139,12 @@ class AdminController extends BackController
 				if (file_exists($filename)) {
     					unlink($filename);	}			*/
 				$categories = $this->categoryManager->getAll();
-				$categories_header = $this->categoryManager->getAll(); 
+				$categoriesHeader = $this->categoryManager->getAll(); 
 
 	        	echo $this->twig->render('admin/manage_category.twig', [
 		        	'message' => $message,
 					'categories' => $categories,
-					'categories_header' => $categories_header
+					'categories_header' => $categoriesHeader
 						]); 
 			}
 		}

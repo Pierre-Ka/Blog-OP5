@@ -12,9 +12,11 @@ abstract class AbstractController
     protected UserManager $userManager;
     protected CategoryManager $categoryManager;
     protected CommentManager $commentManager;
-    public $categories_header;
+    public $categoriesHeader;
     protected $twig;
     protected $instance;
+    protected $requestGet = []; 
+    protected $requestPost = []; 
 
     public function __construct(PostManager $postManager, UserManager $userManager, CategoryManager $categoryManager, CommentManager $commentManager)
     {
@@ -22,7 +24,7 @@ abstract class AbstractController
         $this->userManager = $userManager;
         $this->categoryManager = $categoryManager;
         $this->commentManager = $commentManager;
-        $this->categories_header = $this->categoryManager->getAll();
+        $this->categoriesHeader = $this->categoryManager->getAll();
         $loader = new \Twig\Loader\FilesystemLoader('../template');
         $twig = new \Twig\Environment($loader, [
             'debug' => true
@@ -30,6 +32,20 @@ abstract class AbstractController
                 ]);
         $twig->addExtension(new \Twig\Extension\DebugExtension());
         $this->twig = $twig ;
+        if (isset($_GET))
+        {
+            foreach ($_GET as $key => $value) 
+            {
+                $this->requestGet[$key] = $value ;
+            }
+        }
+        if (isset($_POST))
+        {
+            foreach ($_POST as $key => $value) 
+            {
+                $this->requestPost[$key] = $value ;
+            }
+        }
     }
     
     public function forbidden()
@@ -45,4 +61,7 @@ abstract class AbstractController
         header('HTTP/1.0 404 Not Found');
         die('Page introuvable');
     }
+
+
+
 }
