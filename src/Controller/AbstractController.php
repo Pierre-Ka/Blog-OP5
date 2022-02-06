@@ -54,7 +54,6 @@ abstract class AbstractController
         die('Acces interdit');
     }
 
-   // $_POST[$truc] = $truc()
 
     public function notFound()
     {

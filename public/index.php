@@ -1,5 +1,6 @@
 <?php
 use BlogApp\Controller\FrontController;
+use BlogApp\Controller\PostController;
 use BlogApp\Controller\BackController;
 use BlogApp\Controller\AdminController;
 
@@ -33,27 +34,32 @@ if (!isset($_SESSION['auth']))
 	switch ($page) 
 	{ 
 		case $page==='home' : 
-		$frontController->home();
+		$render = $frontController->home();
 		break ;
 
 		case $page==='post' : 
-		$frontController->post();
+		$render = $frontController->list();
 		break ;
 
 		case $page==='single' : 
-		$frontController->single();
+		$render = $frontController->single();
 		break ;
 
 		case $page==='category' : 
-		$frontController->category();
+		$render = $frontController->listByCategory();
 		break ;
 
 		case $page==='sign_in' : 
-		$frontController->signIn();
+		$render = $frontController->signIn();
+		break ;
+
+		case $page==='sign_up' : 
+		$render = $frontController->signUp();
 		break ;
 
 		default : header('Location:index.php?p=home'); break ;
 	}
+	echo $render ;
 }
 else
 {
@@ -61,37 +67,38 @@ else
 	switch ($page) 
 	{ 
 		case $page==='user.home' : 
-		$backController->userHome();
+		$render = $backController->userHome();
 		break ;
 
 		case $page==='user.edit' : 
-		$backController->editUser();
+		$render = $backController->editUser();
 		break ;
 
 		case $page==='user.post.edit' : 
-		$backController->editPost();
+		$render = $backController->editPost();
 		break ;
 
 		case $page==='user.post.add' : 
-		$backController->addPost();
+		$render = $backController->addPost();
 		break ;
 
 		case $page==='admin.home' : 
 		$adminController = new AdminController($postManager, $userManager, $categoryManager, $commentManager) ;
-		$adminController->adminHome();
+		$render = $adminController->adminHome();
 		break ;
 
 		case $page==='admin.manage_user' : 
 		$adminController = new AdminController($postManager, $userManager, $categoryManager, $commentManager) ;
-		$adminController->manageUsers();
+		$render = $adminController->manageUsers();
 		break ;
 
 		case $page==='admin.manage_category' : 
 		$adminController = new AdminController($postManager, $userManager, $categoryManager, $commentManager) ;
-		$adminController->manageCategories();
+		$render = $adminController->manageCategories();
 		break ;
 
 		default : header('Location:index.php?disconnect');  break ;
 	}
+	echo $render ;
 }
 

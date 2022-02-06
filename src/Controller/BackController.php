@@ -21,7 +21,7 @@ class BackController extends AbstractController
 
 	public function userHome()
 	{
-		$idPostDelete = $_POST['id_delete'] ?? null;
+		$idPostDelete = $this->requestPost['id_delete'] ?? null;
 
 	    if($idPostDelete)
 	    {
@@ -33,7 +33,7 @@ class BackController extends AbstractController
 	    $user = $this->userManager->getOne($connectId);
 	    $admin = $this->userManager->isAdmin($connectId);
 
-		echo $this->twig->render('user/home.twig', [
+		return $this->twig->render('user/home.twig', [
 			'user' => $user,
 			'posts' => $posts,
 			'admin' => $admin,
@@ -46,7 +46,7 @@ class BackController extends AbstractController
 	    $user = $this->userManager->getOne($this->userManager->getUserId());
 	    if (!$_POST && !$_FILES)
 	    {
-	        echo $this->twig->render('user/edit.twig', [
+	        return $this->twig->render('user/edit.twig', [
 				'user' => $user,
 				'categories_header' => $this->categoriesHeader
 					]);
@@ -54,11 +54,6 @@ class BackController extends AbstractController
 
 	    else
 	    {
-	    	$nameUpdate = $_POST['nameUpdate'] ?? null;
-	        $passwordUpdate = $_POST['passwordUpdate'] ?? null;
-	        $passwordConfirm = $_POST['passwordConfirm'] ?? null;
-	        $descriptionUpdate = $_POST['descriptionUpdate'] ?? null;
-
 		    if ($_FILES)
 		    {
 				if (isset($_FILES['pictureUpdate']) && ($_FILES['pictureUpdate']['error'] == 0) && ($_FILES['pictureUpdate']['size'] <= 5000000)) 
@@ -81,6 +76,11 @@ class BackController extends AbstractController
 			}
 			if ($_POST) 
 			{
+				$nameUpdate = $this->requestPost['nameUpdate'] ?? null;
+		        $passwordUpdate = $this->requestPost['passwordUpdate'] ?? null;
+		        $passwordConfirm = $this->requestPost['passwordConfirm'] ?? null;
+		        $descriptionUpdate = $this->requestPost['descriptionUpdate'] ?? null;
+
 				if ($nameUpdate)
 				{
 					$user->setName(htmlspecialchars($nameUpdate));
@@ -106,7 +106,7 @@ class BackController extends AbstractController
 		        	$message = 'Votre profil a bien été modifié';
 		        }
 		    }
-		    echo $this->twig->render('user/edit.twig', [
+		    return $this->twig->render('user/edit.twig', [
 				'user' => $user,
 				'message' => $message,
 				'categories_header' => $this->categoriesHeader
@@ -116,32 +116,27 @@ class BackController extends AbstractController
 
 	public function editPost()
 	{
-        $titleChange = $_POST['titleChange'] ?? null;
-        $categoryChange = $_POST['categoryChange'] ?? null;
-        $chapoChange = $_POST['chapoChange'] ?? null;
-        $contentChange = $_POST['contentChange'] ?? null;
+        $postId = $this->requestGet['id'] ;
+        $idPostValid = $this->requestGet['valid'] ?? null;
+        $idPostDelete = $this->requestGet['delete'] ?? null;
 
-	    $post = $this->postManager->getOne($_GET['id']);
-	    $comments = $this->commentManager->getNotYetValid($_GET['id']);
+	    $post = $this->postManager->getOne($postId);
+	    $comments = $this->commentManager->getNotYetValid($postId);
 	    $categories = $this->categoryManager->getAll();
 
 	    if(!($_POST) && !($_FILES))
 	    {
-	        if(!empty($_GET['valid']) || !empty($_GET['delete']))
+	        if ($idPostValid)
 	        {
-	            switch ($_GET)
-	            {
-	                case !empty($_GET['valid']) :
-	                $this->commentManager->valid(($_GET['valid']));
-	                break ;
-	                case !empty($_GET['delete']) : 
-	                $this->commentManager->delete(($_GET['delete']));
-	                break ;
-	            }
+                $this->commentManager->valid($idPostValid);
+            }
+            if ($idPostDelete)
+            {
+	            $this->commentManager->delete($idPostDelete);
 	        }
-	        $comments = $this->commentManager->getNotYetValid($_GET['id']);
+	        $comments = $this->commentManager->getNotYetValid($postId);
 	        
-	        echo $this->twig->render('user/post_edit.twig', [
+	        return $this->twig->render('user/post_edit.twig', [
 				'post' => $post,
 				'comments' => $comments,
 				'categories' => $categories,
@@ -159,14 +154,14 @@ class BackController extends AbstractController
 	            $extensionsAutorisees = array('jpg', 'jpeg', 'gif', 'png');
 	            if (in_array($extensionUpload, $extensionsAutorisees))
 	            {
-	                move_uploaded_file($_FILES['pictureChange']['tmp_name'], '../var/media/post/POST_IMG_' . $_GET['id'] .'.'.$extensionUpload);
+	                move_uploaded_file($_FILES['pictureChange']['tmp_name'], '../var/media/post/POST_IMG_' . $postId .'.'.$extensionUpload);
 	        
-	                $pictureName = 'POST_IMG_' . $_GET['id'] .'.'.$extensionUpload ;
+	                $pictureName = 'POST_IMG_' . $postId .'.'.$extensionUpload ;
 	                $post->setPicture($pictureName);
 	                $this->postManager->edit($post);
 
-	                $widgetPath = '../var/media/post/MINI_POST_IMG_' . $_GET['id'] .'.'.$extensionUpload ;
-	                $picturePath = '../var/media/post/POST_IMG_' . $_GET['id'] .'.'.$extensionUpload ; 
+	                $widgetPath = '../var/media/post/MINI_POST_IMG_' . $postId .'.'.$extensionUpload ;
+	                $picturePath = '../var/media/post/POST_IMG_' . $postId .'.'.$extensionUpload ; 
 	                // resizeImageWithCrop
 	                $picture = $post->resizeImage($picturePath, $widgetPath, 60, 60);
 	                $message = 'L\'image a été modifié avec succès' ;
@@ -175,6 +170,11 @@ class BackController extends AbstractController
 		    }
 		    if ($_POST)
 		    {
+		    	$titleChange = $this->requestPost['titleChange'] ?? null;
+		        $categoryChange = $this->requestPost['categoryChange'] ?? null;
+		        $chapoChange = $this->requestPost['chapoChange'] ?? null;
+		        $contentChange = $this->requestPost['contentChange'] ?? null;
+
 		        $post->setTitle(htmlspecialchars($titleChange)); 
 		        $post->setCategory_id($categoryChange); 
 		        $post->setChapo(htmlspecialchars($chapoChange)); 
@@ -191,7 +191,7 @@ class BackController extends AbstractController
 		    	}
 
 		    }
-	        echo $this->twig->render('user/post_edit.twig', [
+	        return $this->twig->render('user/post_edit.twig', [
 	            'message' => $message,
 			 	'post' => $post,
 				'comments' => $comments,
@@ -204,15 +204,10 @@ class BackController extends AbstractController
 
 	public function addPost()
 	{
-		$title = $_POST['title'] ?? null;
-	    $category = $_POST['category'] ?? null;
-	    $chapo = $_POST['chapo'] ?? null;
-	    $content = $_POST['content'] ?? null;
-        $categories = $this->categoryManager->getAll();	
-
-		if(!$title || !$category || !$chapo || !$content)
+		//if(!$title || !$category || !$chapo || !$content)
+		if(!$_POST)
         {
-        	echo $this->twig->render('user/post_edit.twig', [
+        	return $this->twig->render('user/post_edit.twig', [
 				'categories' => $categories,
 				'categories_header' => $this->categoriesHeader
 					]);
@@ -220,6 +215,12 @@ class BackController extends AbstractController
 
 		else
 		{
+			$title = $requestPost['title'] ?? null;
+		    $category = $requestPost['category'] ?? null;
+		    $chapo = $requestPost['chapo'] ?? null;
+		    $content = $requestPost['content'] ?? null;
+	        $categories = $this->categoryManager->getAll();	
+
         	$post= new Post([	// SANS HYDRATATION    // $post= new Post();
 				'title'=>htmlspecialchars($title), 	   //  $post->setTitle
 	            'user_id'=> $this->userManager->getUserId(),	// ect ...
@@ -253,7 +254,7 @@ class BackController extends AbstractController
 
 	                $message = ' L\'article et l\'image ont été ajouté avec succès ';
 
-	                echo $this->twig->render('user/post_edit.twig', [
+	                return $this->twig->render('user/post_edit.twig', [
 						'categories' => $categories,
 						'message' => $message,
 						'categories_header' => $this->categoriesHeader
@@ -262,7 +263,7 @@ class BackController extends AbstractController
                 else
                 {
                 	$message = ' L\'article a été rajouté avec succès ';
-			    	echo $this->twig->render('user/post_edit.twig', [
+			    	return $this->twig->render('user/post_edit.twig', [
 						'categories' => $categories,
 						'message' => $message,
 						'categories_header' => $this->categoriesHeader
@@ -273,7 +274,7 @@ class BackController extends AbstractController
         	else
 	        {
 	        	$message = ' L\'article a été rajouté avec succès';
-		    	echo $this->twig->render('user/post_edit.twig', [
+		    	return $this->twig->render('user/post_edit.twig', [
 					'categories' => $categories,
 					'message' => $message,
 					'categories_header' => $this->categoriesHeader

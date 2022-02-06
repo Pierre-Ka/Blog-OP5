@@ -21,8 +21,8 @@ class FrontController extends AbstractController
 
 	public function home()
 	{
-		$message = $_POST['message'] ?? null;
-        $messageEmail = $_POST['message-email'] ?? null;
+		$message = $this->requestPost['message'] ?? null;
+        $messageEmail = $this->requestPost['message-email'] ?? null;
 
 		if ($message && $messageEmail)  
 		{
@@ -38,23 +38,25 @@ class FrontController extends AbstractController
             $retour = mail('ikanhiu@outlook.fr', 'Envoi depuis page Contact', $theMessage, $entete);
         }
 
-		echo $this->twig->render('home/home.twig', [
+		return $this->twig->render('home/home.twig', [
 			'categories_header' => $this->categoriesHeader,
 			'last5Posts' => $this->last5Posts
 				]);				
 	}
 
-	public function post()
+	public function list()
 	{
+		$page = $this->requestGet['page'] ?? null ;
+
 		$maxPage=$this->postManager->totalPages();
-		$actualPage = $_GET['page'] ?? 1;
+		$actualPage = $page ?? 1;
         if (0 > $actualPage || $maxPage < $actualPage) 
         {
             $actualPage = 1;
         }
 		$posts=$this->postManager->getAll($actualPage);
 		
-		echo $this->twig->render('home/list.twig', [
+		return $this->twig->render('home/list.twig', [
 			'posts' => $posts,
 			'max_page' => $maxPage,
 			'actual_page' => $actualPage,
@@ -63,13 +65,15 @@ class FrontController extends AbstractController
 				]);
 	}	
 
-	public function category()
+	public function listByCategory()
 	{
-		$categoryId=htmlspecialchars($_GET['id']);
+		$page = $this->requestGet['page'] ?? null ;
+		$categoryId = $this->requestGet['id'];
+
 		$category = $this->categoryManager->getOne($categoryId);
 		$maxPage=$this->postManager->totalPagesByCategory($categoryId);
 			
-		$actualPage = $_GET['page'] ?? 1;
+		$actualPage = $page ?? 1;
 
         if (0 > $actualPage || $maxPage < $actualPage) 
         {
@@ -78,7 +82,7 @@ class FrontController extends AbstractController
 
 		$posts=$this->postManager->getWithCategory($categoryId,$actualPage);
 		
-		echo $this->twig->render('home/list.twig', [
+		return $this->twig->render('home/list.twig', [
 			'posts' => $posts,
 			'category' => $category,
 			'max_page' => $maxPage,
@@ -90,10 +94,11 @@ class FrontController extends AbstractController
 
 	public function single()
 	{
-		$authorCom = $_POST['author_com'] ?? null;
-        $contentCom = $_POST['com'] ?? null;
+		$authorCom = $this->requestPost['author_com'] ?? null;
+        $contentCom = $this->requestPost['com'] ?? null;
+        $page = $this->requestGet['page'] ?? null ;
+		$postId= $this->requestGet['id'];
 
-		$postId= $_GET['id'];
 		if ($authorCom && $contentCom)
 		{
 			$comment= new Comment ([
@@ -110,16 +115,16 @@ class FrontController extends AbstractController
 
 		$maxPage=$this->commentManager->totalPages($postId);
 
-		$actualPage = $_GET['page'] ?? 1;
+		$actualPage = $page ?? 1;
 
         if (0 > $actualPage || $maxPage < $actualPage) 
         {
             $actualPage = 1;
         }
         
-		$comments = $this->commentManager->get($postId,$actualPage);
+		$comments = $this->commentManager->get($postId, $actualPage);
 		
-		echo $this->twig->render('home/single.twig', [
+		return $this->twig->render('home/single.twig', [
 			'post' => $post,
 			'author' => $author,
 			'comments' => $comments,
@@ -134,30 +139,23 @@ class FrontController extends AbstractController
 	{
 		if (!$_POST)
 		{
-			echo $this->twig->render('home/sign_in.twig', [
+			return $this->twig->render('home/sign_in.twig', [
 				'categories_header' => $this->categoriesHeader
 					]);
 		}
 		else
 		{
-			$email = $_POST['email'] ?? null;
-	        $password = $_POST['password'] ?? null;
-	        $emailCreate = $_POST['emailCreate'] ?? null;
-	        $nameCreate = $_POST['nameCreate'] ?? null;
-	        $passwordCreate = $_POST['passwordCreate'] ?? null;
-	        $passwordConfirm = $_POST['passwordConfirm'] ?? null;
-	        $descriptionCreate = $_POST['descriptionCreate'] ?? null;
-
+			$email = $this->requestPost['email'] ?? null;
+	        $password = $this->requestPost['password'] ?? null;
 			$incorrect=false;
 
-			switch ($_POST)
+			if ($email && $password)
 			{
-				case $email && $password : 
 				$logged = $this->userManager->login($email, $password);
 				if(!$logged)
 				{			
 					$incorrect=true;
-					echo $this->twig->render('home/sign_in.twig', [
+					return $this->twig->render('home/sign_in.twig', [
 					'categories_header' => $this->categoriesHeader,
 					'incorrect' => $incorrect
 						]);
@@ -165,11 +163,29 @@ class FrontController extends AbstractController
 				else
 				{
 					header('Location: user.home'); 
-				}
-				break ;
+				}	
+			}
+		}
+	}
 
-				case $emailCreate && $nameCreate && $passwordCreate && $passwordConfirm && $descriptionCreate && ($passwordCreate === $passwordConfirm) && (preg_match('#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#', $emailCreate)) : 
+	public function signUp()
+	{
+		if (!$_POST)
+		{
+			return $this->twig->render('home/sign_in.twig', [
+				'categories_header' => $this->categoriesHeader
+					]);
+		}
+		else
+		{
+	        $emailCreate = $this->requestPost['emailCreate'] ?? null;
+	        $nameCreate = $this->requestPost['nameCreate'] ?? null;
+	        $passwordCreate = $this->requestPost['passwordCreate'] ?? null;
+	        $passwordConfirm = $this->requestPost['passwordConfirm'] ?? null;
+	        $descriptionCreate = $this->requestPost['descriptionCreate'] ?? null;
 
+			if ( $emailCreate && $nameCreate && $passwordCreate && $passwordConfirm && $descriptionCreate && ($passwordCreate === $passwordConfirm) && (preg_match('#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#', $emailCreate)) )
+			{ 
 				$user = new User([
 				'email'=> htmlspecialchars($emailCreate),
 				'password'=> htmlspecialchars($passwordConfirm),
@@ -177,22 +193,20 @@ class FrontController extends AbstractController
 				'description'=> htmlspecialchars($descriptionCreate)
 				]);
 				$this->userManager->add($user);
-				$message = 'enregistrement reussi';
 					
-				echo $this->twig->render('home/sign_in.twig', [
-					'message' => $message,
-					'incorrect' => $incorrect,
+				return $this->twig->render('home/sign_in.twig', [
+					'message' => 'enregistrement reussi',
+					'incorrect' => false,
 					'categories_header' => $this->categoriesHeader
 						]);
-				break ;
+			}
 
-				default :
-				$incorrect=true;
-				echo $this->twig->render('home/sign_in.twig', [
+			else
+			{
+				return $this->twig->render('home/sign_in.twig', [
 				'categories_header' => $this->categoriesHeader,
-				'incorrect' => $incorrect
+				'incorrect' => true
 					]);
-				break ;
 			}
 		}
 	}

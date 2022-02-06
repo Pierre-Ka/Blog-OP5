@@ -23,9 +23,10 @@ class AdminController extends BackController
 
 	public function adminHome()
 	{
+		$faker = $_GET['faker'] ?? null;
 		$adminPostDelete = $_POST['admin_post_delete'] ?? null;
 
-		if (isset($_GET['faker']))
+		if (isset($faker))
 		{
 			header('Location: ../template/admin/faker.php');
 		}
@@ -36,7 +37,7 @@ class AdminController extends BackController
 	    }
 	    $posts = $this->postManager->getAllAdmin();
 
-	    echo $this->twig->render('admin/home.twig', [
+	    return $this->twig->render('admin/home.twig', [
 			'posts' => $posts,
 			'categories_header' => $this->categoriesHeader
 				]);
@@ -45,10 +46,11 @@ class AdminController extends BackController
 	public function manageUsers()
 	{
 		$adminUserDelete = $_POST['admin_user_delete'] ?? null;
+		$idUserValid = $_GET['valid'] ?? null;
 
-		if(!empty($_GET['valid']))
+		if(!empty($idUserValid))
 		{
-			$this->userManager->valid(($_GET['valid']));
+			$this->userManager->valid($idUserValid);
 		}
 		if($adminUserDelete)
 		{
@@ -56,7 +58,7 @@ class AdminController extends BackController
 		}
 		$users = $this->userManager->getList();
 
-		echo $this->twig->render('admin/manage_user.twig', [
+		return $this->twig->render('admin/manage_user.twig', [
 			'users' => $users,
 			'categories_header' => $this->categoriesHeader
 				]);
@@ -67,11 +69,12 @@ class AdminController extends BackController
 		$categoryEdit = $_POST['categoryEdit'] ?? null;
         $categoryCreate = $_POST['categoryCreate'] ?? null;
         $adminCategoryDelete = $_POST['admin_category_delete'] ?? null;
+        $idCategory = $_GET['id'] ?? null;
 
         if(!($_POST))
 		{
 			$categories = $this->categoryManager->getAll();
-			echo $this->twig->render('admin/manage_category.twig', [
+			return $this->twig->render('admin/manage_category.twig', [
 			'categories' => $categories,
 			'categories_header' => $this->categoriesHeader
 				]);
@@ -108,7 +111,7 @@ class AdminController extends BackController
 				$categoriesHeader = $this->categoryManager->getAll();
 				if (!$message) { $message = 'Erreur' ;}
 
-	        	echo $this->twig->render('admin/manage_category.twig', [
+	        	return $this->twig->render('admin/manage_category.twig', [
 		        	'message' => $message,
 					'categories' => $categories,
 					'categories_header' => $categoriesHeader
@@ -116,8 +119,7 @@ class AdminController extends BackController
 			}
 			if($categoryEdit)
 			{ 
-
-				$categorie = $this->categoryManager->getOne($_GET['id']);
+				$categorie = $this->categoryManager->getOne($idCategory);
 				$categorie->setName(htmlspecialchars($categoryEdit));
 				$this->categoryManager->edit($categorie);
 				$message = 'La categorie a bien été modifiée';
@@ -125,7 +127,7 @@ class AdminController extends BackController
 				$categories = $this->categoryManager->getAll();
 				$categoriesHeader = $this->categoryManager->getAll();
 
-			    echo $this->twig->render('admin/manage_category.twig', [
+			    return $this->twig->render('admin/manage_category.twig', [
 		        	'message' => $message,
 					'categories' => $categories,
 					'categories_header' => $categoriesHeader
@@ -133,7 +135,7 @@ class AdminController extends BackController
 			}
 			if($adminCategoryDelete)
 			{
-				$this->categoryManager->delete($_GET['id']);
+				$this->categoryManager->delete($idCategory);
 				$message = 'La categorie a bien été supprimée';
 				/*		Optionnelement créer un systeme de suppression des photos des categories suprrimées : 
 				if (file_exists($filename)) {
@@ -141,7 +143,7 @@ class AdminController extends BackController
 				$categories = $this->categoryManager->getAll();
 				$categoriesHeader = $this->categoryManager->getAll(); 
 
-	        	echo $this->twig->render('admin/manage_category.twig', [
+	        	return $this->twig->render('admin/manage_category.twig', [
 		        	'message' => $message,
 					'categories' => $categories,
 					'categories_header' => $categoriesHeader
