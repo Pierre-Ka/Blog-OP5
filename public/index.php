@@ -34,7 +34,11 @@ if (!isset($_SESSION['auth']))
 	switch ($page) 
 	{ 
 		case $page==='home' : 
-		$render = $frontController->home();
+		$render = $frontController->home();			
+		break ;
+
+		case $page==='mail' : 
+		$render = $frontController->mail();		
 		break ;
 
 		case $page==='post' : 
@@ -54,7 +58,7 @@ if (!isset($_SESSION['auth']))
 		break ;
 
 		case $page==='sign_up' : 
-		$render = $frontController->signUp();
+		$render = $frontController->addUser();
 		break ;
 
 		default : header('Location:index.php?p=home'); break ;

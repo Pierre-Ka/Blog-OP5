@@ -18,6 +18,7 @@
         "fakerphp/faker": "^1.17",
         "twig/twig": "^3.3",
         "twig/string-extra": "^3.3",
-        "twig/extra-bundle": "^3.3"
+        "twig/extra-bundle": "^3.3",
+        "phpmailer/phpmailer": "^6.5"
     }
 }

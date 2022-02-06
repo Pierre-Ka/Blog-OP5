@@ -23,8 +23,8 @@ class AdminController extends BackController
 
 	public function adminHome()
 	{
-		$faker = $_GET['faker'] ?? null;
-		$adminPostDelete = $_POST['admin_post_delete'] ?? null;
+		$faker = $this->requestGet['faker'] ?? null;
+		$adminPostDelete = $this->requestPost['admin_post_delete'] ?? null;
 
 		if (isset($faker))
 		{
@@ -37,16 +37,16 @@ class AdminController extends BackController
 	    }
 	    $posts = $this->postManager->getAllAdmin();
 
-	    return $this->twig->render('admin/home.html.twig', [
+	    return $this->render('admin/home.html.twig', [
 			'posts' => $posts,
-			'categories_header' => $this->categoriesHeader
+			'categories_header' => $this->categoryManager->getAll()
 				]);
 	}
 
 	public function manageUsers()
 	{
-		$adminUserDelete = $_POST['admin_user_delete'] ?? null;
-		$idUserValid = $_GET['valid'] ?? null;
+		$adminUserDelete = $this->requestPost['admin_user_delete'] ?? null;
+		$idUserValid = $this->requestGet['valid'] ?? null;
 
 		if(!empty($idUserValid))
 		{
@@ -58,29 +58,30 @@ class AdminController extends BackController
 		}
 		$users = $this->userManager->getList();
 
-		return $this->twig->render('admin/manage_user.html.twig', [
+		return $this->render('admin/manage_user.html.twig', [
 			'users' => $users,
-			'categories_header' => $this->categoriesHeader
+			'categories_header' => $this->categoryManager->getAll()
 				]);
 	}
 
 	public function manageCategories()
 	{
-		$categoryEdit = $_POST['categoryEdit'] ?? null;
-        $categoryCreate = $_POST['categoryCreate'] ?? null;
-        $adminCategoryDelete = $_POST['admin_category_delete'] ?? null;
-        $idCategory = $_GET['id'] ?? null;
+        $idCategory = $this->requestGet['id'] ?? null;
 
         if(!($_POST))
 		{
 			$categories = $this->categoryManager->getAll();
-			return $this->twig->render('admin/manage_category.html.twig', [
+			return $this->render('admin/manage_category.html.twig', [
 			'categories' => $categories,
-			'categories_header' => $this->categoriesHeader
+			'categories_header' => $this->categoryManager->getAll()
 				]);
 		}
 		else
 		{
+			$categoryEdit = $this->requestPost['categoryEdit'] ?? null;
+	        $categoryCreate = $this->requestPost['categoryCreate'] ?? null;
+	        $adminCategoryDelete = $this->requestPost['admin_category_delete'] ?? null;
+
 	        if (isset($_FILES['categoryPicture']) && $categoryCreate)
 		    {
 		    	$category = new Category([
@@ -111,7 +112,7 @@ class AdminController extends BackController
 				$categoriesHeader = $this->categoryManager->getAll();
 				if (!$message) { $message = 'Erreur' ;}
 
-	        	return $this->twig->render('admin/manage_category.html.twig', [
+	        	return $this->render('admin/manage_category.html.twig', [
 		        	'message' => $message,
 					'categories' => $categories,
 					'categories_header' => $categoriesHeader
@@ -127,7 +128,7 @@ class AdminController extends BackController
 				$categories = $this->categoryManager->getAll();
 				$categoriesHeader = $this->categoryManager->getAll();
 
-			    return $this->twig->render('admin/manage_category.html.twig', [
+			    return $this->render('admin/manage_category.html.twig', [
 		        	'message' => $message,
 					'categories' => $categories,
 					'categories_header' => $categoriesHeader
@@ -143,7 +144,7 @@ class AdminController extends BackController
 				$categories = $this->categoryManager->getAll();
 				$categoriesHeader = $this->categoryManager->getAll(); 
 
-	        	return $this->twig->render('admin/manage_category.html.twig', [
+	        	return $this->render('admin/manage_category.html.twig', [
 		        	'message' => $message,
 					'categories' => $categories,
 					'categories_header' => $categoriesHeader

@@ -38,6 +38,7 @@ return array(
     'Psr\\EventDispatcher\\' => array($vendorDir . '/psr/event-dispatcher/src'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
+    'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
     'Faker\\' => array($vendorDir . '/fakerphp/faker/src/Faker'),
     'BlogApp\\' => array($baseDir . '/src'),
 );

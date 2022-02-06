@@ -3,6 +3,7 @@ namespace BlogApp\Controller;
 
 use BlogApp\Entity\Comment;
 use BlogApp\Entity\User;
+use BlogApp\Mailer\MyMailer;
 
 use BlogApp\Manager\CommentManager;
 use BlogApp\Manager\PostManager;
@@ -11,36 +12,40 @@ use BlogApp\Manager\CategoryManager;
 
 class FrontController extends AbstractController
 {
-	public $last5Posts ; 
+	protected PostManager $postManager;
+    protected UserManager $userManager;
+    protected CategoryManager $categoryManager;
+    protected CommentManager $commentManager;
 
 	public function __construct(PostManager $postManager, UserManager $userManager, CategoryManager $categoryManager, CommentManager $commentManager)
 	{
-		parent::__construct($postManager, $userManager, $categoryManager, $commentManager);
-		$this->last5Posts = $this->postManager->getAll(1);
+		parent::__construct();
+		$this->postManager = $postManager;
+        $this->userManager = $userManager;
+        $this->categoryManager = $categoryManager;
+        $this->commentManager = $commentManager;
 	}
 
-	public function home()
+	public function mail()
 	{
 		$message = $this->requestPost['message'] ?? null;
         $messageEmail = $this->requestPost['message-email'] ?? null;
 
 		if ($message && $messageEmail)  
 		{
-            $entete  = 'MIME-Version: 1.0' . "\r\n";
-            $entete .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-            $entete .= 'From: webmaster@monsite.fr' . "\r\n";
-            $entete .= 'Reply-to: ' . $messageEmail;
-
-            $theMessage = '<h1>Message envoyé depuis la page Contact de monsite.fr</h1>
-            <p><b>Email : </b>' . $messageEmail . '<br>
-            <b>Message : </b>' . htmlspecialchars($message) . '</p>';
-
-            $retour = mail('ikanhiu@outlook.fr', 'Envoi depuis page Contact', $theMessage, $entete);
+            $monmail = new MyMailer();
+            $MessageFormat = $monmail->formatMail($messageEmail, $message);
+            $return = $monmail->SendTheMail($MessageFormat); 
+            echo $return ; 
+            header('Location: home');  
         }
 
-		return $this->twig->render('home/home.html.twig', [
-			'categories_header' => $this->categoriesHeader,
-			'last5Posts' => $this->last5Posts
+    }
+	public function home()
+	{
+		return $this->render('home/home.html.twig', [
+			'categories_header' => $this->categoryManager->getAll(),
+			'last5Posts' => $this->postManager->getAll(1)
 				]);				
 	}
 
@@ -56,12 +61,12 @@ class FrontController extends AbstractController
         }
 		$posts=$this->postManager->getAll($actualPage);
 		
-		return $this->twig->render('home/list.html.twig', [
+		return $this->render('home/list.html.twig', [
 			'posts' => $posts,
 			'max_page' => $maxPage,
 			'actual_page' => $actualPage,
-			'categories_header' => $this->categoriesHeader,
-			'last5Posts' => $this->last5Posts
+			'categories_header' => $this->categoryManager->getAll(),
+			'last5Posts' => $this->postManager->getAll(1)
 				]);
 	}	
 
@@ -69,6 +74,17 @@ class FrontController extends AbstractController
 	{
 		$page = $this->requestGet['page'] ?? null ;
 		$categoryId = $this->requestGet['id'];
+
+		$allCategory = $this->categoryManager->getAll();
+		$categoryIdPossible = [];
+		foreach ($allCategory as $oneCategory) 
+		{
+			$categoryIdPossible[] = $oneCategory->getId();
+		}
+		if ( !in_array($categoryId, $categoryIdPossible))
+		{
+			header('Location:index.php?p=home');
+		}
 
 		$category = $this->categoryManager->getOne($categoryId);
 		$maxPage=$this->postManager->totalPagesByCategory($categoryId);
@@ -82,13 +98,13 @@ class FrontController extends AbstractController
 
 		$posts=$this->postManager->getWithCategory($categoryId,$actualPage);
 		
-		return $this->twig->render('home/list.html.twig', [
+		return $this->render('home/list.html.twig', [
 			'posts' => $posts,
 			'category' => $category,
 			'max_page' => $maxPage,
 			'actual_page' => $actualPage,
-			'categories_header' => $this->categoriesHeader,
-			'last5Posts' => $this->last5Posts
+			'categories_header' => $this->categoryManager->getAll(),
+			'last5Posts' => $this->postManager->getAll(1)
 				]);
 	}	
 
@@ -124,14 +140,14 @@ class FrontController extends AbstractController
         
 		$comments = $this->commentManager->get($postId, $actualPage);
 		
-		return $this->twig->render('home/single.html.twig', [
+		return $this->render('home/single.html.twig', [
 			'post' => $post,
 			'author' => $author,
 			'comments' => $comments,
 			'max_page' => $maxPage,
 			'actual_page' => $actualPage,
-			'categories_header' => $this->categoriesHeader,
-			'last5Posts' => $this->last5Posts
+			'categories_header' => $this->categoryManager->getAll(),
+			'last5Posts' => $this->postManager->getAll(1)
 		]);
 	}	
 
@@ -139,8 +155,8 @@ class FrontController extends AbstractController
 	{
 		if (!$_POST)
 		{
-			return $this->twig->render('home/sign_in.html.twig', [
-				'categories_header' => $this->categoriesHeader
+			return $this->render('home/sign_in.html.twig', [
+				'categories_header' => $this->categoryManager->getAll()
 					]);
 		}
 		else
@@ -155,8 +171,8 @@ class FrontController extends AbstractController
 				if(!$logged)
 				{			
 					$incorrect=true;
-					return $this->twig->render('home/sign_in.html.twig', [
-					'categories_header' => $this->categoriesHeader,
+					return $this->render('home/sign_in.html.twig', [
+					'categories_header' => $this->categoryManager->getAll(),
 					'incorrect' => $incorrect
 						]);
 				}
@@ -168,12 +184,12 @@ class FrontController extends AbstractController
 		}
 	}
 
-	public function signUp()
+	public function addUser()
 	{
 		if (!$_POST)
 		{
-			return $this->twig->render('home/sign_in.html.twig', [
-				'categories_header' => $this->categoriesHeader
+			return $this->render('home/sign_in.html.twig', [
+				'categories_header' => $this->categoryManager->getAll()
 					]);
 		}
 		else
@@ -194,17 +210,17 @@ class FrontController extends AbstractController
 				]);
 				$this->userManager->add($user);
 					
-				return $this->twig->render('home/sign_in.html.twig', [
+				return $this->render('home/sign_in.html.twig', [
 					'message' => 'enregistrement reussi',
 					'incorrect' => false,
-					'categories_header' => $this->categoriesHeader
+					'categories_header' => $this->categoryManager->getAll()
 						]);
 			}
 
 			else
 			{
-				return $this->twig->render('home/sign_in.html.twig', [
-				'categories_header' => $this->categoriesHeader,
+				return $this->render('home/sign_in.html.twig', [
+				'categories_header' => $this->categoryManager->getAll(),
 				'incorrect' => true
 					]);
 			}

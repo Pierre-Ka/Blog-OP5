@@ -58,6 +58,7 @@ class ComposerStaticInitacb6bd8a7b4b8d26447948e37aabfe49
             'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'F' => 
         array (
@@ -197,6 +198,10 @@ class ComposerStaticInitacb6bd8a7b4b8d26447948e37aabfe49
         'Psr\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'Faker\\' => 
         array (

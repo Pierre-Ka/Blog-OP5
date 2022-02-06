@@ -25,7 +25,7 @@ class UserManager extends Manager
 		 		return true ;
 			}
 		}
-		return $connection = false ;
+		return false ;
 	}
 
 	public function logged()
@@ -38,13 +38,13 @@ class UserManager extends Manager
 
 	public function isAdmin()
 	{
-		if($_SESSION['auth'])
+		$id = $_SESSION['auth'] ?? null ; 
+		if($id)
 		{
 			$q = $this->_db->prepare('SELECT * FROM user WHERE id =:id AND is_admin=1');
-			$q->bindValue('id', $_SESSION['auth']);
+			$q->bindValue('id', $id);
 			$q->execute();
 			$data=$q->fetch();
-
 			if($data) 
 			{
 				return true;

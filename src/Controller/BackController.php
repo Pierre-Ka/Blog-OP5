@@ -10,9 +10,18 @@ use BlogApp\Manager\CategoryManager;
 
 class BackController extends AbstractController
 {
+	protected PostManager $postManager;
+    protected UserManager $userManager;
+    protected CategoryManager $categoryManager;
+    protected CommentManager $commentManager;
+
     public function __construct(PostManager $postManager, UserManager $userManager, CategoryManager $categoryManager, CommentManager $commentManager)
     {
-        parent::__construct($postManager, $userManager, $categoryManager, $commentManager);
+        parent::__construct();
+        $this->postManager = $postManager;
+        $this->userManager = $userManager;
+        $this->categoryManager = $categoryManager;
+        $this->commentManager = $commentManager;
         if(!$this->userManager->logged())
 		{
 			$this->forbidden();
@@ -33,11 +42,11 @@ class BackController extends AbstractController
 	    $user = $this->userManager->getOne($connectId);
 	    $admin = $this->userManager->isAdmin($connectId);
 
-		return $this->twig->render('user/home.html.twig', [
+		return $this->render('user/home.html.twig', [
 			'user' => $user,
 			'posts' => $posts,
 			'admin' => $admin,
-			'categories_header' => $this->categoriesHeader
+			'categories_header' => $this->categoryManager->getAll()
 				]);
 	}
 
@@ -46,9 +55,9 @@ class BackController extends AbstractController
 	    $user = $this->userManager->getOne($this->userManager->getUserId());
 	    if (!$_POST && !$_FILES)
 	    {
-	        return $this->twig->render('user/edit.html.twig', [
+	        return $this->render('user/edit.html.twig', [
 				'user' => $user,
-				'categories_header' => $this->categoriesHeader
+				'categories_header' => $this->categoryManager->getAll()
 					]);
 	    }
 
@@ -106,10 +115,10 @@ class BackController extends AbstractController
 		        	$message = 'Votre profil a bien été modifié';
 		        }
 		    }
-		    return $this->twig->render('user/edit.html.twig', [
+		    return $this->render('user/edit.html.twig', [
 				'user' => $user,
 				'message' => $message,
-				'categories_header' => $this->categoriesHeader
+				'categories_header' => $this->categoryManager->getAll()
 					]);
 	    }
 	}
@@ -136,11 +145,11 @@ class BackController extends AbstractController
 	        }
 	        $comments = $this->commentManager->getNotYetValid($postId);
 	        
-	        return $this->twig->render('user/post_edit.html.twig', [
+	        return $this->render('user/post_edit.html.twig', [
 				'post' => $post,
 				'comments' => $comments,
 				'categories' => $categories,
-				'categories_header' => $this->categoriesHeader
+				'categories_header' => $this->categoryManager->getAll()
 					]);
 	        
 	    }
@@ -191,12 +200,12 @@ class BackController extends AbstractController
 		    	}
 
 		    }
-	        return $this->twig->render('user/post_edit.html.twig', [
+	        return $this->render('user/post_edit.html.twig', [
 	            'message' => $message,
 			 	'post' => $post,
 				'comments' => $comments,
 				'categories' => $categories,
-				'categories_header' => $this->categoriesHeader
+				'categories_header' => $this->categoryManager->getAll()
 					]);
 		    
 		}
@@ -207,18 +216,18 @@ class BackController extends AbstractController
 		//if(!$title || !$category || !$chapo || !$content)
 		if(!$_POST)
         {
-        	return $this->twig->render('user/post_edit.html.twig', [
-				'categories' => $categories,
-				'categories_header' => $this->categoriesHeader
+        	return $this->render('user/post_edit.html.twig', [
+				'categories' => $this->categoryManager->getAll(),
+				'categories_header' => $this->categoryManager->getAll()
 					]);
 		}
 
 		else
 		{
-			$title = $requestPost['title'] ?? null;
-		    $category = $requestPost['category'] ?? null;
-		    $chapo = $requestPost['chapo'] ?? null;
-		    $content = $requestPost['content'] ?? null;
+			$title = $this->requestPost['title'] ?? null;
+		    $category = $this->requestPost['category'] ?? null;
+		    $chapo = $this->requestPost['chapo'] ?? null;
+		    $content = $this->requestPost['content'] ?? null;
 	        $categories = $this->categoryManager->getAll();	
 
         	$post= new Post([	// SANS HYDRATATION    // $post= new Post();
@@ -254,19 +263,19 @@ class BackController extends AbstractController
 
 	                $message = ' L\'article et l\'image ont été ajouté avec succès ';
 
-	                return $this->twig->render('user/post_edit.html.twig', [
+	                return $this->render('user/post_edit.html.twig', [
 						'categories' => $categories,
 						'message' => $message,
-						'categories_header' => $this->categoriesHeader
+						'categories_header' => $this->categoryManager->getAll()
 							]);
 	            }
                 else
                 {
                 	$message = ' L\'article a été rajouté avec succès ';
-			    	return $this->twig->render('user/post_edit.html.twig', [
+			    	return $this->render('user/post_edit.html.twig', [
 						'categories' => $categories,
 						'message' => $message,
-						'categories_header' => $this->categoriesHeader
+						'categories_header' => $this->categoryManager->getAll()
 							]);
 
                 }
@@ -274,10 +283,10 @@ class BackController extends AbstractController
         	else
 	        {
 	        	$message = ' L\'article a été rajouté avec succès';
-		    	return $this->twig->render('user/post_edit.html.twig', [
+		    	return $this->render('user/post_edit.html.twig', [
 					'categories' => $categories,
 					'message' => $message,
-					'categories_header' => $this->categoriesHeader
+					'categories_header' => $this->categoryManager->getAll()
 						]);
 			
 	        }

@@ -8,44 +8,46 @@ use BlogApp\Manager\CategoryManager;
 
 abstract class AbstractController
 { 
-    protected PostManager $postManager;
-    protected UserManager $userManager;
-    protected CategoryManager $categoryManager;
-    protected CommentManager $commentManager;
-    public $categoriesHeader;
     protected $twig;
     protected $instance;
+    protected bool $idConnect; 
     protected $requestGet = []; 
     protected $requestPost = []; 
 
-    public function __construct(PostManager $postManager, UserManager $userManager, CategoryManager $categoryManager, CommentManager $commentManager)
+    public function __construct()
     {
-        $this->postManager = $postManager;
-        $this->userManager = $userManager;
-        $this->categoryManager = $categoryManager;
-        $this->commentManager = $commentManager;
-        $this->categoriesHeader = $this->categoryManager->getAll();
         $loader = new \Twig\Loader\FilesystemLoader('../template');
         $twig = new \Twig\Environment($loader, [
-            'debug' => true
-            //'cache' => '/path/to/cache',
+            'debug' => true                 //'cache' => '/path/to/cache',
                 ]);
+
         $twig->addExtension(new \Twig\Extension\DebugExtension());
         $this->twig = $twig ;
+
         if (isset($_GET))
         {
             foreach ($_GET as $key => $value) 
             {
-                $this->requestGet[$key] = $value ;
+                $this->requestGet[$key] = htmlspecialchars($value) ;
             }
         }
         if (isset($_POST))
         {
             foreach ($_POST as $key => $value) 
             {
-                $this->requestPost[$key] = $value ;
+                $this->requestPost[$key] = htmlspecialchars($value) ;
             }
         }
+
+        if (isset($_SESSION))
+        {
+            $this->isConnect = true ;
+        }
+    }
+
+    protected function render(string $template, array $params = [])
+    {
+        return $this->twig->render($template, $params);
     }
     
     public function forbidden()
@@ -60,7 +62,5 @@ abstract class AbstractController
         header('HTTP/1.0 404 Not Found');
         die('Page introuvable');
     }
-
-
-
 }
+
