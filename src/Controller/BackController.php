@@ -33,7 +33,7 @@ class BackController extends AbstractController
 	    $user = $this->userManager->getOne($connectId);
 	    $admin = $this->userManager->isAdmin($connectId);
 
-		return $this->twig->render('user/home.twig', [
+		return $this->twig->render('user/home.html.twig', [
 			'user' => $user,
 			'posts' => $posts,
 			'admin' => $admin,
@@ -46,7 +46,7 @@ class BackController extends AbstractController
 	    $user = $this->userManager->getOne($this->userManager->getUserId());
 	    if (!$_POST && !$_FILES)
 	    {
-	        return $this->twig->render('user/edit.twig', [
+	        return $this->twig->render('user/edit.html.twig', [
 				'user' => $user,
 				'categories_header' => $this->categoriesHeader
 					]);
@@ -106,7 +106,7 @@ class BackController extends AbstractController
 		        	$message = 'Votre profil a bien été modifié';
 		        }
 		    }
-		    return $this->twig->render('user/edit.twig', [
+		    return $this->twig->render('user/edit.html.twig', [
 				'user' => $user,
 				'message' => $message,
 				'categories_header' => $this->categoriesHeader
@@ -136,7 +136,7 @@ class BackController extends AbstractController
 	        }
 	        $comments = $this->commentManager->getNotYetValid($postId);
 	        
-	        return $this->twig->render('user/post_edit.twig', [
+	        return $this->twig->render('user/post_edit.html.twig', [
 				'post' => $post,
 				'comments' => $comments,
 				'categories' => $categories,
@@ -191,7 +191,7 @@ class BackController extends AbstractController
 		    	}
 
 		    }
-	        return $this->twig->render('user/post_edit.twig', [
+	        return $this->twig->render('user/post_edit.html.twig', [
 	            'message' => $message,
 			 	'post' => $post,
 				'comments' => $comments,
@@ -207,7 +207,7 @@ class BackController extends AbstractController
 		//if(!$title || !$category || !$chapo || !$content)
 		if(!$_POST)
         {
-        	return $this->twig->render('user/post_edit.twig', [
+        	return $this->twig->render('user/post_edit.html.twig', [
 				'categories' => $categories,
 				'categories_header' => $this->categoriesHeader
 					]);
@@ -254,7 +254,7 @@ class BackController extends AbstractController
 
 	                $message = ' L\'article et l\'image ont été ajouté avec succès ';
 
-	                return $this->twig->render('user/post_edit.twig', [
+	                return $this->twig->render('user/post_edit.html.twig', [
 						'categories' => $categories,
 						'message' => $message,
 						'categories_header' => $this->categoriesHeader
@@ -263,7 +263,7 @@ class BackController extends AbstractController
                 else
                 {
                 	$message = ' L\'article a été rajouté avec succès ';
-			    	return $this->twig->render('user/post_edit.twig', [
+			    	return $this->twig->render('user/post_edit.html.twig', [
 						'categories' => $categories,
 						'message' => $message,
 						'categories_header' => $this->categoriesHeader
@@ -274,7 +274,7 @@ class BackController extends AbstractController
         	else
 	        {
 	        	$message = ' L\'article a été rajouté avec succès';
-		    	return $this->twig->render('user/post_edit.twig', [
+		    	return $this->twig->render('user/post_edit.html.twig', [
 					'categories' => $categories,
 					'message' => $message,
 					'categories_header' => $this->categoriesHeader

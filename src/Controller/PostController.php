@@ -30,7 +30,7 @@ class PostController extends AbstractController
             $actualPage = 1;
         }
 		$posts=$this->postManager->getAll($actualPage);
-		echo $this->twig->render('home/list.twig', [
+		echo $this->twig->render('home/list.html.twig', [
 			'posts' => $posts,
 			'max_page' => $maxPage,
 			'actual_page' => $actualPage,

@@ -38,7 +38,7 @@ class FrontController extends AbstractController
             $retour = mail('ikanhiu@outlook.fr', 'Envoi depuis page Contact', $theMessage, $entete);
         }
 
-		return $this->twig->render('home/home.twig', [
+		return $this->twig->render('home/home.html.twig', [
 			'categories_header' => $this->categoriesHeader,
 			'last5Posts' => $this->last5Posts
 				]);				
@@ -56,7 +56,7 @@ class FrontController extends AbstractController
         }
 		$posts=$this->postManager->getAll($actualPage);
 		
-		return $this->twig->render('home/list.twig', [
+		return $this->twig->render('home/list.html.twig', [
 			'posts' => $posts,
 			'max_page' => $maxPage,
 			'actual_page' => $actualPage,
@@ -82,7 +82,7 @@ class FrontController extends AbstractController
 
 		$posts=$this->postManager->getWithCategory($categoryId,$actualPage);
 		
-		return $this->twig->render('home/list.twig', [
+		return $this->twig->render('home/list.html.twig', [
 			'posts' => $posts,
 			'category' => $category,
 			'max_page' => $maxPage,
@@ -124,7 +124,7 @@ class FrontController extends AbstractController
         
 		$comments = $this->commentManager->get($postId, $actualPage);
 		
-		return $this->twig->render('home/single.twig', [
+		return $this->twig->render('home/single.html.twig', [
 			'post' => $post,
 			'author' => $author,
 			'comments' => $comments,
@@ -139,7 +139,7 @@ class FrontController extends AbstractController
 	{
 		if (!$_POST)
 		{
-			return $this->twig->render('home/sign_in.twig', [
+			return $this->twig->render('home/sign_in.html.twig', [
 				'categories_header' => $this->categoriesHeader
 					]);
 		}
@@ -155,7 +155,7 @@ class FrontController extends AbstractController
 				if(!$logged)
 				{			
 					$incorrect=true;
-					return $this->twig->render('home/sign_in.twig', [
+					return $this->twig->render('home/sign_in.html.twig', [
 					'categories_header' => $this->categoriesHeader,
 					'incorrect' => $incorrect
 						]);
@@ -172,7 +172,7 @@ class FrontController extends AbstractController
 	{
 		if (!$_POST)
 		{
-			return $this->twig->render('home/sign_in.twig', [
+			return $this->twig->render('home/sign_in.html.twig', [
 				'categories_header' => $this->categoriesHeader
 					]);
 		}
@@ -194,7 +194,7 @@ class FrontController extends AbstractController
 				]);
 				$this->userManager->add($user);
 					
-				return $this->twig->render('home/sign_in.twig', [
+				return $this->twig->render('home/sign_in.html.twig', [
 					'message' => 'enregistrement reussi',
 					'incorrect' => false,
 					'categories_header' => $this->categoriesHeader
@@ -203,7 +203,7 @@ class FrontController extends AbstractController
 
 			else
 			{
-				return $this->twig->render('home/sign_in.twig', [
+				return $this->twig->render('home/sign_in.html.twig', [
 				'categories_header' => $this->categoriesHeader,
 				'incorrect' => true
 					]);

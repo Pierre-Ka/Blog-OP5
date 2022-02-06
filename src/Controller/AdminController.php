@@ -37,7 +37,7 @@ class AdminController extends BackController
 	    }
 	    $posts = $this->postManager->getAllAdmin();
 
-	    return $this->twig->render('admin/home.twig', [
+	    return $this->twig->render('admin/home.html.twig', [
 			'posts' => $posts,
 			'categories_header' => $this->categoriesHeader
 				]);
@@ -58,7 +58,7 @@ class AdminController extends BackController
 		}
 		$users = $this->userManager->getList();
 
-		return $this->twig->render('admin/manage_user.twig', [
+		return $this->twig->render('admin/manage_user.html.twig', [
 			'users' => $users,
 			'categories_header' => $this->categoriesHeader
 				]);
@@ -74,7 +74,7 @@ class AdminController extends BackController
         if(!($_POST))
 		{
 			$categories = $this->categoryManager->getAll();
-			return $this->twig->render('admin/manage_category.twig', [
+			return $this->twig->render('admin/manage_category.html.twig', [
 			'categories' => $categories,
 			'categories_header' => $this->categoriesHeader
 				]);
@@ -111,7 +111,7 @@ class AdminController extends BackController
 				$categoriesHeader = $this->categoryManager->getAll();
 				if (!$message) { $message = 'Erreur' ;}
 
-	        	return $this->twig->render('admin/manage_category.twig', [
+	        	return $this->twig->render('admin/manage_category.html.twig', [
 		        	'message' => $message,
 					'categories' => $categories,
 					'categories_header' => $categoriesHeader
@@ -127,7 +127,7 @@ class AdminController extends BackController
 				$categories = $this->categoryManager->getAll();
 				$categoriesHeader = $this->categoryManager->getAll();
 
-			    return $this->twig->render('admin/manage_category.twig', [
+			    return $this->twig->render('admin/manage_category.html.twig', [
 		        	'message' => $message,
 					'categories' => $categories,
 					'categories_header' => $categoriesHeader
@@ -143,7 +143,7 @@ class AdminController extends BackController
 				$categories = $this->categoryManager->getAll();
 				$categoriesHeader = $this->categoryManager->getAll(); 
 
-	        	return $this->twig->render('admin/manage_category.twig', [
+	        	return $this->twig->render('admin/manage_category.html.twig', [
 		        	'message' => $message,
 					'categories' => $categories,
 					'categories_header' => $categoriesHeader

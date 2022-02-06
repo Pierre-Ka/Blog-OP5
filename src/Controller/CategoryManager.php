@@ -33,7 +33,7 @@ class CategoryController extends AbstractController
 
 		$posts=$this->postManager->getWithCategory($categoryId,$actualPage);
 		
-		echo $this->twig->render('home/list.twig', [
+		echo $this->twig->render('home/list.html.twig', [
 			'posts' => $posts,
 			'category' => $category,
 			'max_page' => $maxPage,
