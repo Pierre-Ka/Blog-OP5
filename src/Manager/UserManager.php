@@ -73,14 +73,18 @@ class UserManager extends Manager
 
 	public function getOne(int $info)
 	{ 
-		$q = $this->_db->query('SELECT * FROM user WHERE id=' .$info);
+		$q = $this->_db->prepare('SELECT * FROM user WHERE id= :id');
+		$q->bindValue('id', $info);
+		$q->execute();
 		$data=$q->fetch();
 		return new User($data);
 	}
 
 	public function getAuthorName(int $user_id)
 	{
-		$q = $this->_db->query('SELECT * FROM user WHERE id=' .$user_id);
+		$q = $this->_db->prepare('SELECT * FROM user WHERE id= :id');
+		$q->bindValue('id', $user_id);
+		$q->execute();
 		$data=$q->fetch(\PDO::FETCH_ASSOC);
 		return $data['name'];
 	}

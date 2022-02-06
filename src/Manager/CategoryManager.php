@@ -24,14 +24,18 @@ class CategoryManager extends Manager
 
 	public function getOne(int $category_id)
 	{ 
-		$q = $this->_db->query('SELECT * FROM category WHERE id=' .$category_id);
+		$q = $this->_db->prepare('SELECT * FROM category WHERE id= :id');
+		$q->bindValue('id', $category_id);
+		$q->execute();
 		$data=$q->fetch();
 		return new Category($data);
 	}
 
 	public function getCategoryName($category_id)
 	{
-		$q = $this->_db->query('SELECT * FROM category WHERE id=' .$category_id);
+		$q = $this->_db->prepare('SELECT * FROM category WHERE id= :id');
+		$q->bindValue('id', $category_id);
+		$q->execute();
 		$data=$q->fetch(\PDO::FETCH_ASSOC);
 		$name = $data['name'];
 		return $name; 
@@ -39,7 +43,9 @@ class CategoryManager extends Manager
 
 	public function getCategoryId($category_name)
 	{
-		$q = $this->_db->query('SELECT id FROM category WHERE name="' .$category_name. '" ');
+		$q = $this->_db->prepare('SELECT id FROM category WHERE name= :name');
+		$q->bindValue('name', $category_name);
+		$q->execute();
 		$data=$q->fetch(\PDO::FETCH_ASSOC);
 		return $data;
 	}
@@ -48,7 +54,9 @@ class CategoryManager extends Manager
 	{
 		if (ctype_digit($info))
 		{
-			$q = $this->_db->exec('DELETE FROM category WHERE id=' .$info);
+			$q = $this->_db->prepare('DELETE FROM category WHERE id=:id');
+			$q->bindValue('id', $info);
+			$q->execute();
 		}
 	}
 

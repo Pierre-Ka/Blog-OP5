@@ -56,7 +56,10 @@ class PostManager extends Manager
 	{
 		if (ctype_digit($id))
 		{
-			$q = $this->_db->exec('DELETE FROM post WHERE id=' .$id);
+			$q = $this->_db->prepare('DELETE FROM post WHERE id= :id');
+			$q->bindValue('id',$id);
+			$q->execute();
+
 		}
 	}
 
@@ -72,7 +75,9 @@ class PostManager extends Manager
 	public function totalPagesByCategory ($category_id)
 	{ 
 		$post_per_page = 5 ;
-		$q = $this->_db->query('SELECT id FROM post WHERE category_id= "' .$category_id. '"') ;
+		$q = $this->_db->prepare('SELECT id FROM post WHERE category_id= :category_id') ;
+		$q->bindValue('category_id',$category_id);
+		$q->execute();
 		$post_total = $q->rowCount(); 
 		$total_type_pages = ceil($post_total/$post_per_page);
 		return $total_type_pages;

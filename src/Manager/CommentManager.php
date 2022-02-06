@@ -49,7 +49,9 @@ class CommentManager extends Manager
 	public function totalPages (int $post_id)
 	{ 
 		$com_per_page = 4 ;
-		$q = $this->_db->query('SELECT id FROM comment WHERE is_valid=1 AND post_id= ' .$post_id) ;
+		$q = $this->_db->prepare('SELECT id FROM comment WHERE is_valid=1 AND post_id= :post_id') ;
+		$q->bindValue('post_id', $post_id);
+		$q->execute();
 		$com_total = $q->rowCount(); 
 		$total_com_pages = ceil($com_total/$com_per_page); 
 		return $total_com_pages;
@@ -62,7 +64,8 @@ class CommentManager extends Manager
 		$start = ( $actual_page-1)*$com_per_page; 
 		//$start est le depart du LIMIT, sa premiere valeur
 
-		$q = $this->_db->query('SELECT id,post_id, author, content, DATE_FORMAT(create_date, \'%d/%m/%Y à %Hh%i\') AS create_date FROM comment WHERE is_valid=1 AND post_id= "' .$post_id. '" ORDER BY DATE_FORMAT(create_date, \'%Y%m%d%Hh%i\') DESC LIMIT ' . $start . ',' . $com_per_page);
+		$q = $this->_db->query('SELECT id,post_id, author, content, DATE_FORMAT(create_date, \'%d/%m/%Y à %Hh%i\') AS create_date FROM comment WHERE is_valid=1 AND post_id= ' . $post_id . ' ORDER BY DATE_FORMAT(create_date, \'%Y%m%d%Hh%i\') DESC LIMIT ' . $start . ',' . $com_per_page);
+
 		while ($data=$q->fetch(\PDO::FETCH_ASSOC)) 
 		{
 			$comments[]= new Comment ($data) ; 
@@ -73,7 +76,9 @@ class CommentManager extends Manager
 	public function getNotYetValid (int $post_id)
 	{	
 		$comments=[];
-		$q = $this->_db->query('SELECT id,post_id, author, content, DATE_FORMAT(create_date, \'%d/%m/%Y à %Hh%i\') AS create_date FROM comment WHERE is_valid=0 AND post_id= "' .$post_id. '" ORDER BY DATE_FORMAT(create_date, \'%Y%m%d%Hh%i\')');
+		$q = $this->_db->prepare('SELECT id,post_id, author, content, DATE_FORMAT(create_date, \'%d/%m/%Y à %Hh%i\') AS create_date FROM comment WHERE is_valid=0 AND post_id= :post_id ORDER BY DATE_FORMAT(create_date, \'%Y%m%d%Hh%i\')');
+		$q->bindValue('post_id', $post_id);
+		$q->execute();
 		while ($data=$q->fetch(\PDO::FETCH_ASSOC)) 
 		{
 			$comments[]= new Comment ($data) ; 
@@ -84,7 +89,9 @@ class CommentManager extends Manager
 	public function countNotYetValid (int $post_id)
 	{	
 		$comments=[];
-		$q = $this->_db->query('SELECT * FROM comment WHERE is_valid=0 AND post_id= "' .$post_id . '"');
+		$q = $this->_db->prepare('SELECT * FROM comment WHERE is_valid=0 AND post_id= :post_id');
+		$q->bindValue('post_id', $post_id);
+		$q->execute();
 		$total = $q->rowCount(); 
 		return $total;
 	}
