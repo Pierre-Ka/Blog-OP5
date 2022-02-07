@@ -8,8 +8,8 @@ class User extends Entity
 	private string $name;
 	private string $picture;
 	private string $description;
-	private date $inscriptionDate;
-	private bool $isValid ;
+	private $inscription_date;
+	private bool $is_valid ;
 
 		//GETTERS//
 

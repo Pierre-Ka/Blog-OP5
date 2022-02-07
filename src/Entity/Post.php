@@ -7,16 +7,17 @@ class Post extends Entity
 {
 	private $id;
 	private string $title;
-	private int $idUser;
-	private string $type;
+	private int $user_id;
+	private int $category_id;
 	private string $chapo;
 	private string $content;
 	private string $picture;
-	private datetime $lastUpdate;
-	private datetime $createDate;
+	private $last_update;
+	private $create_date;
 
 	private string $category;
 	private string $user;
+	private int $getNotYetValidComment;
 
 	//GETTERS//
 
@@ -154,6 +155,15 @@ class Post extends Entity
 	{
 		$this->user = $user ;
 	}
+	public function getGetNotYetValidComment()
+	{
+		return $this->getNotYetValidComment;
+	}
+	public function setGetNotYetValidComment($getNotYetValidComment)
+	{
+		$this->getNotYetValidComment = $getNotYetValidComment ;
+	}
+
 
 	public function getCommentNotYetValid() 
 	{

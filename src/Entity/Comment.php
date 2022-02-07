@@ -4,11 +4,11 @@ namespace BlogApp\Entity;
 class Comment extends Entity
 {
 	private $id;
-	private int $idPost;
+	private $post_id;
 	private string $author;
 	private string $content;
-	private bool $isValid;
-	private datetime $createDate;
+	private bool $is_valid;
+	private $create_date;
 
 	//GETTERS//
 

@@ -1,69 +1,127 @@
-En + = mail() failed to connect to mailserver at 'localhost' port 25. verify your SMTP and 'smtp_port' settings in php.ini or use ini_set() in HomeCOntroller on line 39.
-UPDATE : en updatant SMTP et smtp_port pour outlook, l'erreur change est maintenant dit : SMTP server response : 451 5.7.3 STARTTLS is required to send mail
-
-En + = correction de la fonction GetValidComment qui est très moche
-En + = Note SymfonyInsight : 22/100 % ??
-
-Important rdv : comment demarrer un projet avec symfony 
-
-Important : Vous vous assurerez qu’il n’y a pas de failles de sécurité (XSS, CSRF, SQL Injection, session hijacking, upload possible de script PHP…).
-
-NEXT - SOUTENANCE
-
-/*
-OPTION = aléatoirement le chargement d'image nouvellement ajoutée se s'éffectue pas à cause de la mise en cache de l'image ( need to force refresh )
-OPTION = aléatoirement le telechargement d'image via resizeimage n'a pas le rendu escompté
-OPTION = reecriture des classes controller de manière plus coherente ( postcontroller, categorycontroller, usercontroller, commentcontroller) 
-*/
-
-Le domaine home est de visibilité public : 
-Le domaine user est l'espace membre : 
-Le domaine admin reservé aux admins.
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7d1ab7ae8a544209b8d85f7cf4aadb77)](https://app.codacy.com/manual/Marc-Alban/Creez-votre-premier-blog-en-PHP?utm_source=github.com&utm_medium=referral&utm_content=Marc-Alban/Creez-votre-premier-blog-en-PHP&utm_campaign=Badge_Grade_Settings)
 
 
-									View : home.sign_in
-								Homecontroller->signin();
-								Homecontroller->signup();
-									--				  --
-ARRIVEE SUR LE SITE :			--						 --
-	View : home.home		--								--
-Homecontroller->home();											--
-			--				--										--
-					--			--										--
-			--						--	View : home.single					--			
-						 --    		Homecontroller->single();					--
-			--																		--
-							--															--
-			--						View : home.post 								--
-								Homecontroller->post();							--
-	View : home.category													--
-Homecontroller->category();												--
-																View : user.home
-															Usercontroller->home();
-														--
-													--		--		View : user.post.add		
-												--				Usercontroller->createpost();	
-										--	--		--
-									--					--		View : user.post.edit
--								--					--		Usercontroller->editpost();										--					--			Usercontroller->managecom();		
-						--							--	
-					--										View : user.edit														Usercontroller->edituser();
-				--									
-			--									    
-																			
-		View : admin.home
-	Admincontroller->home();
-	Admincontroller->deletepost();
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5131b54e55e84475bbcac03600b71a55)](https://www.codacy.com/app/HDoumali/Project5_My_blog?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=HDoumali/Project5_My_blog&amp;utm_campaign=Badge_Grade)
 
-				--						
-					--
-						--					View : admin.manage_category
-							--				Admincontroller->createcategory();
-								--		Admincontroller->editcategory();			
-							--		Admincontroller->deletecategory();
-						--				
-							--
-								View : admin.user.manage
-								Admincontroller->validuser();
-								Admincontroller->deleteuser();
+
+########################## Create a PHP Blog  #########################################
+**Openclassrooms project 5 - PHP/Symfony application developer path**
+
+# Third party libraries & General Settings
+
+In order to install third party libraries, run `composer install`.
+
+Packages used in this project :
+- __Twig__ as template engine
+- __Faker__ to generate fake data
+- __PhpMailer__ to send emails
+
+To run the project you will need to have : 
+- apache
+- php 8
+- mysql
+- phpMyAdmin
+- composer
+
+To see the blog code on github : https://github.com/Pierre-Ka/BlogPHP_Project5
+
+
+## Installation
+
+1. Clone this repository
+1. Use "composer update" in the root repository
+1. Create a database on your SGDB (MySQL) with the name saved in .env.ini
+1. Import the database file project5_blog.sql
+1. Open the file .env and insert the following parameters : 
+		- dbname : 'mysql: host=localhost;dbname=project5_blog;charset=utf8'(dbname= project5_blog by default, you can choose name for the database)
+		- login : Enter your username for access to the mysql databse ("root" by default)
+		- password : Enter your password for access to the mysql database ("root" or "" by default)
+"Composer" is used as an autoload.
+
+You can now connect to the blog at the following URL and enjoy its features : 
+http://localhost/PHP_Blog
+
+
+### Theme 
+
+To realize the visual part of the blog, I decided to use the theme "Kompleet" available on the website : 
+https://templatemag.com/kompleet-free-multipurpose-bootstrap-template/
+
+About "Kompleet", a clean blog theme
+
+Kompleet is by far the most advanced and flexible Bootstrap template ever released. It comes with many awesome demo variations and all these benefits are free of charge. Copyright 2019. Designed by DISTINCTIVE THEMES
+
+The directory assets/ contains all the code from the Bootstrap theme, for the reason that this directory contains only external code, it have been excluded from the SymfonyInsight code review.
+
+
+#### Sending emails
+
+Emails are sent with `php mailer` _package_. To send emails, create `mail.yaml` configuration file and change parameters in the Mailer\MyMailer file.
+
+
+##### Copyright and License
+
+Designed and built with all the love in the world by the Bootstrap team with the help of our contributors.
+Code licensed MIT, docs CC BY 3.0.
+Currently v5.1.3.
+
+###### Organisation
+
+The 'home' field is public  : 
+The 'user' field is user's reserved : 
+The 'admin' field is admin's reserved : 
+
+
+	LANDING PAGE :									 
+	View : home.home										
+frontcontroller->home();  // Send Mail
+	--
+-----------------------------------------View : home.post 								
+	--									frontcontroller->post();	
+	--
+	--
+-----------------------------------------View : home.single							
+	--					     			frontcontroller->single(); // Write Comment
+	--
+	--
+-----------------------------------------View : home.category				
+	--									frontcontroller->category();	
+	--
+	--
+----------- View : home.sign_in
+		frontcontroller->signin();	// Connect
+	    frontcontroller->signup();  // Register
+	    		--
+	    		--
+	 -------------   		
+	 --
+	 --
+ View : user.home	
+backcontroller->home();   // Delete Own Post
+	--
+	--
+	--
+-----------------------------------------View : user.post.add
+	--									backcontroller->addpost();  // Add New Post
+	--
+	--
+-----------------------------------------View : user.post.edit
+    --                                  backcontroller->editpost();	 
+    --								// Edit Own Post, Valid Comment, Delete Comments
+    --
+-----------------------------------------View : user.edit									--									backcontroller->edituser();   // Edit Own Profil
+	--						
+	--
+View : admin.home
+admincontroller->home();    // Delete Post
+	--
+	--
+	--
+-----------------------------------------View : admin.manage_category
+	--									admincontroller->manageCategory();
+	--							// Create, Edit and Delete Categories
+	--
+-----------------------------------------View : admin.manage_user
+										admincontroller->manageUser();
+								// Valid or Delete Users
 

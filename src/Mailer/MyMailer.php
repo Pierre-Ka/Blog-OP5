@@ -8,7 +8,7 @@ use PHPMailer\PHPMailer\Exception;
 class MyMailer 
 { 
     protected $mail; 
-    function __construct()
+    public function __construct()
     {
         $this->mail = new PHPMailer(true);
     }
@@ -52,4 +52,6 @@ class MyMailer
         return $message ;
     }
 }
+
+
   

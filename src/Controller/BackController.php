@@ -39,6 +39,7 @@ class BackController extends AbstractController
 	    }
 	    $connectId = $this->userManager->getUserId();
 	    $posts = $this->postManager->getWithUserId($connectId);
+
 	    $user = $this->userManager->getOne($connectId);
 	    $admin = $this->userManager->isAdmin($connectId);
 
