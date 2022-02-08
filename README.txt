@@ -1,7 +1,5 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7d1ab7ae8a544209b8d85f7cf4aadb77)](https://app.codacy.com/manual/Marc-Alban/Creez-votre-premier-blog-en-PHP?utm_source=github.com&utm_medium=referral&utm_content=Marc-Alban/Creez-votre-premier-blog-en-PHP&utm_campaign=Badge_Grade_Settings)
+https://insight.symfony.com/projects/27885bab-72de-4bdc-83e5-c881fa3421d5/analyses/22
 
-
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5131b54e55e84475bbcac03600b71a55)](https://www.codacy.com/app/HDoumali/Project5_My_blog?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=HDoumali/Project5_My_blog&amp;utm_campaign=Badge_Grade)
 
 
 ########################## Create a PHP Blog  #########################################

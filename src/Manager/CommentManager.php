@@ -64,7 +64,11 @@ class CommentManager extends Manager
 		$start = ( $actual_page-1)*$com_per_page; 
 		//$start est le depart du LIMIT, sa premiere valeur
 
-		$q = $this->_db->query('SELECT id,post_id, author, content, DATE_FORMAT(create_date, \'%d/%m/%Y à %Hh%i\') AS create_date FROM comment WHERE is_valid=1 AND post_id= ' . $post_id . ' ORDER BY DATE_FORMAT(create_date, \'%Y%m%d%Hh%i\') DESC LIMIT ' . $start . ',' . $com_per_page);
+		$q = $this->_db->prepare('SELECT id,post_id, author, content, DATE_FORMAT(create_date, \'%d/%m/%Y à %Hh%i\') AS create_date FROM comment WHERE is_valid=1 AND post_id= :post_id ORDER BY DATE_FORMAT(create_date, \'%Y%m%d%Hh%i\') DESC LIMIT :start, :com_per_page');
+		$q->bindValue('post_id', $post_id);
+		$q->bindValue('start', (int) $start, \PDO::PARAM_INT);
+		$q->bindValue('com_per_page', (int) $com_per_page, \PDO::PARAM_INT);
+		$q->execute();
 
 		while ($data=$q->fetch(\PDO::FETCH_ASSOC)) 
 		{

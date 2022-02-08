@@ -62,5 +62,34 @@ abstract class AbstractController
         header('HTTP/1.0 404 Not Found');
         die('Page introuvable');
     }
+
+
+    protected function getDataFromPost()
+    {
+        $data = [];
+        foreach ($_POST as $value) {
+            $data[] = htmlspecialchars($value);
+        }
+        return $data;
+    }
+
+    protected function isMethodPost()
+    {
+        return $_SERVER['REQUEST_METHOD'] === 'POST';
+    }
+
+    protected function getDataFromGet()
+    {
+        $data = [];
+        foreach ($_GET as $value) {
+            $data[] = htmlspecialchars($value);
+        }
+        return $data;
+    }
+
+    protected function isMethodGet()
+    {
+        return $_SERVER['REQUEST_METHOD'] === 'GET';
+    }
 }
 

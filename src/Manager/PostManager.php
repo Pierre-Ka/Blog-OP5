@@ -35,7 +35,7 @@ class PostManager extends Manager
 	{ 
 		if (ctype_digit($id))
 		{
-			$q = $this->_db->query('
+			$q = $this->_db->prepare('
 			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, 
 				DATE_FORMAT(p.create_date, \'%d/%m/%Y\') AS create_date,  
 				DATE_FORMAT(p.last_update, \'%d/%m/%Y\') AS last_update,  
@@ -46,7 +46,9 @@ class PostManager extends Manager
 				ON p.user_id = u.id
 			INNER JOIN category AS c
 				ON p.category_id = c.id
-			WHERE p.id=' .$id);
+			WHERE p.id= :id');
+			$q->bindValue('id', $id);
+			$q->execute();
 			$data=$q->fetch();
 			return new Post($data);
 		}
@@ -88,7 +90,7 @@ class PostManager extends Manager
 		$posts=[];
 		$post_per_page = 5 ;
 		$start = ( $actual_page-1)*$post_per_page; 
-		$q = $this->_db->query('
+		$q = $this->_db->prepare('
 			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, 
 				DATE_FORMAT(p.create_date, \'%d/%m/%Y\') AS create_date,  
 				DATE_FORMAT(p.last_update, \'%d/%m/%Y\') AS last_update,  
@@ -100,8 +102,12 @@ class PostManager extends Manager
 			INNER JOIN category AS c
 				ON p.category_id = c.id
 			ORDER BY DATE_FORMAT(create_date, \'%Y%m%d\') DESC 
-			LIMIT ' . $start . ',' . $post_per_page
+			LIMIT :start, :post_per_page'
 			);
+		$q->bindValue('start', (int) $start, \PDO::PARAM_INT);
+		$q->bindValue('post_per_page', (int) $post_per_page, \PDO::PARAM_INT);
+		$q->execute();
+
 		while($data=$q->fetch(\PDO::FETCH_ASSOC))		
 		{
 			$posts[]= new Post ($data);
@@ -109,6 +115,8 @@ class PostManager extends Manager
 
 		return $posts;
 	}
+
+
 
 	public function getAllAdmin() 
 	{
@@ -132,13 +140,12 @@ class PostManager extends Manager
 		return $posts;
 	}
 
-
 	public function getWithCategory ($category_id, $actual_page)
 	{
 		$posts=[];
 		$post_per_page = 5 ;
 		$start = ( $actual_page-1)*$post_per_page; 		
-		$q = $this->_db->query('
+		$q = $this->_db->prepare('
 			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, 
 				DATE_FORMAT(p.create_date, \'%d/%m/%Y\') AS create_date,  
 				DATE_FORMAT(p.last_update, \'%d/%m/%Y\') AS last_update,  
@@ -149,9 +156,16 @@ class PostManager extends Manager
 				ON p.user_id = u.id
 			INNER JOIN category AS c
 				ON p.category_id = c.id
-			WHERE category_id= "' .$category_id. '" 
+			WHERE category_id= :category_id
 			ORDER BY DATE_FORMAT(create_date, \'%Y%m%d\') DESC 
-			LIMIT ' . $start . ',' . $post_per_page);
+			LIMIT :start, :post_per_page'
+			);
+
+		$q->bindValue('category_id', $category_id);
+		$q->bindValue('start', (int) $start, \PDO::PARAM_INT);
+		$q->bindValue('post_per_page', (int) $post_per_page, \PDO::PARAM_INT);
+		$q->execute();
+
 		while($data=$q->fetch(\PDO::FETCH_ASSOC))
 		{
 			$posts[]= new Post ($data) ;
@@ -162,7 +176,7 @@ class PostManager extends Manager
 	public function getWithUserId ($connect_id)
 	{
 		$posts=[];		
-		$q = $this->_db->query('
+		$q = $this->_db->prepare('
 			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, 
 				DATE_FORMAT(p.create_date, \'%d/%m/%Y\') AS create_date,  
 				DATE_FORMAT(p.last_update, \'%d/%m/%Y\') AS last_update,
@@ -171,18 +185,21 @@ class PostManager extends Manager
 			INNER JOIN category AS c
 				ON p.category_id = c.id 
 
-			WHERE p.user_id= "' .$connect_id. '" 
+			WHERE p.user_id= :user_id
 			ORDER BY DATE_FORMAT(p.create_date, \'%Y%m%d\') DESC');
+		$q->bindValue('user_id', $connect_id);
+		$q->execute();
 		while($data=$q->fetch(\PDO::FETCH_ASSOC))
 		{
 			$posts[]= new Post ($data) ;
 		}
 		return $posts;
 	}
-		public function getWithUserId2 ($connect_id)
+
+	public function getWithUserId2 ($connect_id)
 	{
 		$posts=[];		
-		$q = $this->_db->query('
+		$q = $this->_db->prepare('
 			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, COUNT(com.is_valid=0) AS getNotYetValidComment,
 				DATE_FORMAT(p.create_date, \'%d/%m/%Y\') AS create_date,  
 				DATE_FORMAT(p.last_update, \'%d/%m/%Y\') AS last_update,
@@ -192,9 +209,11 @@ class PostManager extends Manager
 				ON p.category_id = c.id 
 			LEFT JOIN comment AS com
 				ON p.id = com.post_id 
-			WHERE p.user_id= "' .$connect_id. '" 
+			WHERE p.user_id= :user_id
 			GROUP BY p.id
 			ORDER BY DATE_FORMAT(p.create_date, \'%Y%m%d\') DESC');
+		$q->bindValue('user_id', $connect_id);
+		$q->execute();
 		while($data=$q->fetch(\PDO::FETCH_ASSOC))
 		{
 			$posts[]= new Post ($data) ;
