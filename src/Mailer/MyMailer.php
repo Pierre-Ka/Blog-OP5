@@ -52,6 +52,4 @@ class MyMailer
         return $message ;
     }
 }
-
-
   

@@ -2,125 +2,91 @@
 namespace BlogApp\Controller;
 
 use BlogApp\Entity\Post;
+use BlogApp\Entity\Comment;
 
-use BlogApp\Manager\CommentManager;
 use BlogApp\Manager\PostManager;
-use BlogApp\Manager\UserManager;
 use BlogApp\Manager\CategoryManager;
+use BlogApp\Manager\UserManager;
+use BlogApp\Manager\CommentManager;
 
-class BackController extends AbstractController
+
+class PostController extends AbstractController
 {
 	protected PostManager $postManager;
     protected UserManager $userManager;
     protected CategoryManager $categoryManager;
     protected CommentManager $commentManager;
-
-    public function __construct(PostManager $postManager, UserManager $userManager, CategoryManager $categoryManager, CommentManager $commentManager)
-    {
-        parent::__construct();
-        $this->postManager = $postManager;
+	
+	function __construct(PostManager $postManager, UserManager $userManager, CategoryManager $categoryManager, CommentManager $commentManager)
+	{
+		parent::__construct();
+		$this->postManager = $postManager;
         $this->userManager = $userManager;
         $this->categoryManager = $categoryManager;
         $this->commentManager = $commentManager;
-        if(!$this->userManager->logged())
-		{
-			$this->forbidden();
-		}
-    }
-
-	public function userHome()
-	{
-		$idPostDelete = $this->requestPost['id_delete'] ?? null;
-
-	    if($idPostDelete)
-	    {
-	        $this->postManager->delete($idPostDelete);
-	        $this->commentManager->deletePerPost($idPostDelete);
-	    }
-	    $connectId = $this->userManager->getUserId();
-	    $posts = $this->postManager->getWithUserId($connectId);
-
-	    $user = $this->userManager->getOne($connectId);
-	    $admin = $this->userManager->isAdmin($connectId);
-
-		return $this->render('user/home.html.twig', [
-			'user' => $user,
-			'posts' => $posts,
-			'admin' => $admin,
-			'categories_header' => $this->categoryManager->getAll()
-				]);
 	}
 
-	public function editUser()
+	public function list()
 	{
-	    $user = $this->userManager->getOne($this->userManager->getUserId());
-	    if (!$_POST && !$_FILES)
-	    {
-	        return $this->render('user/edit.html.twig', [
-				'user' => $user,
-				'categories_header' => $this->categoryManager->getAll()
-					]);
-	    }
+		$page = $this->requestGet['page'] ?? null ;
 
-	    else
-	    {
-		    if ($_FILES)
-		    {
-				if (isset($_FILES['pictureUpdate']) && ($_FILES['pictureUpdate']['error'] == 0) && ($_FILES['pictureUpdate']['size'] <= 5000000)) 
-				{
-		            $infosfichier = pathinfo($_FILES['pictureUpdate']['name']);
-		            $extensionUpload = $infosfichier['extension'];
-		            $extensionsAutorisees = array('jpg', 'jpeg', 'gif', 'png');
-		            if (in_array($extensionUpload, $extensionsAutorisees))
-		            {
-		            	$pictureName = 'USER_IMG_' . $user->getId() .'.'.$extensionUpload ;
-		            	$pathPicture = '../var/media/user/'. $pictureName ;
-		            	// resizeImageWithCrop ou resizeImage ??
-		            	$picture = $user->resizeImageWithCrop($_FILES['pictureUpdate']['tmp_name'], $pathPicture, 100, 100);                
-		    			$user->setPicture($pictureName);
-		                $this->userManager->edit($user);
-		                $message = 'Votre image de profil a bien été modifié';
-		            }   
-			    }
-			}
-			if ($_POST) 
-			{
-				$nameUpdate = $this->requestPost['nameUpdate'] ?? null;
-		        $passwordUpdate = $this->requestPost['passwordUpdate'] ?? null;
-		        $passwordConfirm = $this->requestPost['passwordConfirm'] ?? null;
-		        $descriptionUpdate = $this->requestPost['descriptionUpdate'] ?? null;
-
-				if ($nameUpdate)
-				{
-					$user->setName(htmlspecialchars($nameUpdate));
-				}
-				if ($passwordUpdate && $passwordConfirm) 
-				{
-					if ($passwordUpdate !== $passwordConfirm) 
-	                {
-						$message = 'Les mots de passe ne correspondent pas';
-	                }
-	                else
-	                {
-	                	$user->setPassword(sha1(htmlspecialchars($passwordConfirm)));
-	                }
-				}
-		        if($descriptionUpdate)
-				{  
-		            $user->setDescription(htmlspecialchars($descriptionUpdate));
-		        }
-		        $this->userManager->edit($user);
-		        if(!isset($message))
-		        {
-		        	$message = 'Votre profil a bien été modifié';
-		        }
-		    }
-		    return $this->render('user/edit.html.twig', [
-				'user' => $user,
-				'message' => $message,
-				'categories_header' => $this->categoryManager->getAll()
+		$maxPage=$this->postManager->totalPages();
+		$actualPage = $page ?? 1;
+        if (0 > $actualPage || $maxPage < $actualPage) 
+        {
+            $actualPage = 1;
+        }
+		$posts=$this->postManager->getAll($actualPage);
+		return  $this->render('home/list.html.twig', [
+				'posts' => $posts,
+				'max_page' => $maxPage,
+				'actual_page' => $actualPage,
+				'categories_header' => $this->categoryManager->getAll(),
+				'last5Posts' => $this->postManager->getAll(1)
 					]);
-	    }
+	}
+
+	public function single()
+	{
+		$authorCom = $this->requestPost['author_com'] ?? null;
+        $contentCom = $this->requestPost['com'] ?? null;
+        $page = $this->requestGet['page'] ?? null ;
+		$postId= $this->requestGet['id'];
+
+		if ($authorCom && $contentCom)
+		{
+			$comment= new Comment ([
+				'post_id'=> $postId,
+				'author'=> htmlspecialchars($authorCom ),
+				'content'=>htmlspecialchars($contentCom),
+					]);
+			$this->commentManager->add($comment);
+		}
+
+		$post=$this->postManager->getOne($postId);
+		$authorId = $post->getUser_id();
+		$author = $this->userManager->getOne($authorId);
+
+		$maxPage=$this->commentManager->totalPages($postId);
+
+		$actualPage = $page ?? 1;
+
+        if (0 > $actualPage || $maxPage < $actualPage) 
+        {
+            $actualPage = 1;
+        }
+        
+		$comments = $this->commentManager->get($postId, $actualPage);
+		
+		return $this->render('home/single.html.twig', [
+			'post' => $post,
+			'author' => $author,
+			'comments' => $comments,
+			'max_page' => $maxPage,
+			'actual_page' => $actualPage,
+			'categories_header' => $this->categoryManager->getAll(),
+			'last5Posts' => $this->postManager->getAll(1)
+		]);
 	}
 
 /*
@@ -138,6 +104,11 @@ class BackController extends AbstractController
 
 	public function editPost()
 	{
+		if(!$this->userManager->logged())
+		{
+			$this->forbidden();
+		}
+
         $postId = $this->requestGet['id'] ;
         $idPostValid = $this->requestGet['valid'] ?? null;
         $idPostDelete = $this->requestGet['delete'] ?? null;
@@ -162,7 +133,7 @@ class BackController extends AbstractController
 				'post' => $post,
 				'comments' => $comments,
 				'categories' => $categories,
-				'categories_header' => $this->categoryManager->getAll()
+				'categories_header' =>$this->categoryManager->getAll()
 					]);
 	        
 	    }
@@ -226,6 +197,10 @@ class BackController extends AbstractController
 
 	public function addPost()
 	{
+		if(!$this->userManager->logged())
+		{
+			$this->forbidden();
+		}
 		//if(!$title || !$category || !$chapo || !$content)
 		if(!$_POST)
         {
@@ -304,5 +279,5 @@ class BackController extends AbstractController
 			
 	        }
 		}
-	}
+	}	
 }
