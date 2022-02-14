@@ -7,6 +7,8 @@ use BlogApp\Controller\UserController;
 use BlogApp\Controller\Admin\CategoryAdminController;
 use BlogApp\Controller\Admin\HomeAdminController;
 use BlogApp\Controller\Admin\UserAdminController;
+use BlogApp\Controller\Admin\PostAdminController;
+
 
 require dirname(__DIR__).'/vendor/autoload.php';
 
@@ -35,11 +37,16 @@ else
 if (!isset($_SESSION['auth']))
 { 
 	switch ($page) 
-	{ 
-		case $page==='home' : 
-		$homeController = new HomeController($postManager, $categoryManager,) ;
+	{
+        case $page==='home' :
+		$homeController = new HomeController($postManager, $categoryManager) ;
 		$render = $homeController->home();
 		break ;
+
+        case $page==='mail' :
+            $homeController = new HomeController($postManager, $categoryManager) ;
+            $render = $homeController->mail();
+            break ;
 
 		case $page==='post' : 
 		$postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
@@ -48,7 +55,7 @@ if (!isset($_SESSION['auth']))
 
 		case $page==='single' : 
 		$postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
-		$render = $postController->single();
+		$render = $postController->show();
 		break ;
 
 		case $page==='category' : 
@@ -63,7 +70,7 @@ if (!isset($_SESSION['auth']))
 
 		case $page==='sign_up' : 
 		$userController = new UserController($postManager, $userManager, $categoryManager, $commentManager) ;
-		$render = $userController->add();
+		$render = $userController->create();
 		break ;
 
 		default : header('Location:index.php?p=home'); break ;
@@ -77,41 +84,71 @@ else
 		case $page==='user.home' : 
 
 		$userController = new UserController($postManager, $userManager, $categoryManager, $commentManager) ;
-		$render = $userController->userHome();
+		$render = $userController->home();
 		break ;
 
 		case $page==='user.edit' :
 
 				$userController = new UserController($postManager, $userManager, $categoryManager, $commentManager) ;
-		$render = $userController->editUser();
+		$render = $userController->edit();
 		break ;
 
 		case $page==='user.post.edit' : 
 		$postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
-		$render = $postController->editPost();
+		$render = $postController->edit();
 		break ;
 
 		case $page==='user.post.add' : 
 				$postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
-		$render = $postController->addPost();
+		$render = $postController->create();
 		break ;
 
 		case $page==='admin.home' : 
 		$adminHomeController = new HomeAdminController($postManager, $userManager, $categoryManager, $commentManager) ;
-		$render = $adminHomeController->adminHome();
+		$render = $adminHomeController->home();
 		break ;
+
+        case $page==='admin.delete_post' :
+        $postAdminController = new PostAdminController($postManager, $userManager, $categoryManager, $commentManager) ;
+        $render = $postAdminController->delete();
+        break ;
 
 		case $page==='admin.manage_user' : 
 		$adminUserController = new UserAdminController( $userManager, $categoryManager) ;
-		$render = $adminUserController->manageUsers();
+		$render = $adminUserController->list();
 		break ;
+
+        case $page==='admin.valid_user' :
+        $adminUserController = new UserAdminController( $userManager, $categoryManager) ;
+        $render = $adminUserController->valid();
+        break ;
+
+        case $page==='admin.delete_user' :
+        $adminUserController = new UserAdminController( $userManager, $categoryManager) ;
+        $render = $adminUserController->delete();
+        break ;
 
 		case $page==='admin.manage_category' : 
 		$adminCategoryController = new CategoryAdminController($userManager, $categoryManager) ;
-		$render = $adminCategoryController->manageCategories();
+		$render = $adminCategoryController->list();
 		break ;
 
-		default : header('Location:index.php?disconnect');  break ;
+        case $page==='admin.edit_category' :
+        $adminCategoryController = new CategoryAdminController($userManager, $categoryManager) ;
+        $render = $adminCategoryController->edit();
+        break ;
+
+        case $page==='admin.delete_category' :
+        $adminCategoryController = new CategoryAdminController($userManager, $categoryManager) ;
+        $render = $adminCategoryController->delete();
+        break ;
+
+        case $page==='admin.create_category' :
+        $adminCategoryController = new CategoryAdminController($userManager, $categoryManager) ;
+        $render = $adminCategoryController->create();
+        break ;
+
+        default : header('Location:index.php?disconnect');  break ;
 	}
 	echo $render ;
 }

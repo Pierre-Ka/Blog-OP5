@@ -44,13 +44,13 @@
 				<td>	{{categorie.id}} 	</td>
 				<td>	{{categorie.name}} 	</td>
 				<td>
-					<form method="post" action="admin.manage_category&id={{categorie.id}} ">
+					<form method="post" action="admin.edit_category&id={{categorie.id}} ">
 						<input type="text" name="categoryEdit"/>
 						<input class="btn btn-info" type="submit"/>
 					</form>
 				</td>
 				<td>
-					<form method="post" action="admin.manage_category&id={{categorie.id}} ">
+					<form method="post" action="admin.delete_category&id={{categorie.id}} ">
 						<input type="hidden" name="admin_category_delete" value="{{categorie.id}} "/>
 						<button type="submit" class="btn btn-danger">Supprimer la categorie</button>
 					</form> 
@@ -66,7 +66,7 @@
 	<h3> Créer une nouvelle categorie </h3>
 	<br/><br/>	
 
-		<form method="post" action="admin.manage_category" enctype="multipart/form-data">
+		<form method="post" action="admin.create_category" enctype="multipart/form-data">
 			<label for="categoryCreate">Nom de la nouvelle catégorie :<br/>
 			<input type="text" name="categoryCreate" id="categoryCreate" required /></label>
 

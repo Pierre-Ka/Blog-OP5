@@ -42,12 +42,12 @@
 				<td>
 					{% if user.is_valid == 0 %}
 						<button type="submit" class="btn btn-light">
-							<a href="admin.manage_user&valid={{ user.id }}">Valider</a>
+							<a href="admin.valid_user&id={{ user.id }}">Valider</a>
 						</button>
 					{% endif %}
 				</td>
 				<td>
-					<form method="post">
+					<form method="post" action="admin.delete_user">
 						<input type="hidden" name="admin_user_delete" value="{{ user.id }}"/>
 						<button type="submit" class="btn btn-danger">Supprimer</button>
 					</form>

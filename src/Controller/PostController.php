@@ -9,6 +9,7 @@ use BlogApp\Manager\CategoryManager;
 use BlogApp\Manager\UserManager;
 use BlogApp\Manager\CommentManager;
 
+// CREATION DU CRUD : create read update delete
 
 class PostController extends AbstractController
 {
@@ -46,7 +47,7 @@ class PostController extends AbstractController
 					]);
 	}
 
-	public function single()
+	public function show()
 	{
 		$authorCom = $this->requestPost['author_com'] ?? null;
         $contentCom = $this->requestPost['com'] ?? null;
@@ -88,21 +89,31 @@ class PostController extends AbstractController
 			'last5Posts' => $this->postManager->getAll(1)
 		]);
 	}
-
+// CREATION D'UN CONTROLLER COMMENTCONTROLLER AVEC LES FONCTIONS SUIVANTES
 /*
     public function validateComment()
     {
+        // A TESTER
         $commentId = $this->requestGet['valid'] ?? null;
-
         $comment = $this->commentManager->getEntity($commentId);
 
         $postId = $comment->getPost()->getId();
 
-        $commentManaggert->fdelte
+        $commentManager->delete ()
+    }
+    public function deleteComment()
+    {
+        // A TESTER
+        $commentId = $this->requestGet['valid'] ?? null;
+        $comment = $this->commentManager->getEntity($commentId);
+
+        $postId = $comment->getPost()->getId();
+
+        $commentManager->delete ()
     }
 */
 
-	public function editPost()
+	public function edit()
 	{
 		if(!$this->userManager->logged())
 		{
@@ -195,7 +206,7 @@ class PostController extends AbstractController
 		}
 	}
 
-	public function addPost()
+	public function create()
 	{
 		if(!$this->userManager->logged())
 		{

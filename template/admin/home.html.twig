@@ -57,7 +57,7 @@
 				<td>{{ post.category }}</td>
 				<td>{{ post.last_update == null ? post.create_date : post.last_update }}</td>
 				<td>
-					<form method="post">
+					<form method="post" action="admin.delete_post">
 						<input type="hidden" name="admin_post_delete" value="{{ post.id }}"/>
 						<button type="submit" class="btn btn-danger">Supprimer</button>
 					</form>

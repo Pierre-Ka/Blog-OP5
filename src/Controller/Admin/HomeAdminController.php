@@ -30,20 +30,13 @@ class HomeAdminController extends AbstractController
 		}
 	}
 
-	public function adminHome()
+	public function home()
 	{
 		$faker = $this->requestGet['faker'] ?? null;
-		$adminPostDelete = $this->requestPost['admin_post_delete'] ?? null;
-
 		if (isset($faker))
 		{
 			header('Location: ../template/admin/faker.php');
 		}
-		if($adminPostDelete)
-	    {
-	        $this->postManager->delete($adminPostDelete);
-	        $this->commentManager->deletePerPost($adminPostDelete);
-	    }
 	    $posts = $this->postManager->getAllAdmin();
 
 	    return $this->render('admin/home.html.twig', [

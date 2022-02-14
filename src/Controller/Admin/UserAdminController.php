@@ -22,22 +22,37 @@ class UserAdminController extends AbstractController
 		}
 	}
 
-
-	public function manageUsers()
-	{
-		$adminUserDelete = $this->requestPost['admin_user_delete'] ?? null;
-		$idUserValid = $this->requestGet['valid'] ?? null;
-
+    public function valid()
+    {
+        $idUserValid = $this->requestGet['id'] ?? null;
 		if(!empty($idUserValid))
 		{
 			$this->userManager->valid($idUserValid);
 		}
-		if($adminUserDelete)
+		$users = $this->userManager->getList();
+		return $this->render('admin/manage_user.html.twig', [
+			'users' => $users,
+			'categories_header' =>  $this->categoryManager->getAll()
+				]);
+	}
+
+    public function delete()
+    {
+        $adminUserDelete = $this->requestPost['admin_user_delete'] ?? null;
+        if($adminUserDelete)
 		{
 			$this->userManager->delete($adminUserDelete);
 		}
 		$users = $this->userManager->getList();
+		return $this->render('admin/manage_user.html.twig', [
+			'users' => $users,
+			'categories_header' =>  $this->categoryManager->getAll()
+				]);
+	}
 
+	public function list()
+	{
+		$users = $this->userManager->getList();
 		return $this->render('admin/manage_user.html.twig', [
 			'users' => $users,
 			'categories_header' =>  $this->categoryManager->getAll()

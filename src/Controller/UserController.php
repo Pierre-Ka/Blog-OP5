@@ -7,7 +7,7 @@ use BlogApp\Manager\CategoryManager;
 use BlogApp\Manager\UserManager;
 use BlogApp\Manager\CommentManager;
 
-
+// CREATION DU CRUD : create read update delete
 class UserController extends AbstractController
 {
 	protected PostManager $postManager;
@@ -24,7 +24,7 @@ class UserController extends AbstractController
         $this->commentManager = $commentManager;
 	}
 
-	public function addUser()
+	public function create()
 	{
 		if (!$_POST)
 		{
@@ -66,8 +66,22 @@ class UserController extends AbstractController
 			}
 		}
 	}
+    // CREATION DE LA FONCTION delete ET REPOSITIONNEMENT DANS LE POSTCONTROLLER
+   /* public function delete(){
 
-	public function userHome()
+        if(!$this->userManager->logged())
+        {
+            $this->forbidden();
+        }
+        $idPostDelete = $this->requestPost['id_delete'] ?? null;
+
+        if($idPostDelete)
+        {
+            $this->postManager->delete($idPostDelete);
+            $this->commentManager->deletePerPost($idPostDelete);
+        }
+    }*/
+	public function home()
 	{
 		if(!$this->userManager->logged())
 		{
@@ -93,7 +107,7 @@ class UserController extends AbstractController
 				]);
 	}
 
-	public function editUser()
+	public function edit()
 	{
 		if(!$this->userManager->logged())
 		{
