@@ -70,7 +70,7 @@
 	{% endif %}
 
 	<h3>Ecrire un commentaire</h3>
-	<form method="post" action="single&id={{ post.id }}">
+	<form method="post" action="comment_create&id={{ post.id }}">
 		<p><label for="author_com">Votre pseudo : </label> <input type="text" name="author_com" id="author_com"/></p>
 		<p><textarea name="com" value="votre commentaire ici" rows="5" cols="50" id="com"></textarea></p>
 		<input type="submit" value="Envoyer"/>

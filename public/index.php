@@ -59,6 +59,11 @@ if (!isset($_SESSION['auth']))
 		$render = $postController->show();
 		break ;
 
+        case $page==='comment_create' :
+        $commentController = new CommentController($postManager, $userManager, $categoryManager, $commentManager) ;
+        $render = $commentController->create();
+        break ;
+
 		case $page==='category' : 
 		$categoryController = new CategoryController($postManager, $categoryManager) ;
 		$render = $categoryController->listByCategory();

@@ -49,34 +49,19 @@ class PostController extends AbstractController
 
 	public function show()
 	{
-		$authorCom = $this->requestPost['author_com'] ?? null;
-        $contentCom = $this->requestPost['com'] ?? null;
         $page = $this->requestGet['page'] ?? null ;
 		$postId= $this->requestGet['id'];
-
-		if ($authorCom && $contentCom)
-		{
-			$comment= new Comment ([
-				'post_id'=> $postId,
-				'author'=> htmlspecialchars($authorCom ),
-				'content'=>htmlspecialchars($contentCom),
-					]);
-			$this->commentManager->add($comment);
-		}
 
 		$post=$this->postManager->getOne($postId);
 		$authorId = $post->getUser_id();
 		$author = $this->userManager->getOne($authorId);
 
 		$maxPage=$this->commentManager->totalPages($postId);
-
 		$actualPage = $page ?? 1;
-
         if (0 > $actualPage || $maxPage < $actualPage) 
         {
             $actualPage = 1;
         }
-        
 		$comments = $this->commentManager->get($postId, $actualPage);
 		
 		return $this->render('home/single.html.twig', [

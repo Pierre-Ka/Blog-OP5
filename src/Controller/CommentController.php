@@ -25,6 +25,37 @@ class CommentController extends AbstractController
         $this->commentManager = $commentManager;
     }
 
+    public function create()
+    {
+        $authorCom = $this->requestPost['author_com'] ?? null;
+        $contentCom = $this->requestPost['com'] ?? null;
+        $postId= $this->requestGet['id'];
+        if ($authorCom && $contentCom)
+        {
+            $comment= new Comment ([
+                'post_id'=> $postId,
+                'author'=> htmlspecialchars($authorCom ),
+                'content'=>htmlspecialchars($contentCom),
+            ]);
+            $this->commentManager->add($comment);
+        }
+        $post=$this->postManager->getOne($postId);
+        $authorId = $post->getUser_id();
+        $author = $this->userManager->getOne($authorId);
+
+        $maxPage=$this->commentManager->totalPages($postId);
+        $comments = $this->commentManager->get($postId, 1);
+
+        return $this->render('home/single.html.twig', [
+            'post' => $post,
+            'author' => $author,
+            'comments' => $comments,
+            'max_page' => $maxPage,
+            'actual_page' => 1,
+            'categories_header' => $this->categoryManager->getAll(),
+            'last5Posts' => $this->postManager->getAll(1)
+        ]);
+    }
     public function valid()
     {
         if(!$this->userManager->logged())
