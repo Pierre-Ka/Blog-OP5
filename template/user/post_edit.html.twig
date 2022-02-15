@@ -163,8 +163,8 @@
 					</div><br/>
 					<p> {{ comment.content }} </p> <br/>
 					<strong>
-					<a href="user.post.edit&id={{ post.id }}&valid={{ comment.id }}" style="color:green;">Valider le commentaire</a>
-					<a href="user.post.edit&id={{ post.id }}&delete={{ comment.id }}" style="color:red;">Supprimer le commentaire</a> <br/><br/>
+					<a href="user.comment_valid&id={{ comment.id }}" style="color:green;">Valider le commentaire</a>
+					<a href="user.comment_delete&id={{ comment.id }}" style="color:red;">Supprimer le commentaire</a> <br/><br/>
 					</strong>
 				</div>
 			{% endfor %}

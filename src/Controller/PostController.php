@@ -89,29 +89,6 @@ class PostController extends AbstractController
 			'last5Posts' => $this->postManager->getAll(1)
 		]);
 	}
-// CREATION D'UN CONTROLLER COMMENTCONTROLLER AVEC LES FONCTIONS SUIVANTES
-/*
-    public function validateComment()
-    {
-        // A TESTER
-        $commentId = $this->requestGet['valid'] ?? null;
-        $comment = $this->commentManager->getEntity($commentId);
-
-        $postId = $comment->getPost()->getId();
-
-        $commentManager->delete ()
-    }
-    public function deleteComment()
-    {
-        // A TESTER
-        $commentId = $this->requestGet['valid'] ?? null;
-        $comment = $this->commentManager->getEntity($commentId);
-
-        $postId = $comment->getPost()->getId();
-
-        $commentManager->delete ()
-    }
-*/
 
 	public function edit()
 	{
@@ -290,5 +267,31 @@ class PostController extends AbstractController
 			
 	        }
 		}
-	}	
+	}
+
+    public function delete()
+    {
+         if(!$this->userManager->logged())
+         {
+             $this->forbidden();
+         }
+         $idPostDelete = $this->requestPost['id_delete'] ?? null;
+
+         if($idPostDelete)
+         {
+             $this->postManager->delete($idPostDelete);
+             $this->commentManager->deletePerPost($idPostDelete);
+         }
+         $connectId = $this->userManager->getUserId();
+         $posts = $this->postManager->getWithUserId($connectId);
+         $user = $this->userManager->getOne($connectId);
+         $admin = $this->userManager->isAdmin($connectId);
+
+         return $this->render('user/home.html.twig', [
+             'user' => $user,
+             'posts' => $posts,
+             'admin' => $admin,
+             'categories_header' => $this->categoryManager->getAll()
+                 ]);
+    }
 }

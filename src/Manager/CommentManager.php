@@ -16,6 +16,15 @@ class CommentManager extends Manager
 		$q->execute();
 	}
 
+    public function getOne(int $comment_id)
+    {
+        $q = $this->_db->prepare('SELECT * FROM comment WHERE id= :id');
+        $q->bindValue('id', $comment_id);
+        $q->execute();
+        $data=$q->fetch();
+        return new Comment($data);
+    }
+
 	public function valid($info)
 	{
 		if (ctype_digit($info))

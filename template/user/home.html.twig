@@ -53,7 +53,7 @@
 				<td>{{ post.commentNotYetValid }} </td>
 	<!--			<td><?= $post->getCommentNotYetValid(); ?></td>      !-->
 				<td><a class="btn btn-info" href="user.post.edit&id={{ post.id }}">Editer</a>
-					<form method="post">
+					<form method="post" action="user.post_delete&id={{ post.id }}">
 						<input type="hidden" name="id_delete" value="{{ post.id }}"/>
 						<button type="submit" class="btn btn-danger">Supprimer</button>
 					</form>

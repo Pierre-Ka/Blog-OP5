@@ -3,17 +3,21 @@ namespace BlogApp\Controller;
 
 use BlogApp\Manager\PostManager;
 use BlogApp\Manager\CategoryManager;
+use BlogApp\Manager\UserManager;
+use BlogApp\Mailer\MyMailer;
 
 
 class HomeController extends AbstractController
 {
 	protected PostManager $postManager;
 	protected CategoryManager $categoryManager;
+    protected UserManager $userManager;
 	
-	function __construct(PostManager $postManager, CategoryManager $categoryManager)
+	function __construct(PostManager $postManager, UserManager $userManager, CategoryManager $categoryManager)
 	{
 		parent::__construct();
 		$this->postManager = $postManager;
+        $this->userManager = $userManager;
 		$this->categoryManager = $categoryManager;
 	}
 	
@@ -40,5 +44,22 @@ class HomeController extends AbstractController
 			'last5Posts' => $this->postManager->getAll(1)
 				]);				
 	}
+    public function homeConnect()
+    {
+        if(!$this->userManager->logged())
+        {
+            $this->forbidden();
+        }
+        $connectId = $this->userManager->getUserId();
+        $posts = $this->postManager->getWithUserId($connectId);
+        $user = $this->userManager->getOne($connectId);
+        $admin = $this->userManager->isAdmin($connectId);
 
+        return $this->render('user/home.html.twig', [
+            'user' => $user,
+            'posts' => $posts,
+            'admin' => $admin,
+            'categories_header' => $this->categoryManager->getAll()
+        ]);
+    }
 }

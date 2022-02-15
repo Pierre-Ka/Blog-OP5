@@ -31,10 +31,11 @@ class PostManager extends Manager
 		$q->execute();
 	}
 
-	public function getOne($id)
-	{ 
-		if (ctype_digit($id))
-		{
+	public function getOne(int $id)
+	{
+        // Le remplacement de ctype_digit par le hint type intervient avec la mise en place de la fonction commentcontroller->valid et delete qui demande de retourner l'instance du post pour l'affichage
+		//if (ctype_digit($id))
+		//{
 			$q = $this->_db->prepare('
 			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, 
 				DATE_FORMAT(p.create_date, \'%d/%m/%Y\') AS create_date,  
@@ -51,7 +52,7 @@ class PostManager extends Manager
 			$q->execute();
 			$data=$q->fetch();
 			return new Post($data);
-		}
+		//}
 	}
 
 	public function delete($id)

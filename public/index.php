@@ -1,5 +1,6 @@
 <?php
 use BlogApp\Controller\CategoryController;
+use BlogApp\Controller\CommentController;
 use BlogApp\Controller\HomeController;
 use BlogApp\Controller\PostController;
 use BlogApp\Controller\SecurityController;
@@ -39,14 +40,14 @@ if (!isset($_SESSION['auth']))
 	switch ($page) 
 	{
         case $page==='home' :
-		$homeController = new HomeController($postManager, $categoryManager) ;
+		$homeController = new HomeController($postManager, $userManager, $categoryManager) ;
 		$render = $homeController->home();
 		break ;
 
         case $page==='mail' :
-            $homeController = new HomeController($postManager, $categoryManager) ;
-            $render = $homeController->mail();
-            break ;
+        $homeController = new HomeController($postManager, $userManager, $categoryManager) ;
+        $render = $homeController->mail();
+        break ;
 
 		case $page==='post' : 
 		$postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
@@ -81,22 +82,40 @@ else
 {
 	switch ($page) 
 	{ 
-		case $page==='user.home' : 
-
-		$userController = new UserController($postManager, $userManager, $categoryManager, $commentManager) ;
-		$render = $userController->home();
+		case $page==='user.home' :
+        $homeController = new HomeController($postManager, $userManager, $categoryManager) ;
+        $render = $homeController->homeConnect();
 		break ;
+
+        case $page==='user.post_delete' :
+        $postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
+        $render = $postController->delete();
+        break ;
 
 		case $page==='user.edit' :
-
-				$userController = new UserController($postManager, $userManager, $categoryManager, $commentManager) ;
+		$userController = new UserController($postManager, $userManager, $categoryManager, $commentManager) ;
 		$render = $userController->edit();
 		break ;
+
+        case $page==='user.edit_picture' :
+        $userController = new UserController($postManager, $userManager, $categoryManager, $commentManager) ;
+        $render = $userController->editPicture();
+        break ;
 
 		case $page==='user.post.edit' : 
 		$postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
 		$render = $postController->edit();
 		break ;
+
+        case $page==='user.comment_valid' :
+        $commentController = new CommentController($postManager, $userManager, $categoryManager, $commentManager) ;
+        $render = $commentController->valid();
+        break ;
+
+        case $page==='user.comment_delete' :
+        $commentController = new CommentController($postManager, $userManager, $categoryManager, $commentManager) ;
+        $render = $commentController->delete();
+        break ;
 
 		case $page==='user.post.add' : 
 				$postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;

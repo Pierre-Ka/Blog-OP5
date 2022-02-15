@@ -47,7 +47,7 @@
 	<p> Pour un meilleur rendu, choisissez une image carré ou verticale mais évitez les images horizontales </p><br/><br/><br/><br/>
 	<label for="pictureUpdate">
 	<p> <img src="{{ '../var/media/user/' ~ user.picture }}" alt=""style=" border-radius : 50%;" /> </p>
-		<form method="post" action="user.edit&id={{ user.id }}" enctype="multipart/form-data">
+		<form method="post" action="user.edit_picture&id={{ user.id }}" enctype="multipart/form-data">
 			Changer ma photo de profil : <br />
 			<input type="file" name="pictureUpdate" id="pictureUpdate" /><br /> </label><br/>
 			<input class="btn btn-primary" type="submit"/><br/><br/>
