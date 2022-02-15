@@ -27,8 +27,8 @@ if(!empty($_GET['p']))
 elseif(isset($_GET['disconnect']))
 {
 	session_destroy();
-	// header('Location: home');
     $page = 'home';
+	header('Location: home');
 }
 else
 {
@@ -55,7 +55,7 @@ if (!isset($_SESSION['auth']))
 
         case $page==='mail' :
             $homeController = new HomeController($postManager, $userManager, $categoryManager) ;
-            $router->get('/mail', static function () use ($homeController)
+            $router->post('/mail', static function () use ($homeController)
                 {   echo $homeController->mail();   }
             );
             break ;
@@ -190,6 +190,9 @@ else
             $router->get('/user.post.add', static function () use ($postController)
             {   echo $postController->create();  }
             );
+            $router->post('/user.post.add', static function () use ($postController)
+            {   echo $postController->create();  }
+            );
             break ;
 
         case $page==='admin.home' :
@@ -201,7 +204,7 @@ else
 
         case $page==='admin.delete_post' :
             $postAdminController = new PostAdminController($postManager, $userManager, $categoryManager, $commentManager) ;
-            $router->post('/admin.delete_post/:id', static function (int $id) use ($postAdminController)
+            $router->post('/admin.delete_post', static function () use ($postAdminController)
             {   echo $postAdminController->delete();  }
             );
             break ;
@@ -222,7 +225,7 @@ else
 
         case $page==='admin.delete_user' :
             $adminUserController = new UserAdminController( $userManager, $categoryManager) ;
-            $router->post('/admin.delete_user/:id', static function (int $id) use ($adminUserController)
+            $router->post('/admin.delete_user', static function () use ($adminUserController)
             {   echo $adminUserController->delete();  }
             );
             break ;
