@@ -19,34 +19,31 @@ class SecurityController extends AbstractController
 
 	public function signIn()
 	{
-		if (!$_POST)
-		{
-			return $this->render('home/sign_in.html.twig', [
-				'categories_header' => $this->categoryManager->getAll()
-					]);
-		}
-		else
-		{
-			$email = $this->requestPost['email'] ?? null;
-	        $password = $this->requestPost['password'] ?? null;
-			$incorrect=false;
+        if(!$_POST)
+        {
+            return $this->render('home/sign_in.html.twig', [
+                'categories_header' => $this->categoryManager->getAll()
+            ]);
+        }
+        $email = $this->requestPost['email'] ?? null;
+        $password = $this->requestPost['password'] ?? null;
+        $incorrect=false;
 
-			if ($email && $password)
-			{
-				$logged = $this->userManager->login($email, $password);
-				if(!$logged)
-				{			
-					$incorrect=true;
-					return $this->render('home/sign_in.html.twig', [
-					'categories_header' => $this->categoryManager->getAll(),
-					'incorrect' => $incorrect
-						]);
-				}
-				else
-				{
-					header('Location: user.home'); 
-				}	
-			}
-		}
+        if ($email && $password)
+        {
+            $logged = $this->userManager->login($email, $password);
+            if(!$logged)
+            {
+                $incorrect=true;
+                return $this->render('home/sign_in.html.twig', [
+                'categories_header' => $this->categoryManager->getAll(),
+                'incorrect' => $incorrect
+                    ]);
+            }
+            else
+            {
+                header('Location: user.home');
+            }
+        }
 	}
 }

@@ -40,11 +40,14 @@ class Router
 		}
 
 		// Appel dynamique de la route
+       //echo '<pre>' .var_export($this->routes). '</pre>';
+        //die();
 		foreach($this->routes[$_SERVER['REQUEST_METHOD']] as $route)
 		{
             // On passe $this->url pour effectuer le test
 			if($route->matches($this->url))
 			{
+
 				return $route->call();
 			}
 		}

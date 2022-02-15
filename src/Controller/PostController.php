@@ -47,6 +47,7 @@ class PostController extends AbstractController
 					]);
 	}
 
+
 	public function show()
 	{
         $page = $this->requestGet['page'] ?? null ;

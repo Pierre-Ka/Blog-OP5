@@ -11,7 +11,6 @@ use BlogApp\Controller\Admin\HomeAdminController;
 use BlogApp\Controller\Admin\UserAdminController;
 use BlogApp\Controller\Admin\PostAdminController;
 
-
 require dirname(__DIR__).'/vendor/autoload.php';
 
 $commentManager= new BlogApp\Manager\CommentManager();
@@ -21,14 +20,15 @@ $categoryManager= new BlogApp\Manager\CategoryManager();
 
 session_start();
 
-if(isset($_GET['p']))
+if(!empty($_GET['p']))
 {
-	$page = $_GET['p']; 
+	$page = $_GET['p'];
 }
 elseif(isset($_GET['disconnect']))
 {
 	session_destroy();
-	header('Location: home');
+	// header('Location: home');
+    $page = 'home';
 }
 else
 {
@@ -37,8 +37,7 @@ else
 
 //////////////////////////////// ORIENTATION AVEC ROUTER //////////////////////////////////////////////////////////
 ///
-///
-/*
+
 $id = $_GET['id'] ?? null;
 $pagination = ($_GET['page']) ?? null ;
 $router = new Router($page, $id, $pagination);
@@ -63,11 +62,15 @@ if (!isset($_SESSION['auth']))
 
         case $page==='post' :
             $postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
+            $router->get('/post/', static function () use ($postController)
+            {  echo $postController->list();  },
+            );
             $router->get('/post/:page', static function (int $page) use ($postController)
                 {  echo $postController->list();  },
                     ['page' => '^\d+$']
             );
             break ;
+
 
         case $page==='single' :
             $postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
@@ -84,7 +87,7 @@ if (!isset($_SESSION['auth']))
 
         case $page==='comment_create' :
             $commentController = new CommentController($postManager, $userManager, $categoryManager, $commentManager) ;
-            $router->get('/comment_create/:id', static function (int $id) use ($commentController)
+            $router->post('/comment_create/:id', static function (int $id) use ($commentController)
                 {   echo $commentController->create();   },
                     ['id' => '^\d+$']
             );
@@ -106,22 +109,22 @@ if (!isset($_SESSION['auth']))
         case $page==='sign_in' :
             $securityController = new SecurityController($userManager, $categoryManager) ;
             $router->get('/sign_in', static function () use ($securityController)
+            {   echo $securityController->signIn();  }
+            );
+            $router->post('/sign_in', static function () use ($securityController)
                 {   echo $securityController->signIn();  }
             );
             break ;
 
         case $page==='sign_up' :
             $userController = new UserController($postManager, $userManager, $categoryManager, $commentManager) ;
-            $router->get('/sign_up', static function (int $id) use ($userController)
+            $router->post('/sign_up', static function () use ($userController)
                 {   echo $userController->create();   }
             );
             break ;
 
         default : header('Location:index.php?p=home'); break ;
     }
-
-$router->run();
-
 }
 else
 {
@@ -136,21 +139,24 @@ else
 
         case $page==='user.post_delete' :
             $postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
-            $router->get('/user.post_delete/:id', static function (int $id) use ($postController)
+            $router->post('/user.post_delete/:id', static function (int $id) use ($postController)
                 {   echo $postController->delete();  }
             );
             break ;
 
         case $page==='user.edit' :
             $userController = new UserController($postManager, $userManager, $categoryManager, $commentManager) ;
-            $router->get('/user.edit/:id', static function (int $id) use ($userController)
+            $router->get('/user.edit', static function () use ($userController)
+            {   echo $userController->edit();  }
+            );
+            $router->post('/user.edit/:id', static function (int $id) use ($userController)
                 {   echo $userController->edit();  }
             );
             break ;
 
         case $page==='user.edit_picture' :
             $userController = new UserController($postManager, $userManager, $categoryManager, $commentManager) ;
-            $router->get('/user.edit_picture/:id', static function (int $id) use ($userController)
+            $router->post('/user.edit_picture/:id', static function (int $id) use ($userController)
             {   echo $userController->editPicture();  }
             );
             break ;
@@ -158,6 +164,9 @@ else
         case $page==='user.post.edit' :
             $postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
             $router->get('/user.post.edit/:id', static function (int $id) use ($postController)
+            {   echo $postController->edit();  }
+            );
+            $router->post('/user.post.edit/:id', static function (int $id) use ($postController)
             {   echo $postController->edit();  }
             );
             break ;
@@ -192,7 +201,7 @@ else
 
         case $page==='admin.delete_post' :
             $postAdminController = new PostAdminController($postManager, $userManager, $categoryManager, $commentManager) ;
-            $router->get('/admin.delete_post/:id', static function (int $id) use ($postAdminController)
+            $router->post('/admin.delete_post/:id', static function (int $id) use ($postAdminController)
             {   echo $postAdminController->delete();  }
             );
             break ;
@@ -213,7 +222,7 @@ else
 
         case $page==='admin.delete_user' :
             $adminUserController = new UserAdminController( $userManager, $categoryManager) ;
-            $router->get('/admin.delete_user/:id', static function (int $id) use ($adminUserController)
+            $router->post('/admin.delete_user/:id', static function (int $id) use ($adminUserController)
             {   echo $adminUserController->delete();  }
             );
             break ;
@@ -227,21 +236,21 @@ else
 
         case $page==='admin.edit_category' :
             $adminCategoryController = new CategoryAdminController($userManager, $categoryManager) ;
-            $router->get('/admin.edit_category/:id', static function (int $id) use ($adminCategoryController)
+            $router->post('/admin.edit_category/:id', static function (int $id) use ($adminCategoryController)
             {   echo $adminCategoryController->edit();  }
             );
             break ;
 
         case $page==='admin.delete_category' :
             $adminCategoryController = new CategoryAdminController($userManager, $categoryManager) ;
-            $router->get('/admin.delete_category/:id', static function (int $id) use ($adminCategoryController)
+            $router->post('/admin.delete_category/:id', static function (int $id) use ($adminCategoryController)
             {   echo $adminCategoryController->delete();  }
             );
             break ;
 
         case $page==='admin.create_category' :
             $adminCategoryController = new CategoryAdminController($userManager, $categoryManager) ;
-            $router->get('/admin.create_category', static function () use ($adminCategoryController)
+            $router->post('/admin.create_category', static function () use ($adminCategoryController)
             {   echo $adminCategoryController->create();  }
             );
             break ;
@@ -249,10 +258,14 @@ else
         default : header('Location:index.php?disconnect');  break ;
     }
 }
-*/
+
+$router->run();
+
+/*
 /////////////////////////////////////////// ORIENTATION TRADITIONNELLE ////////////////////////////////////////////////////
 ///
-//  /*
+
+
 
 if (!isset($_SESSION['auth']))
 { 
@@ -395,4 +408,4 @@ else
 	}
 	echo $render ;
 }
-//  */
+*/
