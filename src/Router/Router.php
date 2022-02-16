@@ -8,6 +8,7 @@ class Router
 	
 	public function __construct($urlP, $urlId = null , $urlPage = null)
 	{
+        //var_dump($urlP); die;
 		$this->url = trim($urlP, '/') ;
         if ($urlId)
         {

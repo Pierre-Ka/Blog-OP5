@@ -27,8 +27,8 @@ if(!empty($_GET['p']))
 elseif(isset($_GET['disconnect']))
 {
 	session_destroy();
-    $page = 'home';
-	header('Location: home');
+    header('Location:sign_in');
+    exit;
 }
 else
 {
@@ -37,6 +37,7 @@ else
 
 //////////////////////////////// ORIENTATION AVEC ROUTER //////////////////////////////////////////////////////////
 ///
+
 
 $id = $_GET['id'] ?? null;
 $pagination = ($_GET['page']) ?? null ;
@@ -258,7 +259,15 @@ else
             );
             break ;
 
-        default : header('Location:index.php?disconnect');  break ;
+        default :
+            session_destroy();
+            header("Refresh:0");
+            break ;
+
+       /* default :
+            header('Location:index.php?disconnect');
+            exit;
+            break ;*/
     }
 }
 
