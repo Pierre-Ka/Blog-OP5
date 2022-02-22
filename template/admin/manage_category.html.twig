@@ -1,83 +1,83 @@
 {% extends 'layout.html.twig' %}
 
 	{% block title %}
-		Manage categories
-	{% endblock title %}
+        Manage categories
+    {% endblock title %}
 
 {% block content %}
 
-<br/><br/>
+    <br/><br/>
 
-<div class="text-center">
-	{% autoescape false %}
-	{{ message ? '<div class="alert alert-success">'
-			~ message ~
-		'</div>' : '' }}
-	{% endautoescape %}
+    <div class="text-center">
+        {% autoescape false %}
+            {{ message ? '<div class="alert alert-success">'
+            ~ message ~
+            '</div>' : '' }}
+        {% endautoescape %}
 
-	<h1> Administrer les categories</h1>
-	<br/><br/>
-	<h4> Notice : supprimez une categorie qu'après avoir supprimé tous les posts relatifs à cette categorie </h4>
-	<br/><br/>
-	<p> 
-		<a href="admin.home" class="btn-lg btn-success">Retour à l'interface d'administration</a>
-	</p>
-</div>
-<br/><br/>
-<div class="text-center">
-	<h3> Editer les categories </h3>
-</div>
-<br/><br/>	
-<table class="table">
-	<thead>
-		<tr>
-			<td>Id</td>
-			<td>Nom</td>
-			<td>Editer</td>
-			<td>Supprimer</td>
-		</tr>
-	</thead>
-	
-	<tbody>
-		{% for categorie in categories %}
-			<tr>
-				<td>	{{categorie.id}} 	</td>
-				<td>	{{categorie.name}} 	</td>
-				<td>
-					<form method="post" action="admin.edit_category&id={{categorie.id}} ">
-						<input type="text" name="categoryEdit"/>
-						<input class="btn btn-info" type="submit"/>
-					</form>
-				</td>
-				<td>
-					<form method="post" action="admin.delete_category&id={{categorie.id}} ">
-						<input type="hidden" name="admin_category_delete" value="{{categorie.id}} "/>
-						<button type="submit" class="btn btn-danger">Supprimer la categorie</button>
-					</form> 
-				</td>
-			</tr>
-		{% endfor %}
-	</tbody>
-</table>
+        <h1> Administrer les categories</h1>
+        <br/><br/>
+        <h4> Notice : supprimez une categorie qu'après avoir supprimé tous les posts relatifs à cette categorie </h4>
+        <br/><br/>
+        <p>
+            <a href="admin.home" class="btn-lg btn-success">Retour à l'interface d'administration</a>
+        </p>
+    </div>
+    <br/><br/>
+    <div class="text-center">
+        <h3> Editer les categories </h3>
+    </div>
+    <br/><br/>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>Nom</td>
+            <td>Editer</td>
+            <td>Supprimer</td>
+        </tr>
+        </thead>
 
-<br/><br/><br/>
+        <tbody>
+        {% for categorie in categories %}
+            <tr>
+                <td>    {{ categorie.id }}    </td>
+                <td>    {{ categorie.name }}    </td>
+                <td>
+                    <form method="post" action="admin.edit_category&id={{ categorie.id }} ">
+                        <input type="text" name="categoryEdit"/>
+                        <input class="btn btn-info" type="submit"/>
+                    </form>
+                </td>
+                <td>
+                    <form method="post" action="admin.delete_category&id={{ categorie.id }} ">
+                        <input type="hidden" name="admin_category_delete" value="{{ categorie.id }} "/>
+                        <button type="submit" class="btn btn-danger">Supprimer la categorie</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-<div class="text-center">
-	<h3> Créer une nouvelle categorie </h3>
-	<br/><br/>	
+    <br/><br/><br/>
 
-		<form method="post" action="admin.create_category" enctype="multipart/form-data">
-			<label for="categoryCreate">Nom de la nouvelle catégorie :<br/>
-			<input type="text" name="categoryCreate" id="categoryCreate" required /></label>
+    <div class="text-center">
+        <h3> Créer une nouvelle categorie </h3>
+        <br/><br/>
 
-			<br/><br/><br/>
+        <form method="post" action="admin.create_category" enctype="multipart/form-data">
+            <label for="categoryCreate">Nom de la nouvelle catégorie :<br/>
+                <input type="text" name="categoryCreate" id="categoryCreate" required/></label>
 
-			<label for="categoryPicture">Ajouter la photo par défault :<br/>
-			<input type="file" name="categoryPicture" id="categoryPicture" required /><br /> </label><br/>
-			<input class="btn btn-primary" type="submit" value="Creer"/>
-		</form>
+            <br/><br/><br/>
 
-	<br/><br/><br/><br/>
-</div>
+            <label for="categoryPicture">Ajouter la photo par défault :<br/>
+                <input type="file" name="categoryPicture" id="categoryPicture" required/><br/> </label><br/>
+            <input class="btn btn-primary" type="submit" value="Creer"/>
+        </form>
+
+        <br/><br/><br/><br/>
+    </div>
 
 {% endblock content %}

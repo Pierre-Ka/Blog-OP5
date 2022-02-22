@@ -1,178 +1,182 @@
 {% extends 'layout.html.twig' %}
 
 	{% block title %}
-		{% if post %}
-		Editer un article
-		{% else %} 
-		Ajouter un article
-		{% endif %}		
-	{% endblock title %}
+        {% if post %}
+            Editer un article
+        {% else %}
+            Ajouter un article
+        {% endif %}
+    {% endblock title %}
 
 	{% block h1 %}
-		Administrer vos articles 
-	{% endblock h1 %}
+        Administrer vos articles
+    {% endblock h1 %}
 
 {% block content %}
-	<br/><br/>
+    <br/><br/>
 
-<div class="text-center">
-	{% autoescape false %}
-	{{ message ? '<div class="alert alert-success">'
-			~ message ~
-		'</div>' : '' }}
-	{% endautoescape %}
-	<br/><br/>
-		<h1>
-		{% if post %}
-		  Edition de l'article : <br/> {{post.title}}
-		{% else %} 
-			Ajouter un article
-		{% endif %}	
-	</h1>
-	<br/><br/>
-	<p> 
-		<a href="user.home" class="btn-lg btn-success">Retour à l'interface utilisateur</a>
-	</p>
+    <div class="text-center">
+        {% autoescape false %}
+            {{ message ? '<div class="alert alert-success">'
+            ~ message ~
+            '</div>' : '' }}
+        {% endautoescape %}
+        <br/><br/>
+        <h1>
+            {% if post %}
+                Edition de l'article : <br/> {{ post.title }}
+            {% else %}
+                Ajouter un article
+            {% endif %}
+        </h1>
+        <br/><br/>
+        <p>
+            <a href="user.home" class="btn-lg btn-success">Retour à l'interface utilisateur</a>
+        </p>
 
-			{% if post %}
-			<br/><br/>
-			{% else %} 
-			<br />
-			Tous les champs sont obligatoires ! 
-			<br/><br/>
-			{% endif %}	
-</div>
+        {% if post %}
+            <br/><br/>
+        {% else %}
+            <br/>
+            Tous les champs sont obligatoires !
+            <br/><br/>
+        {% endif %}
+    </div>
 
-<div class="text-center container">
-	<form method="post" action=
-								{% if post %}
-									"user.post.edit&id={{ post.id }}" 
-								{% else %} 
-										"user.post.add"
-								{% endif %} 
-		enctype="multipart/form-data">
-		<label for="title">
-								{% if post %}
-							    	Changer le titre de l'article
-								{% else %} 
-									Titre de l'article
-								{% endif %}	
-		</label><br/>
-		<input type="text" name=
-								{% if post %}
-								    "titleChange"
-								{% else %} 
-									"title"
-								{% endif %}		
-		id="title" value="{{ post.title?: null }}"/>
-		<br/><br/>	
-		<label for="category"> Choisissez la categorie de l'article </label><br/>
-		<select name=
-								{% if post %}
-								    "categoryChange"
-								{% else %} 
-									"category"
-								{% endif %}				
-		id="category">
-			{% for categorie in categories %}
-				<option value="{{ categorie.id }};" 
-				{% if (categorie.name == post.category) %}
-				{{ 'selected' }}
-				{% endif %}
-				>
-				{{ categorie.name }}</option>
-			{% endfor %} 
-		</select><br/><br/>
-		<label for="chapo">
-								{% if post %}
-								   Changer le Resumé de l'article
-								{% else %} 
-									Resumé de l'article
-								{% endif %}	
-		</label><br/>
-		<input type="text" name=
-								{% if post %}
-								    "chapoChange"
-								{% else %} 
-									"chapo"
-								{% endif %}		
-		id="chapo" value="{{ post.chapo?: null }}"/><br/><br/>
-		<label for="content">
-								{% if post %}
-								   Changer le Contenu de l'article
-								{% else %} 
-									Contenu de l'article
-								{% endif %}	
-		</label><br/>
-		<textarea name=
-								{% if post %}
-								    "contentChange"
-								{% else %} 
-									"content"
-								{% endif %}	
-		id="content" cols="100" rows="18">{{ post.content?: null }}</textarea><br/><br/>
+    <div class="text-center container">
+        <form method="post" action=
+        {% if post %}
+        "user.post.edit&id={{ post.id }}"
+        {% else %}
+            "user.post.add"
+        {% endif %}
+        enctype="multipart/form-data">
+        <label for="title">
+            {% if post %}
+                Changer le titre de l'article
+            {% else %}
+                Titre de l'article
+            {% endif %}
+        </label><br/>
+        <input type="text" name=
+        {% if post %}
+        "titleChange"
+    {% else %}
+        "title"
+        {% endif %}
+        id="title" value="{{ post.title?: null }}"/>
+        <br/><br/>
+        <label for="category"> Choisissez la categorie de l'article </label><br/>
+        <select name=
+                {% if post %}
+                "categoryChange"
+    {% else %}
+        "category"
+        {% endif %}
+        id="category">
+        {% for categorie in categories %}
+            <option value="{{ categorie.id }};"
+                    {% if (categorie.name == post.category) %}
+                        {{ 'selected' }}
+                    {% endif %}
+            >
+                {{ categorie.name }}</option>
+        {% endfor %}
+        </select><br/><br/>
+        <label for="chapo">
+            {% if post %}
+                Changer le Resumé de l'article
+            {% else %}
+                Resumé de l'article
+            {% endif %}
+        </label><br/>
+        <input type="text" name=
+        {% if post %}
+        "chapoChange"
+    {% else %}
+        "chapo"
+        {% endif %}
+        id="chapo" value="{{ post.chapo?: null }}"/><br/><br/>
+        <label for="content">
+            {% if post %}
+                Changer le Contenu de l'article
+            {% else %}
+                Contenu de l'article
+            {% endif %}
+        </label><br/>
+        <textarea name=
+                  {% if post %}
+                  "contentChange"
+    {% else %}
+        "content"
+        {% endif %}
+        id="content" cols="100" rows="18">{{ post.content?: null }}</textarea><br/><br/>
 
-		{% if post %}
-			<div>
-				<p> <img src="{{ '../var/media/post/' ~ post.picture }}" class="edit_post_picture" alt=""> </p> <br/><br/><br/><br/>
-			</div>
-		{% endif %}
+        {% if post %}
+            <div>
+                <p><img src="{{ 'var/media/post/' ~ post.picture }}" class="edit_post_picture" alt=""></p>
+                <br/><br/><br/><br/>
+            </div>
+        {% endif %}
 
-		<label><h3>
-								{% if post %}
-								   Changer la photo de l'article : 
-								{% else %} 
-									Choisir la photo de l'article :
-								{% endif %}	
-		</h3> <br />
-		<p> Attention ! L'image doit être au format JPEG et ne pas excédée 4Mo ! <br/>
-		    Privilegiez une image horizontale 
-								{% if post %}
-								</p><br />
-								{% else %} 
-								<br />
-								L'image n'est pas obligatoire </p>
-								<br/>
-								{% endif %}	
-		<input type="file" name=
-								{% if post %}
-								    "pictureChange"
-								{% else %} 
-									"picture"
-								{% endif %}	
-		 /><br /> </label><br/>
-		<input class="btn btn-primary" type="submit" value=
-								{% if post %}
-								    "Sauvegarder les modifications"
-								{% else %} 
-									"Créer l'article"
-								{% endif %}	
-		/><br/><br/>
-	</form>
-	<br/><br/>
+        <label><h3>
+                {% if post %}
+                    Changer la photo de l'article :
+                {% else %}
+                    Choisir la photo de l'article :
+                {% endif %}
+            </h3> <br/>
+            <p> Attention ! L'image doit être au format JPEG et ne pas excédée 4Mo ! <br/>
+                Privilegiez une image horizontale
+                {% if post %}
+            </p><br/>
+            {% else %}
+                <br/>
+                L'image n'est pas obligatoire </p>
+                <br/>
+            {% endif %}
+            <input type="file" name=
+            {% if post %}
+            "pictureChange"
+        {% else %}
+            "picture"
+            {% endif %}
+            /><br/> </label><br/>
+        <input class="btn btn-primary" type="submit" value=
+        {% if post %}
+        "Sauvegarder les modifications"
+    {% else %}
+        "Créer l'article"
+        {% endif %}
+        /><br/><br/>
+        </form>
+        <br/><br/>
 
-	{% if post %}
-		{% if comments %}
-		<h2>Validation des commentaires</h2>
-		<br/><br/>
-		<div>		
-			{% for comment in comments %}
-				<div>
-					<div>
-						{{ comment.author }} a écrit à {{ comment.create_date }}
-					</div><br/>
-					<p> {{ comment.content }} </p> <br/>
-					<strong>
-					<a href="user.comment_valid&id={{ comment.id }}" style="color:green;">Valider le commentaire</a>
-					<a href="user.comment_delete&id={{ comment.id }}" style="color:red;">Supprimer le commentaire</a> <br/><br/>
-					</strong>
-				</div>
-			{% endfor %}
-		</div>
-		{% endif %}
-	{% endif %}
-</div>
+        {% if post %}
+            {% if comments %}
+                <h2>Validation des commentaires</h2>
+                <br/><br/>
+                <div>
+                    {% for comment in comments %}
+                        <div>
+                            <div>
+                                {{ comment.author }} a écrit à {{ comment.create_date }}
+                            </div>
+                            <br/>
+                            <p> {{ comment.content }} </p> <br/>
+                            <strong>
+                                <a href="user.comment_valid&id={{ comment.id }}" style="color:green;">Valider le
+                                    commentaire</a>
+                                <a href="user.comment_delete&id={{ comment.id }}" style="color:red;">Supprimer le
+                                    commentaire</a> <br/><br/>
+                            </strong>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
 
-	<br/><br/><br/><br/>
+    <br/><br/><br/><br/>
 
 {% endblock content %}

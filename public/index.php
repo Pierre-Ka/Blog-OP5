@@ -35,10 +35,6 @@ else
 	$page = 'home';
 }
 
-//////////////////////////////// ORIENTATION AVEC ROUTER //////////////////////////////////////////////////////////
-///
-
-
 $id = $_GET['id'] ?? null;
 $pagination = ($_GET['page']) ?? null ;
 $router = new Router($page, $id, $pagination);
@@ -66,9 +62,10 @@ if (!isset($_SESSION['auth']))
             $router->get('/post/', static function () use ($postController)
             {  echo $postController->list();  },
             );
-            $router->get('/post/:page', static function (int $page) use ($postController)
-                {  echo $postController->list();  },
-                    ['page' => '^\d+$']
+            $router->get('/post/:id/:page', static function (int $id, int $page) use ($postController)
+                {  echo $postController->list($id, $page);  },
+                ['id' => '^\d+$',
+                    'page' => '^\d+$']
             );
             break ;
 
@@ -76,11 +73,11 @@ if (!isset($_SESSION['auth']))
         case $page==='single' :
             $postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
             $router->get('/single/:id', static function (int $id) use ($postController)
-                {   echo $postController->show();    },
+                {   echo $postController->show($id);    },
                     ['id' => '^\d+$']
             );
             $router->get('/single/:id/:page', static function (int $id, int $page) use ($postController)
-            {   echo $postController->show();    },
+            {   echo $postController->show($id, $page);    },
                 ['id' => '^\d+$',
                     'page' => '^\d+$']
             );
@@ -89,7 +86,7 @@ if (!isset($_SESSION['auth']))
         case $page==='comment_create' :
             $commentController = new CommentController($postManager, $userManager, $categoryManager, $commentManager) ;
             $router->post('/comment_create/:id', static function (int $id) use ($commentController)
-                {   echo $commentController->create();   },
+                {   echo $commentController->create($id);   },
                     ['id' => '^\d+$']
             );
             break ;
@@ -97,11 +94,11 @@ if (!isset($_SESSION['auth']))
         case $page==='category' :
             $categoryController = new CategoryController($postManager, $categoryManager) ;
             $router->get('/category/:id', static function (int $id) use ($categoryController)
-                {   echo $categoryController->listByCategory();    },
+                {   echo $categoryController->listByCategory($id);    },
                     ['id' => '^\d+$']
             );
             $router->get('/category/:id/:page', static function (int $id, int $page) use ($categoryController)
-            {   echo $categoryController->listByCategory();    },
+            {   echo $categoryController->listByCategory($id, $page);    },
                 ['id' => '^\d+$',
                     'page' => '^\d+$']
             );
@@ -141,7 +138,7 @@ else
         case $page==='user.post_delete' :
             $postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
             $router->post('/user.post_delete/:id', static function (int $id) use ($postController)
-                {   echo $postController->delete();  }
+                {   echo $postController->delete($id);  }
             );
             break ;
 
@@ -151,38 +148,38 @@ else
             {   echo $userController->edit();  }
             );
             $router->post('/user.edit/:id', static function (int $id) use ($userController)
-                {   echo $userController->edit();  }
+                {   echo $userController->edit($id);  }
             );
             break ;
 
         case $page==='user.edit_picture' :
             $userController = new UserController($postManager, $userManager, $categoryManager, $commentManager) ;
             $router->post('/user.edit_picture/:id', static function (int $id) use ($userController)
-            {   echo $userController->editPicture();  }
+            {   echo $userController->editPicture($id);  }
             );
             break ;
 
         case $page==='user.post.edit' :
             $postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
             $router->get('/user.post.edit/:id', static function (int $id) use ($postController)
-            {   echo $postController->edit();  }
+            {   echo $postController->edit($id);  }
             );
             $router->post('/user.post.edit/:id', static function (int $id) use ($postController)
-            {   echo $postController->edit();  }
+            {   echo $postController->edit($id);  }
             );
             break ;
 
         case $page==='user.comment_valid' :
             $commentController = new CommentController($postManager, $userManager, $categoryManager, $commentManager) ;
             $router->get('/user.comment_valid/:id', static function (int $id) use ($commentController)
-            {   echo $commentController->valid();  }
+            {   echo $commentController->valid($id);  }
             );
             break ;
 
         case $page==='user.comment_delete' :
             $commentController = new CommentController($postManager, $userManager, $categoryManager, $commentManager) ;
             $router->get('/user.comment_delete/:id', static function (int $id) use ($commentController)
-            {   echo $commentController->delete();  }
+            {   echo $commentController->delete($id);  }
             );
             break ;
 
@@ -220,7 +217,7 @@ else
         case $page==='admin.valid_user' :
             $adminUserController = new UserAdminController( $userManager, $categoryManager) ;
             $router->get('/admin.valid_user/:id', static function (int $id) use ($adminUserController)
-            {   echo $adminUserController->valid();  }
+            {   echo $adminUserController->valid($id);  }
             );
             break ;
 
@@ -241,14 +238,14 @@ else
         case $page==='admin.edit_category' :
             $adminCategoryController = new CategoryAdminController($userManager, $categoryManager) ;
             $router->post('/admin.edit_category/:id', static function (int $id) use ($adminCategoryController)
-            {   echo $adminCategoryController->edit();  }
+            {   echo $adminCategoryController->edit($id);  }
             );
             break ;
 
         case $page==='admin.delete_category' :
             $adminCategoryController = new CategoryAdminController($userManager, $categoryManager) ;
             $router->post('/admin.delete_category/:id', static function (int $id) use ($adminCategoryController)
-            {   echo $adminCategoryController->delete();  }
+            {   echo $adminCategoryController->delete($id);  }
             );
             break ;
 
@@ -260,164 +257,10 @@ else
             break ;
 
         default :
-            session_destroy();
-            header("Refresh:0");
+            $securityController = new SecurityController($userManager, $categoryManager) ;
+            $securityController->logout();
             break ;
-
-       /* default :
-            header('Location:index.php?disconnect');
-            exit;
-            break ;*/
     }
 }
 
 $router->run();
-
-/*
-/////////////////////////////////////////// ORIENTATION TRADITIONNELLE ////////////////////////////////////////////////////
-///
-
-
-
-if (!isset($_SESSION['auth']))
-{ 
-	switch ($page) 
-	{
-        case $page==='home' :
-		$homeController = new HomeController($postManager, $userManager, $categoryManager) ;
-		$render = $homeController->home();
-		break ;
-
-        case $page==='mail' :
-        $homeController = new HomeController($postManager, $userManager, $categoryManager) ;
-        $render = $homeController->mail();
-        break ;
-
-		case $page==='post' : 
-		$postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
-		$render = $postController->list();
-		break ;
-
-		case $page==='single' : 
-		$postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
-		$render = $postController->show();
-		break ;
-
-        case $page==='comment_create' :
-        $commentController = new CommentController($postManager, $userManager, $categoryManager, $commentManager) ;
-        $render = $commentController->create();
-        break ;
-
-		case $page==='category' : 
-		$categoryController = new CategoryController($postManager, $categoryManager) ;
-		$render = $categoryController->listByCategory();
-		break ;
-
-		case $page==='sign_in' : 
-		$securityController = new SecurityController($userManager, $categoryManager) ;
-		$render = $securityController->signIn();
-		break ;
-
-		case $page==='sign_up' : 
-		$userController = new UserController($postManager, $userManager, $categoryManager, $commentManager) ;
-		$render = $userController->create();
-		break ;
-
-		default : header('Location:index.php?p=home'); break ;
-	}
-	echo $render ;
-}
-else
-{
-	switch ($page) 
-	{ 
-		case $page==='user.home' :
-        $homeController = new HomeController($postManager, $userManager, $categoryManager) ;
-        $render = $homeController->homeConnect();
-		break ;
-
-        case $page==='user.post_delete' :
-        $postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
-        $render = $postController->delete();
-        break ;
-
-		case $page==='user.edit' :
-		$userController = new UserController($postManager, $userManager, $categoryManager, $commentManager) ;
-		$render = $userController->edit();
-		break ;
-
-        case $page==='user.edit_picture' :
-        $userController = new UserController($postManager, $userManager, $categoryManager, $commentManager) ;
-        $render = $userController->editPicture();
-        break ;
-
-		case $page==='user.post.edit' : 
-		$postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
-		$render = $postController->edit();
-		break ;
-
-        case $page==='user.comment_valid' :
-        $commentController = new CommentController($postManager, $userManager, $categoryManager, $commentManager) ;
-        $render = $commentController->valid();
-        break ;
-
-        case $page==='user.comment_delete' :
-        $commentController = new CommentController($postManager, $userManager, $categoryManager, $commentManager) ;
-        $render = $commentController->delete();
-        break ;
-
-		case $page==='user.post.add' : 
-				$postController = new PostController($postManager, $userManager, $categoryManager, $commentManager) ;
-		$render = $postController->create();
-		break ;
-
-		case $page==='admin.home' : 
-		$adminHomeController = new HomeAdminController($postManager, $userManager, $categoryManager, $commentManager) ;
-		$render = $adminHomeController->home();
-		break ;
-
-        case $page==='admin.delete_post' :
-        $postAdminController = new PostAdminController($postManager, $userManager, $categoryManager, $commentManager) ;
-        $render = $postAdminController->delete();
-        break ;
-
-		case $page==='admin.manage_user' : 
-		$adminUserController = new UserAdminController( $userManager, $categoryManager) ;
-		$render = $adminUserController->list();
-		break ;
-
-        case $page==='admin.valid_user' :
-        $adminUserController = new UserAdminController( $userManager, $categoryManager) ;
-        $render = $adminUserController->valid();
-        break ;
-
-        case $page==='admin.delete_user' :
-        $adminUserController = new UserAdminController( $userManager, $categoryManager) ;
-        $render = $adminUserController->delete();
-        break ;
-
-		case $page==='admin.manage_category' : 
-		$adminCategoryController = new CategoryAdminController($userManager, $categoryManager) ;
-		$render = $adminCategoryController->list();
-		break ;
-
-        case $page==='admin.edit_category' :
-        $adminCategoryController = new CategoryAdminController($userManager, $categoryManager) ;
-        $render = $adminCategoryController->edit();
-        break ;
-
-        case $page==='admin.delete_category' :
-        $adminCategoryController = new CategoryAdminController($userManager, $categoryManager) ;
-        $render = $adminCategoryController->delete();
-        break ;
-
-        case $page==='admin.create_category' :
-        $adminCategoryController = new CategoryAdminController($userManager, $categoryManager) ;
-        $render = $adminCategoryController->create();
-        break ;
-
-        default : header('Location:index.php?disconnect');  break ;
-	}
-	echo $render ;
-}
-*/

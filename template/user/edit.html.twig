@@ -1,60 +1,63 @@
 {% extends 'layout.html.twig' %}
 
 	{% block title %}
-		Editer mon profil
-	{% endblock title %}
+        Editer mon profil
+    {% endblock title %}
 
 	{% block h1 %}
-		Administrer vos articles
-	{% endblock h1 %}
+        Administrer vos articles
+    {% endblock h1 %}
 
 {% block content %}
-<br/><br/>
-<div class="container-fluid text-center">
-		{% autoescape false %}
-	{{ message ? '<div class="alert alert-success">'
-			~ message ~
-		'</div>' : '' }}
-	{% endautoescape %}
-	<br/><br/>
+    <br/><br/>
+    <div class="container-fluid text-center">
+        {% autoescape false %}
+            {{ message ? '<div class="alert alert-success">'
+            ~ message ~
+            '</div>' : '' }}
+        {% endautoescape %}
+        <br/><br/>
 
-	<h1>Vous editez le profil de : {{ user.name }}</h1>
+        <h1>Vous editez le profil de : {{ user.name }}</h1>
 
-		<br/><br/>
-	<p> 
-		<a href="user.home" class="btn-lg btn-success">Retour à l'interface utilisateur</a>
-	</p>
-	<div>
-		<br/><br/>
-		<form method="post" action="user.edit&id={{ user.id }}" ">
+        <br/><br/>
+        <p>
+            <a href="user.home" class="btn-lg btn-success">Retour à l'interface utilisateur</a>
+        </p>
+        <div>
+            <br/><br/>
+            <form method="post" action="user.edit&id={{ user.id }}"
+            ">
+            <label for="nameUpdate"> Changer mon nom </label><br/>
+            <input type="text" name="nameUpdate" id="nameUpdate" value=" {{ user.name }}"/><br/><br/>
 
-			<label for="nameUpdate"> Changer mon nom </label><br/>
-			<input type="text" name="nameUpdate" id="nameUpdate" value=" {{ user.name }}"/><br/><br/>
+            <label for="passwordUpdate"> Changer mon mot de passe</label><br/>
+            <input type="password" name="passwordUpdate" id="passwordUpdate"/><br/><br/>
+            <label for="passwordConfirm"> Confirmer mon mot de passe</label><br/>
+            <input type="password" name="passwordConfirm" id="passwordConfirm"/><br/><br/>
 
-			<label for="passwordUpdate"> Changer mon mot de passe</label><br/>
-			<input type="password" name="passwordUpdate" id="passwordUpdate"/><br/><br/>
-			<label for="passwordConfirm"> Confirmer mon mot de passe</label><br/>
-			<input type="password" name="passwordConfirm" id="passwordConfirm"/><br/><br/>
+            <label for="descriptionUpdate"> Changer la description à votre sujet </label><br/>
+            <input type="text" name="descriptionUpdate" id="descriptionUpdate"
+                   value=" {{ user.description }}"/><br/><br/>
+            <input class="btn btn-primary" type="submit" value="Sauvegarder les modifications"/><br/><br/>
+            </form>
+            <br/><br/><br/>
+        </div>
 
-			<label for="descriptionUpdate"> Changer la description à votre sujet </label><br/>
-			<input type="text" name="descriptionUpdate" id="descriptionUpdate" value=" {{ user.description }}"/><br/><br/>
-			<input class="btn btn-primary" type="submit" value="Sauvegarder les modifications"/><br/><br/>
-		</form>
-		<br/><br/><br/>
-	</div>
-	<h3>Editer votre photo de profil </h3>
-	<p> Attention ! L'image doit être au format JPEG et ne pas excédée 4Mo ! </p>
-	<p> Pour un meilleur rendu, choisissez une image carré ou verticale mais évitez les images horizontales </p><br/><br/><br/><br/>
-	<label for="pictureUpdate">
-	<p> <img src="{{ '../var/media/user/' ~ user.picture }}" alt=""style=" border-radius : 50%;" /> </p>
-		<form method="post" action="user.edit_picture&id={{ user.id }}" enctype="multipart/form-data">
-			Changer ma photo de profil : <br />
-			<input type="file" name="pictureUpdate" id="pictureUpdate" /><br /> </label><br/>
-			<input class="btn btn-primary" type="submit"/><br/><br/>
-		</form>
-</div><br/><br/>
+        <h3>Editer votre photo de profil </h3>
+        <p> Attention ! L'image doit être au format JPEG et ne pas excédée 4Mo ! </p>
+        <p> Pour un meilleur rendu, choisissez une image carré ou verticale mais évitez les images horizontales </p>
+        <br/><br/><br/><br/>
 
-<br/><br/>
+        <label for="pictureUpdate">
+            <p><img src="{{ 'var/media/user/' ~ user.picture }}" alt="" style=" border-radius : 50%;"/></p>
+            <form method="post" action="user.edit_picture&id={{ user.id }}" enctype="multipart/form-data">
+                Changer ma photo de profil : <br/>
+                <input type="file" name="pictureUpdate" id="pictureUpdate"/><br/>
+                </label><br/>
+                <input class="btn btn-primary" type="submit"/><br/><br/>
+             </form>
+    </div><br/><br/> <br/><br/>
 
 {% endblock content %}
 

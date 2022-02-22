@@ -1,11 +1,12 @@
 <?php
+
 namespace BlogApp\Controller\Admin;
 
 use BlogApp\Controller\AbstractController;
+use BlogApp\Manager\CategoryManager;
+use BlogApp\Manager\CommentManager;
 use BlogApp\Manager\PostManager;
 use BlogApp\Manager\UserManager;
-use BlogApp\Manager\CommentManager;
-use BlogApp\Manager\CategoryManager;
 
 class PostAdminController extends AbstractController
 {
@@ -21,8 +22,7 @@ class PostAdminController extends AbstractController
         $this->postManager = $postManager;
         $this->commentManager = $commentManager;
         $this->categoryManager = $categoryManager;
-        if(!$this->userManager->isAdmin())
-        {
+        if (!$this->userManager->isAdmin()) {
             $this->forbidden();
         }
     }
@@ -30,8 +30,7 @@ class PostAdminController extends AbstractController
     public function delete()
     {
         $adminPostDelete = $this->requestPost['admin_post_delete'] ?? null;
-        if($adminPostDelete)
-        {
+        if ($adminPostDelete) {
             $this->postManager->delete($adminPostDelete);
             $this->commentManager->deletePerPost($adminPostDelete);
         }

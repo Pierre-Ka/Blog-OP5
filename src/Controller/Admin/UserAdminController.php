@@ -1,61 +1,58 @@
 <?php
+
 namespace BlogApp\Controller\Admin;
 
 use BlogApp\Controller\AbstractController;
-use BlogApp\Entity\User;
-use BlogApp\Manager\UserManager;
 use BlogApp\Manager\CategoryManager;
+use BlogApp\Manager\UserManager;
 
 class UserAdminController extends AbstractController
 {
-	protected UserManager $userManager;
-	protected CategoryManager $categoryManager;
+    protected UserManager $userManager;
+    protected CategoryManager $categoryManager;
 
-	public function __construct(UserManager $userManager, CategoryManager $categoryManager)
+    public function __construct(UserManager $userManager, CategoryManager $categoryManager)
     {
-		parent::__construct();
-		$this->userManager = $userManager;
-		$this->categoryManager = $categoryManager;
-		if(!$this->userManager->isAdmin())
-		{
-			$this->forbidden();
-		}
-	}
+        parent::__construct();
+        $this->userManager = $userManager;
+        $this->categoryManager = $categoryManager;
+        if (!$this->userManager->isAdmin()) {
+            $this->forbidden();
+        }
+    }
 
-    public function valid()
+    public function valid($idUserValid)
     {
         $idUserValid = $this->requestGet['id'] ?? null;
-		if(!empty($idUserValid))
-		{
-			$this->userManager->valid($idUserValid);
-		}
-		$users = $this->userManager->getList();
-		return $this->render('admin/manage_user.html.twig', [
-			'users' => $users,
-			'categories_header' =>  $this->categoryManager->getAll()
-				]);
-	}
+        if (!empty($idUserValid)) {
+            $this->userManager->valid($idUserValid);
+        }
+        $users = $this->userManager->getList();
+        return $this->render('admin/manage_user.html.twig', [
+            'users' => $users,
+            'categories_header' => $this->categoryManager->getAll()
+        ]);
+    }
 
     public function delete()
     {
         $adminUserDelete = $this->requestPost['admin_user_delete'] ?? null;
-        if($adminUserDelete)
-		{
-			$this->userManager->delete($adminUserDelete);
-		}
-		$users = $this->userManager->getList();
-		return $this->render('admin/manage_user.html.twig', [
-			'users' => $users,
-			'categories_header' =>  $this->categoryManager->getAll()
-				]);
-	}
+        if ($adminUserDelete) {
+            $this->userManager->delete($adminUserDelete);
+        }
+        $users = $this->userManager->getList();
+        return $this->render('admin/manage_user.html.twig', [
+            'users' => $users,
+            'categories_header' => $this->categoryManager->getAll()
+        ]);
+    }
 
-	public function list()
-	{
-		$users = $this->userManager->getList();
-		return $this->render('admin/manage_user.html.twig', [
-			'users' => $users,
-			'categories_header' =>  $this->categoryManager->getAll()
-				]);
-	}
+    public function list()
+    {
+        $users = $this->userManager->getList();
+        return $this->render('admin/manage_user.html.twig', [
+            'users' => $users,
+            'categories_header' => $this->categoryManager->getAll()
+        ]);
+    }
 }

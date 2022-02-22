@@ -28,7 +28,7 @@ To see the blog code on github : https://github.com/Pierre-Ka/BlogPHP_Project5
 
 1. Clone this repository
 1. Use "composer update" in the root repository
-1. Create a database on your SGDB (MySQL) with the name saved in .env.ini
+1. Create a database on your SGDB (MySQL) with the name : project5_blog
 1. Import the database file project5_blog.sql
 1. Open the file .env and insert the following parameters : 
 		- dbname : 'mysql: host=localhost;dbname=project5_blog;charset=utf8'(dbname= project5_blog by default, you can choose name for the database)
@@ -63,12 +63,13 @@ Designed and built with all the love in the world by the Bootstrap team with the
 Code licensed MIT, docs CC BY 3.0.
 Currently v5.1.3.
 
-###### Organisation
+###### Global Organisation
 
 The 'home' field is public  : 
 The 'user' field is user's reserved : 
 The 'admin' field is admin's reserved : 
 
+## SubGlobal Organisation
 
 	LANDING PAGE :									 
 	View : home.home										

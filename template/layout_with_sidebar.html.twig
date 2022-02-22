@@ -1,118 +1,129 @@
-{% extends 'layout.html.twig'%}
+{% extends 'layout.html.twig' %}
 
 {% block title %}
-Test
+    Test
 {% endblock %}
 
 {% block content %}
 
-        <section>
-            <div class="section-inner">
-                <div class="container">
-                    <div class="row">
+    <section>
+        <div class="section-inner">
+            <div class="container">
+                <div class="row">
 
-<!-- Gestion des articles  !-->
+                    <div class="col-sm-8">
+                        <div class="row">
 
-                        <div class="col-sm-8">
-                            <div class="row">
+                            {% block main %}
 
-                                {% block main %}
-
-                                 <div class="col-sm-12 blog-item mb100 wow match-height">
+                                <div class="col-sm-12 blog-item mb100 wow match-height">
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <div class="hover-item mb30">
-                                                <img src="../assets/img/news/1-wide.jpeg" class="img-responsive smoothie" alt="title">
+                                                <img src="../assets/img/news/1-wide.jpeg"
+                                                     class="img-responsive smoothie" alt="title">
                                                 <div class="overlay-item-caption smoothie"></div>
                                                 <div class="hover-item-caption smoothie">
-                                                    <h3 class="vertical-center smoothie"><a href="single-post-right-sidebar.html" class="smoothie btn btn-primary page-scroll" title="view article">View</a></h3>
+                                                    <h3 class="vertical-center smoothie"><a
+                                                                href="single-post-right-sidebar.html"
+                                                                class="smoothie btn btn-primary page-scroll"
+                                                                title="view article">View</a></h3>
                                                 </div>
                                             </div>
                                             <h2 class="post-title">The Ultimate Experience</h2>
                                             <div class="item-metas text-muted mb30">
-                                                <span class="meta-item"><i class="pe-icon pe-7s-folder"></i> POSTED IN <span>News</span></span>
+                                                <span class="meta-item"><i
+                                                            class="pe-icon pe-7s-folder"></i> POSTED IN <span>News</span></span>
                                                 <span class="meta-item"><i class="pe-icon pe-7s-user"></i> AUTHOR <span>Danny Jones</span></span>
                                             </div>
-                                            <p>Behind sooner dining so window excuse he summer. Breakfast met certainty and fulfilled propriety led. Waited get either are wooded little her. Contrasted unreserved as mr particular collecting it everything as indulgence. Seems ask meant merry could put. Age old begin had boy noisy table front whole given.</p>
-                                            <a class="btn btn-primary mt30" href="single-post-right-sidebar.html">Read More</a>
+                                            <p>Behind sooner dining so window excuse he summer. Breakfast met certainty
+                                                and fulfilled propriety led. Waited get either are wooded little her.
+                                                Contrasted unreserved as mr particular collecting it everything as
+                                                indulgence. Seems ask meant merry could put. Age old begin had boy noisy
+                                                table front whole given.</p>
+                                            <a class="btn btn-primary mt30" href="single-post-right-sidebar.html">Read
+                                                More</a>
                                         </div>
                                     </div>
-                                </div> 
+                                </div>
 
-                                {% endblock main %}
+                            {% endblock main %}
 
-                            </div>
                         </div>
+                    </div>
 
-<!-- Gestion de la sidebar !-->
+                    <!-- Gestion de la sidebar !-->
 
-                        <div id="post-sidebar" class="col-sm-3 col-sm-offset-1">
-                            <div class="widget mb50">
-                                <h4 class="widget-title">Derniers Articles</h4>
-                                <div>
+                    <div id="post-sidebar" class="col-sm-3 col-sm-offset-1">
+                        <div class="widget mb50">
+                            <h4 class="widget-title">Derniers Articles</h4>
+                            <div>
 
                                 {% for lastPost in last5Posts %}
 
                                     <div class="media">
-                                        
+
                                         <div class="pull-left">
-                                        <a href="single&id={{lastPost.id}}">
-                                            <img class="widget-img" src="../var/media/post/MINI_{{lastPost.picture}}" alt="">
-                                        </a>
+                                            <a href="single&id={{ lastPost.id }}">
+                                                <img class="widget-img" src="var/media/post/MINI_{{ lastPost.picture }}"
+                                                     alt="">
+                                            </a>
                                         </div>
                                         <div class="media-body">
-                                            <span class="media-heading"><a href="single&id={{lastPost.id}}">{{ lastPost.title }}</a></span>
+                                            <span class="media-heading"><a
+                                                        href="single&id={{ lastPost.id }}">{{ lastPost.title }}</a></span>
                                             <small class="muted">Posté le {{ lastPost.create_date }}</small>
-                                        
+
                                         </div>
                                     </div>
 
                                 {% endfor %}
-                                    
-                                </div>
 
-                                <h6 style="margin-top: 30px; ">
-                            <a href="post">Voir la liste complete </a>
-                                </h6>
                             </div>
-                            <div class="widget mb50">
-                                <h4 class="widget-title"><strong>Differents</strong> Sports</h4>
-                                <div class="tagcloud">
-                    {% for categorie in categories_header %}
-                        
-                        <a href="category&id={{ categorie.id }}" class="tag-link btn btn-theme btn-xs" title="3 topics">{{ categorie.name}} </a>
-                        
-                    {% endfor %}
-                                </div>
-                            </div>
-                            <div class="widget about-us-widget mb50">
-                                <h4 class="widget-title">Nous Contacter : </h4>
-                                <p style="font-size : 16px;">
-                                    Par telephone au +33 6 78 06 48 65</br></br>
-                                    Par email à monemail@domain.com</br>
-                                    En nous <a href="home#form" style="text-decoration : underline;"> envoyant un message </a></br></br>
-                                    Par courrier : </br>
 
-                                     33 rue de la Falaise Grénant <br/>
-                                        23160 Trémaudzac <br/>
-                                    Cote d'armor, Bretagne 
-                                </p>
+                            <h6 style="margin-top: 30px; ">
+                                <a href="post">Voir la liste complete </a>
+                            </h6>
+                        </div>
+                        <div class="widget mb50">
+                            <h4 class="widget-title"><strong>Differents</strong> Sports</h4>
+                            <div class="tagcloud">
+                                {% for categorie in categories_header %}
 
+                                    <a href="category&id={{ categorie.id }}" class="tag-link btn btn-theme btn-xs"
+                                       title="3 topics">{{ categorie.name }} </a>
 
-
+                                {% endfor %}
                             </div>
                         </div>
+                        <div class="widget about-us-widget mb50">
+                            <h4 class="widget-title">Nous Contacter : </h4>
+                            <p style="font-size : 16px;">
+                                Par telephone au +33 6 78 06 48 65</br></br>
+                                Par email à monemail@domain.com</br>
+                                En nous <a href="home#form" style="text-decoration : underline;"> envoyant un
+                                    message </a></br></br>
+                                Par courrier : </br>
 
+                                33 rue de la Falaise Grénant <br/>
+                                23160 Trémaudzac <br/>
+                                Cote d'armor, Bretagne
+                            </p>
+
+
+                        </div>
                     </div>
 
-                    <div class="row paging text-center">
+                </div>
+
+                <div class="row paging text-center">
 
                     {% block paging %}
                         <a class="btn btn-primary mt30" href="#">Older Posts</a>
                     {% endblock paging %}
-                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
 {% endblock %}

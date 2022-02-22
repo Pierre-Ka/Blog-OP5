@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/PHP_Blog.iml" filepath="$PROJECT_DIR$/.idea/PHP_Blog.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../PHP_Blog - Avec 10 controllers/.idea/PHP_Blog - Avec 10 controllers.iml" filepath="$PROJECT_DIR$/../PHP_Blog - Avec 10 controllers/.idea/PHP_Blog - Avec 10 controllers.iml" />
     </modules>
   </component>
 </project>

@@ -1,98 +1,99 @@
 {% extends 'layout.html.twig' %}
 
 	{% block title %}
-		Interface administrateur 
-	{% endblock title %}
+        Interface administrateur
+    {% endblock title %}
 
 			{% block h1 %}
-		Administrer votre blog 
-	{% endblock h1 %}
+                Administrer votre blog
+            {% endblock h1 %}
 
 {% block content %}
 
-{{ message ? '	<div class="alert alert-success">
+    {{ message ? '	<div class="alert alert-success">
 			<?= $message; ?>
-		</div>' : ''}}
+		</div>' : '' }}
 
-<div class="text-center">
-<br/><br/><br/>
-	<h1> Administrer les utilisateurs et les categories</h1>
+    <div class="text-center">
+        <br/><br/><br/>
+        <h1> Administrer les utilisateurs et les categories</h1>
 
-	<br/><br/>
+        <br/><br/>
 
-	<p> 
-		<a href="admin.manage_category" class="btn-lg btn-success">Administrer les categories</a>
-	</p>
-	<br/><br/>
+        <p>
+            <a href="admin.manage_category" class="btn-lg btn-success">Administrer les categories</a>
+        </p>
+        <br/><br/>
 
-	<p> 
-		<a href="admin.manage_user" class="btn-lg btn-success">Administrer les utilisateurs</a>
-	</p>
-
-
-	<br/><br/><br/>
-
-	<h1> Supprimer des articles </h1>
-	<br/><br/>
-</div>
+        <p>
+            <a href="admin.manage_user" class="btn-lg btn-success">Administrer les utilisateurs</a>
+        </p>
 
 
-<table class="table">
-	<thead>
-		<tr>
-			<td>ID</td>
-			<td>Titre</td>
-			<td>Author</td>
-			<td>Categorie</td>
-			<td>Dernière modification</td>
-			<td>Actions</td>
-		</tr>
-	</thead>
-	<tbody>
-		{% for post in posts %}
-			<tr>
-				<td>{{ post.id }}</td>
-				<td>{{ post.title }}</td>
-				<td>{{ post.user }}</td>
-				<td>{{ post.category }}</td>
-				<td>{{ post.last_update == null ? post.create_date : post.last_update }}</td>
-				<td>
-					<form method="post" action="admin.delete_post">
-						<input type="hidden" name="admin_post_delete" value="{{ post.id }}"/>
-						<button type="submit" class="btn btn-danger">Supprimer</button>
-					</form>
-				</td>
-			</tr>
-		{% endfor %}
-	</tbody>
-</table>
+        <br/><br/><br/>
+
+        <h1> Supprimer des articles </h1>
+        <br/><br/>
+    </div>
+
+
+    <table class="table">
+        <thead>
+        <tr>
+            <td>ID</td>
+            <td>Titre</td>
+            <td>Author</td>
+            <td>Categorie</td>
+            <td>Dernière modification</td>
+            <td>Actions</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for post in posts %}
+            <tr>
+                <td>{{ post.id }}</td>
+                <td>{{ post.title }}</td>
+                <td>{{ post.user }}</td>
+                <td>{{ post.category }}</td>
+                <td>{{ post.last_update == null ? post.create_date : post.last_update }}</td>
+                <td>
+                    <form method="post" action="admin.delete_post">
+                        <input type="hidden" name="admin_post_delete" value="{{ post.id }}"/>
+                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 
 
-<br/><br/><br/>
+    <br/><br/><br/>
 
-<div class="text-center">
-<p> 
-	<a href="user.home" class="btn-lg btn-success">Me deconnecter de l'administration</a>
-</p>
-<br/><br/>
+    <div class="text-center">
+        <p>
+            <a href="user.home" class="btn-lg btn-success">Me deconnecter de l'administration</a>
+        </p>
+        <br/><br/>
 
-<p> 
-	<a href="index.php?disconnect" class="btn-lg btn-success">Me deconnecter completement</a>
-</p>
-</div>
+        <p>
+            <a href="index.php?disconnect" class="btn-lg btn-success">Me deconnecter completement</a>
+        </p>
+    </div>
 
-<br/><br/><br/>
+    <br/><br/><br/>
 
 
-<div class="border text-center">
-<strong>
-<p> Notice : La generation de fausses données se fait en configurant préalablement le fichier template/admin/faker.php </p></strong>
-	<p> 
-		<a href="admin.home&faker" class="btn btn-danger">  Generer des fakes </a>
-	</p>
-</div>
+    <div class="border text-center">
+        <strong>
+            <p> Notice : La generation de fausses données se fait en configurant préalablement le fichier
+                template/admin/faker.php </p></strong>
+        <p>
+            <a href="admin.home&faker" class="btn btn-danger"> Generer des fakes </a>
+        </p>
+    </div>
 
-<br/><br/><br/>
+    <br/><br/><br/>
 
 {% endblock content %}

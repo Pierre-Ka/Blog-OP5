@@ -1,4 +1,7 @@
 vendor
 .env
+var
+.idea
+assets
 
 

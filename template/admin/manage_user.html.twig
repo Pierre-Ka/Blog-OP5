@@ -1,61 +1,61 @@
 {% extends 'layout.html.twig' %}
 
 	{% block title %}
-		Manage users
-	{% endblock title %}
+        Manage users
+    {% endblock title %}
 
 {% block content %}
 
-<br/><br/>
+    <br/><br/>
 
-<div class="text-center">
-	<br/><br/>
-	<h1> Administrer les utilisateurs</h1>
-	<br/><br/>
-	<h4> Notice : supprimez un utilisateur qu'après avoir supprimé tous les posts donc il est l'auteur </h4>
-	<br/><br/>
-	<p> 
-		<a href="admin.home" class="btn-lg btn-success">Interface d'administration</a>
-	</p>
-</div>
-<br/><br/><br/><br/>
-<table class="table">
-	<thead>
-		<tr>
-			<td>Id</td>
-			<td>Nom</td>
-			<td>Email</td>
-			<td>Date de création du compte</td>
-			<td>Description</td>
-			<td>Valider l'utilisateur</td>
-			<td>Supprimer l'utilisateur</td>
-		</tr>
-	</thead>
-	<tbody>
-		{% for user in users %}
-			<tr>
-				<td>{{ user.id }}</td>
-				<td>{{ user.name }}</td>
-				<td>{{ user.email }}</td>
-				<td>{{ user.inscription_date }}</td>
-				<td>{{ user.description }}</td>
-				<td>
-					{% if user.is_valid == 0 %}
-						<button type="submit" class="btn btn-light">
-							<a href="admin.valid_user&id={{ user.id }}">Valider</a>
-						</button>
-					{% endif %}
-				</td>
-				<td>
-					<form method="post" action="admin.delete_user">
-						<input type="hidden" name="admin_user_delete" value="{{ user.id }}"/>
-						<button type="submit" class="btn btn-danger">Supprimer</button>
-					</form>
-				</td>
-			</tr>
-		{% endfor %}
-	</tbody>
-</table>
-<br/><br/><br/><br/><br/>
+    <div class="text-center">
+        <br/><br/>
+        <h1> Administrer les utilisateurs</h1>
+        <br/><br/>
+        <h4> Notice : supprimez un utilisateur qu'après avoir supprimé tous les posts donc il est l'auteur </h4>
+        <br/><br/>
+        <p>
+            <a href="admin.home" class="btn-lg btn-success">Interface d'administration</a>
+        </p>
+    </div>
+    <br/><br/><br/><br/>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>Nom</td>
+            <td>Email</td>
+            <td>Date de création du compte</td>
+            <td>Description</td>
+            <td>Valider l'utilisateur</td>
+            <td>Supprimer l'utilisateur</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.inscription_date }}</td>
+                <td>{{ user.description }}</td>
+                <td>
+                    {% if user.is_valid == 0 %}
+                        <button type="submit" class="btn btn-light">
+                            <a href="admin.valid_user&id={{ user.id }}">Valider</a>
+                        </button>
+                    {% endif %}
+                </td>
+                <td>
+                    <form method="post" action="admin.delete_user">
+                        <input type="hidden" name="admin_user_delete" value="{{ user.id }}"/>
+                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br/><br/><br/><br/><br/>
 
 {% endblock content %}

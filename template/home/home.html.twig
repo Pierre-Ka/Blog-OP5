@@ -1,50 +1,60 @@
 {% extends 'layout_with_sidebar.html.twig' %}
 
     {% block title %}
-    		Page d'accueil
+        Page d'accueil
     {% endblock title %}
 
 	{% block h1 %}
-		Bienvenue sur Watersport-gear
-	<h3><em> Review du materiel aquatiques </em></h3>
-	{% endblock h1 %}
+        Bienvenue sur Watersport-gear
+        <h3><em> Review du materiel aquatiques </em></h3>
+    {% endblock h1 %}
 
 
 {% block main %}
 
-<h2> Présentation de l'équipe de Watersport-gear </h2>
-<br/><br/>
+    <h2> Présentation de l'équipe de Watersport-gear </h2>
+    <br/><br/>
 
-                                 <div class="col-sm-12 blog-item mb100 wow match-height">
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <div class="hover-item mb30">
-                                                <img src="../var/media/homepage/voile.jpg" class="img-responsive smoothie" alt="title">
-                                                <div class="overlay-item-caption smoothie"></div>
-                                                <div class="hover-item-caption smoothie">
-                                                    <h3 class="vertical-center smoothie"><a href="single-post-right-sidebar.html" class="smoothie btn btn-primary page-scroll" title="view article">View</a></h3>
-                                                </div>
-                                            </div>
-            <h2 class="post-title text-center">Une équipe de passionnés </h2>
-            <div class="item-metas text-muted mb30">
-            </div>
-            <p> Composés de sportifs aguerris et d'aventuriers de l'extrême, les redacteurs de watersport-gear testent le materiel lié au sport nautique et aquatique et vous livrent leur évaluation des produits testés. Composés de sportifs aguerris et d'aventuriers de l'extrême, les redacteurs de watersport-gear testent le materiel lié au sport nautique et aquatique et vous livrent leur évaluation des produits testés. <br/> Composés de sportifs aguerris et d'aventuriers de l'extrême, les redacteurs de watersport-gear testent le materiel lié au sport nautique et aquatique et vous livrent leur évaluation des produits testés. Composés de sportifs aguerris et d'aventuriers de l'extrême, les redacteurs de watersport-gear testent le materiel lié au sport nautique et aquatique et vous livrent leur évaluation des produits testés. </p>
-                                           
-            <br/><br/><br/>
-                    
-            <h2 class="post-title text-center">Nous contacter </h2>
-            <br/><br/>
-            <form method="post" action="mail" class="text-center">
+    <div class="col-sm-12 blog-item mb100 wow match-height">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="hover-item mb30">
+                    <img src="var/media/homepage/voile.jpg" class="img-responsive smoothie" alt="title">
+                    <div class="overlay-item-caption smoothie"></div>
+                    <div class="hover-item-caption smoothie">
+                        <h3 class="vertical-center smoothie"><a href="single-post-right-sidebar.html"
+                                                                class="smoothie btn btn-primary page-scroll"
+                                                                title="view article">View</a></h3>
+                    </div>
+                </div>
+                <h2 class="post-title text-center">Une équipe de passionnés </h2>
+                <div class="item-metas text-muted mb30">
+                </div>
+                <p> Composés de sportifs aguerris et d'aventuriers de l'extrême, les redacteurs de watersport-gear
+                    testent le materiel lié au sport nautique et aquatique et vous livrent leur évaluation des produits
+                    testés. Composés de sportifs aguerris et d'aventuriers de l'extrême, les redacteurs de
+                    watersport-gear testent le materiel lié au sport nautique et aquatique et vous livrent leur
+                    évaluation des produits testés. <br/> Composés de sportifs aguerris et d'aventuriers de l'extrême,
+                    les redacteurs de watersport-gear testent le materiel lié au sport nautique et aquatique et vous
+                    livrent leur évaluation des produits testés. Composés de sportifs aguerris et d'aventuriers de
+                    l'extrême, les redacteurs de watersport-gear testent le materiel lié au sport nautique et aquatique
+                    et vous livrent leur évaluation des produits testés. </p>
+
+                <br/><br/><br/>
+
+                <h2 class="post-title text-center">Nous contacter </h2>
+                <br/><br/>
+                <form method="post" action="mail" class="text-center">
                     <label for="message-email">Votre email</label><br/>
                     <input type="email" name="message-email" id="message-email" required><br/><br/>
                     <label for="message">Message</label><br/>
                     <textarea name="message" cols="50" rows="8" id="message" required></textarea><br/><br/>
-                <input class="btn btn-primary" type="submit" value="Envoyer"/>
-            </form>
-           
+                    <input class="btn btn-primary" type="submit" value="Envoyer"/>
+                </form>
+
+            </div>
         </div>
     </div>
-</div>
 
 {% endblock main %}
 

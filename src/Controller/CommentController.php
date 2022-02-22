@@ -1,13 +1,12 @@
 <?php
+
 namespace BlogApp\Controller;
 
 use BlogApp\Entity\Comment;
-
-use BlogApp\Manager\PostManager;
 use BlogApp\Manager\CategoryManager;
-use BlogApp\Manager\UserManager;
 use BlogApp\Manager\CommentManager;
-
+use BlogApp\Manager\PostManager;
+use BlogApp\Manager\UserManager;
 
 class CommentController extends AbstractController
 {
@@ -25,25 +24,23 @@ class CommentController extends AbstractController
         $this->commentManager = $commentManager;
     }
 
-    public function create()
+    public function create($postId)
     {
         $authorCom = $this->requestPost['author_com'] ?? null;
         $contentCom = $this->requestPost['com'] ?? null;
-        $postId= $this->requestGet['id'];
-        if ($authorCom && $contentCom)
-        {
-            $comment= new Comment ([
-                'post_id'=> $postId,
-                'author'=> htmlspecialchars($authorCom ),
-                'content'=>htmlspecialchars($contentCom),
+        $postId = $this->requestGet['id'];
+        if ($authorCom && $contentCom) {
+            $comment = new Comment ([
+                'post_id' => $postId,
+                'author' => htmlspecialchars($authorCom),
+                'content' => htmlspecialchars($contentCom),
             ]);
             $this->commentManager->add($comment);
         }
-        $post=$this->postManager->getOne($postId);
+        $post = $this->postManager->getOne($postId);
         $authorId = $post->getUser_id();
         $author = $this->userManager->getOne($authorId);
-
-        $maxPage=$this->commentManager->totalPages($postId);
+        $maxPage = $this->commentManager->totalPages($postId);
         $comments = $this->commentManager->get($postId, 1);
 
         return $this->render('home/single.html.twig', [
@@ -56,17 +53,14 @@ class CommentController extends AbstractController
             'last5Posts' => $this->postManager->getAll(1)
         ]);
     }
-    public function valid()
+
+    public function valid($commentId)
     {
-        if(!$this->userManager->logged())
-        {
+        if (!$this->userManager->logged()) {
             $this->forbidden();
         }
-        $commentId = $this->requestGet['id'] ?? null;
-
         $comment = $this->commentManager->getOne($commentId);
         $postId = $comment->getPost_id();
-
         $this->commentManager->valid($commentId);
         $post = $this->postManager->getOne($postId);
         $comments = $this->commentManager->getNotYetValid($postId);
@@ -76,20 +70,17 @@ class CommentController extends AbstractController
             'post' => $post,
             'comments' => $comments,
             'categories' => $categories,
-            'categories_header' =>$this->categoryManager->getAll()
+            'categories_header' => $this->categoryManager->getAll()
         ]);
     }
-    public function delete()
+
+    public function delete($commentId)
     {
-        if(!$this->userManager->logged())
-        {
+        if (!$this->userManager->logged()) {
             $this->forbidden();
         }
-        $commentId = $this->requestGet['id'] ?? null;
-
         $comment = $this->commentManager->getOne($commentId);
         $postId = $comment->getPost_id();
-
         $this->commentManager->delete($commentId);
         $post = $this->postManager->getOne($postId);
         $comments = $this->commentManager->getNotYetValid($postId);
@@ -99,7 +90,7 @@ class CommentController extends AbstractController
             'post' => $post,
             'comments' => $comments,
             'categories' => $categories,
-            'categories_header' =>$this->categoryManager->getAll()
+            'categories_header' => $this->categoryManager->getAll()
         ]);
     }
 }

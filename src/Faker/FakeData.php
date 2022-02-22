@@ -17,17 +17,6 @@ class FakeData
 		$this->faker = $faker ;
 	}
 
-/*	public function fakeCategory()
-	{
-		foreach(range(1, 3) as $id)
-		{
-			$db->query("INSERT INTO categories (id, name) VALUES('" . $id . "','{$faker->sentence(6)}'") ;
-		}
-		$message = '3 fausses categories crées';
-		return $message ;
-	}*/
-
-
 	public function fakeComment(int $startNumber, int $endNumber, int $numberOfPost = null)
 	{
 		foreach(range($startNumber, $endNumber) as $id)
