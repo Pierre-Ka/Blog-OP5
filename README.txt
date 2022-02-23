@@ -1,5 +1,4 @@
-https://insight.symfony.com/projects/27885bab-72de-4bdc-83e5-c881fa3421d5/analyses/22
-
+https://insight.symfony.com/projects/27885bab-72de-4bdc-83e5-c881fa3421d5/analyses/39
 
 
 ########################## Create a PHP Blog  #########################################

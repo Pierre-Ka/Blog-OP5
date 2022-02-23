@@ -49,7 +49,7 @@ class HomeController extends AbstractController
             $this->forbidden();
         }
         $connectId = $this->userManager->getUserId();
-        $posts = $this->postManager->getByUserId($connectId);
+        $posts = $this->postManager->getByUserId2($connectId);
         $user = $this->userManager->getOne($connectId);
         $admin = $this->userManager->isAdmin($connectId);
 
