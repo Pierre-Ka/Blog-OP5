@@ -184,7 +184,7 @@ class PostManager extends Manager
     {
         $posts = [];
         $q = $this->_db->prepare('
-			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, COUNT(com.id) AS commentNotYetValid,
+			SELECT p.id, p.title, p.user_id, p.category_id, p.chapo, p.content, p.picture, IFNULL(COUNT(com.id), 0) AS commentNotYetValid,
 				DATE_FORMAT(p.create_date, \'%d/%m/%Y\') AS create_date,  
 				DATE_FORMAT(p.last_update, \'%d/%m/%Y\') AS last_update,
 				c.name as category, com.is_valid
@@ -192,9 +192,8 @@ class PostManager extends Manager
 			INNER JOIN category AS c
 				ON p.category_id = c.id 
 			LEFT JOIN comment AS com
-				ON p.id = com.post_id 
+				ON (p.id = com.post_id) AND (com.is_valid=0) 
 			WHERE p.user_id= :user_id
-			AND com.is_valid=0
 			GROUP BY p.id
 			ORDER BY DATE_FORMAT(p.create_date, \'%Y%m%d\') DESC');
         $q->bindValue('user_id', $connect_id);

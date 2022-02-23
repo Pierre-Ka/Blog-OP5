@@ -151,17 +151,17 @@ class Post extends Entity
         $this->commentNotYetValid = $commentNotYetValid;
     }
 
-    /*public function getCommentNotYetValid(): int
+    public function getCommentNotYetValid(): int
     {
         return $this->commentNotYetValid;
-    }*/
+    }
 
-    public function getCommentNotYetValid(): int
+    /*public function getCommentNotYetValid(): int
     {
         $db = new \PDO('mysql:host=localhost;dbname=project5_blog;charset=utf8', 'root', 'root');
         $db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
         $comment_manager = new CommentManager($db);
         $count = $comment_manager->countNotYetValid($this->id);
         return $count;
-    }
+    }*/
 }
