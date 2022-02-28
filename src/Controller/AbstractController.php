@@ -6,7 +6,6 @@ abstract class AbstractController
 {
     protected $twig;
     protected $instance;
-    protected bool $isConnect;
     protected $requestGet = [];
     protected $requestPost = [];
 
@@ -29,9 +28,6 @@ abstract class AbstractController
                 $this->requestPost[$key] = htmlspecialchars($value);
             }
         }
-        if (isset($_SESSION)) {
-            $this->isConnect = true;
-        }
     }
 
     protected function render(string $template, array $params = [])
@@ -43,39 +39,5 @@ abstract class AbstractController
     {
         header('HTTP/1.0 403 Forbidden');
         die('Acces interdit');
-    }
-
-    public function notFound()
-    {
-        header('HTTP/1.0 404 Not Found');
-        die('Page introuvable');
-    }
-
-    protected function getDataFromPost()
-    {
-        $data = [];
-        foreach ($_POST as $value) {
-            $data[] = htmlspecialchars($value);
-        }
-        return $data;
-    }
-
-    protected function isMethodPost()
-    {
-        return $_SERVER['REQUEST_METHOD'] === 'POST';
-    }
-
-    protected function getDataFromGet()
-    {
-        $data = [];
-        foreach ($_GET as $value) {
-            $data[] = htmlspecialchars($value);
-        }
-        return $data;
-    }
-
-    protected function isMethodGet()
-    {
-        return $_SERVER['REQUEST_METHOD'] === 'GET';
     }
 }
